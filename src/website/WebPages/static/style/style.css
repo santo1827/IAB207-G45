@@ -1,0 +1,212 @@
+/* =========================================================
+   FitTogether theme — Bootstrap 5.3 overrides (safe + scoped)
+   ========================================================= */
+
+/* ---------- Brand tokens ---------- */
+:root{
+  /* Brand */
+  --ft-primary: #1C3A56;
+  --ft-primary-rgb: 28,58,86;
+  --ft-accent:  #2FBD6B;
+  --ft-accent-rgb: 47,189,107;
+
+  /* Neutral for disabled */
+  --ft-muted: #95A3B3;
+  --ft-muted-rgb: 149,163,179;
+
+  /* Map to Bootstrap variables */
+  --bs-primary: var(--ft-primary);
+  --bs-primary-rgb: var(--ft-primary-rgb);
+  --bs-success: var(--ft-accent);
+  --bs-success-rgb: var(--ft-accent-rgb);
+
+  --bs-link-color: var(--ft-primary);
+  --bs-link-hover-color: color-mix(in srgb, var(--ft-primary) 86%, black);
+  --bs-link-visited-color: var(--ft-primary);
+
+  --bs-focus-ring-color: rgba(var(--ft-primary-rgb), .25);
+}
+
+/* ================CAROUSEL #heroCarousel =============================== */
+#heroCarousel .carousel-inner,
+#heroCarousel .carousel-item{
+  height: clamp(260px, 38vw, 520px);
+}
+#heroCarousel .carousel-item > img{
+  height: 100%;
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+/* Indicators and caption buttons stay in brand */
+#heroCarousel .carousel-indicators [data-bs-target]{ background-color: rgba(var(--ft-primary-rgb), .35); }
+#heroCarousel .carousel-indicators .active{ background-color: var(--ft-primary); }
+
+/* ===========BUTTONS / LINKS / NAVIGATIONS================================= */
+.btn-primary{
+  background-color: var(--ft-primary);
+  border-color: var(--ft-primary);
+}
+.btn-primary:hover,
+.btn-primary:focus{
+  background-color: color-mix(in srgb, var(--ft-primary) 86%, black);
+  border-color: color-mix(in srgb, var(--ft-primary) 86%, black);
+}
+
+/* Disabled buttons muted navy */
+.btn-primary:disabled,
+.btn-primary.disabled{
+  background-color: var(--ft-muted);
+  border-color: var(--ft-muted);
+  color: #fff;
+  opacity: .70;
+}
+
+/* Outline buttons */
+.btn-outline-primary{
+  color: var(--ft-primary);
+  border-color: var(--ft-primary);
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:focus{
+  color: #fff;
+  background-color: var(--ft-primary);
+  border-color: var(--ft-primary);
+}
+.btn-outline-primary:disabled,
+.btn-outline-primary.disabled{
+  color: rgba(var(--ft-primary-rgb), .55);
+  border-color: rgba(var(--ft-primary-rgb), .35);
+  background: transparent;
+  opacity: .7;
+}
+
+/* Pills / Tabs / Dropdown-active */
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link{
+  background-color: var(--ft-primary);
+}
+.nav-tabs .nav-link.active,
+.dropdown-item.active,
+.dropdown-item:active{
+  color:#fff;
+  background-color: var(--ft-primary);
+  border-color: var(--ft-primary);
+}
+
+/* Pagination */
+.pagination .page-link{
+  color: var(--ft-primary);
+  border-color: rgba(var(--ft-primary-rgb), .2);
+}
+.pagination .page-link:hover{
+  color: color-mix(in srgb, var(--ft-primary) 86%, black);
+  border-color: rgba(var(--ft-primary-rgb), .35);
+}
+.pagination .page-item.active .page-link{
+  background-color: var(--ft-primary);
+  border-color: var(--ft-primary);
+  color:#fff;
+}
+
+/* Links */
+a.link-primary{ color: var(--ft-primary) !important; }
+a.link-primary:hover{ color: color-mix(in srgb, var(--ft-primary) 86%, black) !important; }
+
+/* Focus ring on controls */
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus,
+.btn:focus{
+  box-shadow: 0 0 0 .25rem var(--bs-focus-ring-color);
+  border-color: rgba(var(--ft-primary-rgb), .35);
+}
+
+/* Navbar underline accent */
+.navbar .nav-link {
+  position: relative;
+}
+
+.navbar .nav-link::after {
+  content: "";
+  position: absolute;
+  left: .25rem;
+  right: .25rem;
+  bottom: .25rem;
+  height: 2px;
+  background: transparent;
+  border-radius: 2px;
+  transition: background-color .2s ease;
+}
+
+.navbar .nav-link:hover::after,
+.navbar .nav-link:focus::after {
+  background: var(--ft-primary);       /* green accent on hover/focus */
+}
+
+/* =========STATUS BADGES================= */
+/* Positives green */
+.badge.text-bg-success,
+.badge.bg-success{ background-color: var(--ft-accent) !important; }
+
+/* Info-looking navy chip */
+.text-bg-info, .badge.bg-info{
+  background-color: rgba(var(--ft-primary-rgb), .14) !important;
+  color: var(--ft-primary) !important;
+  border: 1px solid rgba(var(--ft-primary-rgb), .18);
+}
+
+/* “Selling fast” */
+.badge.bg-warning.text-dark{
+  box-shadow: 0 0 0 1px rgba(0,0,0,.06) inset;
+  font-weight: 600;
+}
+
+/* ====================== CATEGORY CHIPS================================ */
+.cat-chip{ display:inline-flex; flex-direction:column; align-items:center; gap:.75rem; color:var(); white-space:nowrap; }
+.cat-chip .cat-circle{
+  width:108px; height:108px; border:2px solid #e5e7eb; border-radius:9999px;
+  display:grid; place-items:center; background:#fff;
+  transition: border-color .2s, box-shadow .2s, background-color .2s;
+}
+.cat-chip .cat-circle i{ font-size:36px; color:#4b5563; }
+.cat-chip .cat-label{ font-size:.95rem; font-weight:600; color:#1f2937; }
+.cat-chip:hover .cat-circle,
+.cat-chip.active .cat-circle{
+  border-color: var(--ft-primary);
+  background: rgba(var(--ft-primary-rgb), .06);
+  box-shadow: 0 0 0 .25rem rgba(var(--ft-primary-rgb), .10);
+}
+.cat-chip:hover .cat-label,
+.cat-chip.active .cat-label{ color: var(--ft-primary); }
+@media (max-width: 991.98px){
+  .cat-chip .cat-circle{ width:96px; height:96px; }
+  .cat-chip .cat-circle i{ font-size:30px; }
+}
+
+/* ================== CARDS — lift +  image zoom ========================== */
+.card{
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  border-color: rgba(0,0,0,.06);
+}
+.card:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.10);
+  border-color: rgba(0,0,0,.08);
+}
+/* Card area stops the zoomed image */
+.card .position-relative{ overflow:hidden; border-top-left-radius:.5rem; border-top-right-radius:.5rem; }
+
+/* Thumbnails */
+.event-thumb{
+  display:block; width:100%;
+  aspect-ratio: 16/9; object-fit:cover;
+  transform: scale(1);
+  transition: transform .4s ease;
+  will-change: transform;
+}
+/* Zoom inside card */
+.card:hover .event-thumb{ transform: scale(1.05); }
+
+/*=== Better Rounding ===/*
+.badge, .btn, .page-link{ border-radius:.6rem; } /* slightly friendlier rounding */

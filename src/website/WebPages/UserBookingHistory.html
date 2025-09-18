@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Booking History</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/style/style.css">
+    <link rel="icon" href="static/img/Header_brand_original.png" type="image/png">
+</head>
+<body>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+          <!-- header -->
+          <header>
+              <!-- Navbar -->
+              <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top flex-md-nowrap">
+                <div class="container-fluid align-items-center">
+
+                  <!-- Brand Logo -->
+                  <a class="navbar-brand order-1 order-lg- me-2" href="Index.html">
+                    <img src="static/img/Header_brand_original.png" alt="FitTogether" width="120" height="100">
+                  </a>
+
+                  <!-- Search-->
+                  <form
+                    class="order-3 order-lg-2  w-100 w-md-auto flex-grow-1 mx-md-3 mb-2 mb-lg-0" role="search">
+                      <div class="input-group shadow-sm rounded-pill overflow-hidden">
+                          <input type="search" class="form-control border-0 rounded-start-pill"
+                                          placeholder="Search events, locations…" aria-label="Search">
+                          <button class="btn btn-primary rounded-end-pill" type="submit">
+                          <i class="bi bi-search"></i> Search
+                          </button>
+                      </div>
+                  </form>
+
+                  <!-- Secondary Navigation + Create button -->
+                  <div class="collapse navbar-collapse order-4 order-lg-3" id="mainNav">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <!-- categories -->
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-nowrap" href="#" id="catDrop" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+                        <ul class="dropdown-menu" aria-labelledby="catDrop">
+                          <li><a class="dropdown-item" href="#">Running</a></li>
+                          <li><a class="dropdown-item" href="#">Yoga</a></li>
+                          <li><a class="dropdown-item" href="#">Strength</a></li>
+                          <li><a class="dropdown-item" href="#">Cycling</a></li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li><a class="dropdown-item" href="#">All activities</a></li>
+                        </ul>
+                      </li>
+
+                        <!-- Events -->
+                      <li class="nav-item"><a class="nav-link text-nowrap" href="#">My Events</a></li>
+                      <li class="nav-item"><a class="nav-link text-nowrap" href="BookingHistory.html">Booking History</a></li>
+
+                      <!-- Create Button -->
+                      <li class="nav-item ms-xl-3">
+                        <a class="btn btn-primary text-nowrap" href="EventCreation.html">
+                          <i class="bi bi-plus-circle me-1"></i>Create Event
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <!-- Account Cluster -->
+                  <ul class="navbar-nav flex-row align-items-center ms-lg-auto order-2 order-md-3 order-lg-4">
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 text-nowrap" href="#"
+                         id="userDrop" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="static/img/user_avatar.png" width="36" height="36" alt="User" class="rounded-circle">
+                        <span class="">Account</span>
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDrop">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Log out</a></li>
+                      </ul>
+                    </li>
+
+                      <!-- Toggle Bar -->
+                    <li class="nav-item d-lg-none ms-2">
+                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                              data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false"
+                              aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                    </li>
+                  </ul>
+
+                </div>
+              </nav>
+          </header>
+
+        <div class="container py-4">
+
+            <!-- Breadcrumb / back -->
+            <nav class="mb-3" aria-label="breadcrumb">
+              <ol class="breadcrumb small">
+                <li class="breadcrumb-item"><a href="Index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Bookings</li>
+              </ol>
+            </nav>
+
+            <!-- Header and controls -->
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+              <h1 class="h3 m-0">Your Bookings</h1>
+
+              <div class="d-flex gap-2">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Event name">
+                  <span class="input-group-text"><i class="bi bi-search"></i> </span>
+                </div>
+                <select class="form-select" style="max-width: 220px;">
+                  <option selected>Sort: Most recent</option>
+                  <option>Sort: Oldest</option>
+                  <option>Sort: Event date (soonest)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row g-4">
+              <!-- Upcoming -->
+              <div class="col-12 col-sm-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                  <div class="ratio ratio-16x9">
+                    <img src="static/img/Yoge.jpeg" class="card-img-top object-fit-cover" alt="Morning Yoga in the Park">
+                  </div>
+                  <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                      <h2 class="h6 card-title mb-0">
+                        <a href="EventDeatailsPage.html" class="stretched-link text-decoration-none">Morning Yoga in the Park</a>
+                      </h2>
+                      <span class="badge text-bg-info">Starts in 3 days</span>
+                    </div>
+                    <ul class="list-unstyled small mb-3">
+                      <li><strong>Booked on:</strong> 03 Sep 2025, 14:12</li>
+                      <li><strong>Event date:</strong> 10 Sep 2025, 07:00–08:00</li>
+                      <li><strong>Tickets:</strong> 2 × Standard</li>
+                    </ul>
+                    <div class="mt-auto d-flex gap-2">
+                      <a class="btn btn-outline-primary btn-sm" href="EventDeatailsPage.html">View event</a>
+                      <button class="btn btn-outline-secondary btn-sm" type="button" disabled>Download receipt</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Example Card: Yoga Happening now -->
+              <div class="col-12 col-sm-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                  <div class="ratio ratio-16x9">
+                    <img src="static/img/Powerlifting.jpeg" class="card-img-top object-fit-cover" alt="Strength Circuit">
+                  </div>
+                  <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                      <h2 class="h6 card-title mb-0">
+                        <a href="EventDeatailsPage.html" class="stretched-link text-decoration-none">Strength Circuit</a>
+                      </h2>
+                      <span class="badge text-bg-success">Happening now</span>
+                    </div>
+                    <ul class="list-unstyled small mb-3">
+                      <li><strong>Booked on:</strong> 05 Sep 2025, 10:02</li>
+                      <li><strong>Event date:</strong> 07 Sep 2025, 18:00–19:00</li>
+                      <li><strong>Tickets:</strong> 1 × Standard</li>
+                    </ul>
+                    <div class="mt-auto d-flex gap-2">
+                      <a class="btn btn-outline-primary btn-sm" href="EventDeatailsPage.html">View event</a>
+                      <button class="btn btn-outline-secondary btn-sm" type="button" disabled>Download receipt</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Example card: River walk 5K Ended -->
+              <div class="col-12 col-sm-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                  <div class="ratio ratio-16x9">
+                    <img src="static/img/River_Walk.png" class="card-img-top object-fit-cover" alt="Riverwalk 5K Run">
+                  </div>
+                  <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                      <h2 class="h6 card-title mb-0">
+                        <a href="EventDeatailsPage.html" class="stretched-link text-decoration-none">Riverwalk 5K Run</a>
+                      </h2>
+                      <span class="badge text-bg-secondary">Ended</span>
+                    </div>
+                    <ul class="list-unstyled small mb-3">
+                      <li><strong>Booked on:</strong> 21 Aug 2024, 09:30</li>
+                      <li><strong>Event date:</strong> 01 Sep 2024, 06:30–08:00</li>
+                      <li><strong>Tickets:</strong> 1 × Free</li>
+                    </ul>
+                    <div class="mt-auto d-flex gap-2">
+                      <a class="btn btn-outline-primary btn-sm" href="EventDeatailsPage.html">View event</a>
+                      <button class="btn btn-outline-secondary btn-sm" type="button" disabled>Download receipt</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Example Card: Cycling Cancelled -->
+              <div class="col-12 col-sm-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                  <div class="ratio ratio-16x9">
+                    <img src="static/img/Cycling.jpeg" class="card-img-top object-fit-cover" alt="Cycling 10K">
+                  </div>
+                  <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                      <h2 class="h6 card-title mb-0">
+                        <a href="EventDeatailsPage.html" class="stretched-link text-decoration-none">Cycling 10k</a>
+                      </h2>
+                      <span class="badge text-bg-danger">Cancelled</span>
+                    </div>
+                    <ul class="list-unstyled small mb-3">
+                      <li><strong>Booked on:</strong> 01 Sep 2025, 12:20</li>
+                      <li><strong>Event date:</strong> 04 Sep 2025, 17:30–18:30</li>
+                      <li><strong>Tickets:</strong> 1 × Standard</li>
+                    </ul>
+                    <div class="mt-auto d-flex gap-2">
+                      <a class="btn btn-outline-primary btn-sm" href="EventDeatailsPage.html">View event</a>
+                      <button class="btn btn-outline-secondary btn-sm" type="button" disabled>Download receipt</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Events pages">
+              <ul class="pagination justify-content-center gap-2 my-4">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true" aria-label="Previous page">
+                    <i class="bi bi-chevron-left me-2" aria-hidden="true"></i>Previous
+                  </a>
+                </li>
+
+                <li class="page-item active" aria-current="page">
+                  <span class="page-link">1</span>
+                </li>
+                <li class="page-item"><a class="page-link" href="#" aria-label="Go to page 2">2</a></li>
+                <li class="page-item"><a class="page-link" href="#" aria-label="Go to page 3">3</a></li>
+
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next page">
+                    Next<i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-light border-top py-5 mt-5">
+          <div class="container">
+            <div class="row">
+              <!-- Brand + Copy -->
+              <div class="col-md-4 mb-3 mb-md-0">
+                <a href="Index.html" class="d-flex align-items-center mb-2 link-dark text-decoration-none">
+                  <img src="static/img/Header_brand_original.png" alt="FitTogether" width="150" height="100">
+                </a>
+                <p class="text-muted mb-0">© 2025 FitTogether. All rights reserved.</p>
+              </div>
+
+              <!-- Explore -->
+              <div class="col-6 col-md-2 mb-3">
+                <h6 class="fw-bold">Explore</h6>
+                <ul class="nav flex-column">
+                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
+                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Events</a></li>
+                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Categories</a></li>
+                </ul>
+              </div>
+
+              <!-- Support -->
+              <div class="col-6 col-md-2 mb-3">
+                <h6 class="fw-bold">Support</h6>
+                <ul class="nav flex-column">
+                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Help Center</a></li>
+                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Contact Us</a></li>
+                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Terms & Privacy</a></li>
+                </ul>
+              </div>
+
+              <!-- Community -->
+              <div class="col-6 col-md-2 mb-3">
+                <h6 class="fw-bold">Community</h6>
+                <ul class="nav flex-column">
+                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Blog</a></li>
+                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Careers</a></li>
+                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Partnerships</a></li>
+                </ul>
+              </div>
+
+              <!-- Social Media -->
+              <div class="col-md-2 d-flex justify-content-md-end">
+                <a href="#" class="me-3 text-muted"><i class="bi bi-facebook fs-4"></i></a>
+                <a href="#" class="me-3 text-muted"><i class="bi bi-instagram fs-4"></i></a>
+                <a href="#" class="me-3 text-muted"><i class="bi bi-twitter-x fs-4"></i></a>
+                <a href="#" class="text-muted"><i class="bi bi-linkedin fs-4"></i></a>
+                </div>
+            </div>
+          </div>
+        </footer>
+</body>
+</html>
