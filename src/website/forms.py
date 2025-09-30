@@ -19,3 +19,21 @@ class RegisterForm(FlaskForm):
 
     # submit button
     submit = SubmitField("Register")
+
+ # Event Creation Form
+class EventForm(FlaskForm):
+    event_title=StringField("User Name", validators=[InputRequired()])
+    #category = #DROPDOWN ?? 
+    #experience_level = dropdown
+    event_description = TextAreaField("Description", validators=[InputRequired()])
+    #event_start_datetime = 
+    #event_end_datetime =
+    #event_location = 
+    venue_details = TextAreaField("Venue Details", validators=[InputRequired()])
+    #ticket_price = number??
+    #tickets_available = number??
+    #img = FileField()
+    #terms_conditions = Bool
+
+
+    submit = SubmitField("Publish")
