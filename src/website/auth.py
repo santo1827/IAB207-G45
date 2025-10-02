@@ -15,7 +15,7 @@ def register():
             #get username, password and email from the form
             uname = register.user_name.data
             pwd = register.password.data
-            email = register.email_id.data
+            email = register.email.data
             #check if a user exists
             user = db.session.scalar(db.select(User).where(User.name==uname))
             if user:#this returns true when user is not None

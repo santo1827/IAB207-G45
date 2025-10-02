@@ -117,59 +117,49 @@
         <!-- Create Form (Card)-->
         <div class="card shadow-sm">
           <div class="card-body">
-            <form class="row g-3">
+            <form method='POST' enctype="multipart/form-data" action={{url_for('main.create_event')}} class="row g-3">
 
               <!-- Event Details -->
               <h5 class="section-title">Event Details</h5>
               <div class="col-md-6">
-                <label for="eventTitle" class="form-label">Event Title *</label>
-                <input type="text" class="form-control" id="eventTitle" placeholder="E.g., Morning Yoga at the Park" />
+                {{form.hidden_tag()}}
+                {{form.event_title.label}}
+                {{form.event_title}}
               </div>
 
               <div class="col-md-6">
-                <label for="EventCategory" class="form-label">Category *</label>
-                <select class="form-select" id="EventCategory">
-                  <option selected disabled>Choose…</option>
-                  <option>Yoga</option>
-                  <option>Running</option>
-                  <option>Bodybuilding</option>
-                  <option>Powerlifting</option>
-                  <option>Swimming</option>
-                  <option>Cycling</option>
-                </select>
+                {{form.event_category.label}}
+                {{form.event_category}}
               </div>
 
               <div class="col-md-6">
-                <label for="ExperienceLevel" class="form-label">Experience Level</label>
-                <select class="form-select" id="ExperienceLevel">
-                  <option selected disabled>Choose…</option>
-                  <option>Beginner Friendly</option>
-                  <option>Intermediate</option>
-                  <option>Advanced</option>
-                </select>
+                {{form.event_experience_level.label}}
+                {{form.event_experience_level}}
               </div>
 
               <div class="col-12">
-                <label for="eventDetailsTextArea" class="form-label">Description *</label>
-                <textarea class="form-control" id="eventDetailsTextArea" rows="4"
-                          placeholder="What should participants expect? What to bring? Any notes…"></textarea>
+                {{form.event_description.label}}
+                {{form.event_description}}
                 <div class="form-text">Keep it concise and informative. You can edit later.</div>
               </div>
 
               <!-- Date and Time-->
               <h5 class="section-title">Date &amp; Time</h5>
               <div class="col-md-6">
-                <label for="startDate" class="form-label">Start</label>
-                <input type="datetime-local" class="form-control" id="startDate" />
+                {{form.event_start_datetime.label}}
+                {{form.event_start_datetime}}
               </div>
               <div class="col-md-6">
-                <label for="endDate" class="form-label">End</label>
-                <input type="datetime-local" class="form-control" id="endDate" />
+                {{form.event_end_datetime.label}}
+                {{form.event_end_datetime}}
               </div>
 
               <!-- Location -->
               <h5 class="section-title">Location</h5>
               <div class="col-lg-6">
+                {{form.event_location.label}}
+                {{form.event_location}}
+                <!--
                 <label for="eventAddress" class="form-label">Event Address *</label>
                 <input class="form-control" list="addressOptions" id="eventAddress"
                        placeholder="Start typing address… or pick from the map" />
@@ -178,13 +168,12 @@
                   <option value="456 George St, Sydney" />
                   <option value="789 Collins St, Melbourne" />
                   <option value="2 George St, Brisbane (QUT GP)" />
-                </datalist>
+                </datalist>-->
               </div>
                 <!-- Venue details -->
               <div class="col-lg-6">
-                <label for="eventAddressDetails" class="form-label">Venue Details</label>
-                <textarea class="form-control" id="eventAddressDetails" rows="3"
-                          placeholder="E.g. Level 2, Entrance near the Food Cort"></textarea>
+                {{form.venue_details.label}}
+                {{form.venue_details}}
               </div>
 
               <div class="col-lg-6">
@@ -197,45 +186,35 @@
 
               <!--Tickets-->
               <h5 class="section-title">Tickets</h5>
-              <div class="col-12 d-flex gap-4">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="ticketType" id="freeTicket" checked />
-                  <label class="form-check-label" for="freeTicket">Free</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="ticketType" id="paidTicket" />
-                  <label class="form-check-label" for="paidTicket">Paid</label>
-                </div>
-              </div>
+          
 
               <div class="col-md-6">
                 <label for="TicketPrice" class="form-label">Price (AUD)</label>
                 <div class="input-group">
                   <span class="input-group-text">$</span>
-                  <input type="number" class="form-control" id="TicketPrice" min="0" step="1" placeholder="0" />
-                </div>
+                  {{form.ticket_price}}                </div>
                 <div class="form-text">Leave as 0 if the event is free.</div>
               </div>
 
               <div class="col-md-6">
-                <label for="NumberOfTickets" class="form-label">Tickets Available *</label>
-                <input type="number" class="form-control" id="NumberOfTickets" min="1" step="1" placeholder="e.g., 20" />
+                {{form.number_of_tickets.label}}
+                {{form.number_of_tickets}}
               </div>
 
               <!-- Media -->
               <h5 class="section-title">Media</h5>
               <div class="col-12">
-                <label for="eventImages" class="form-label">Upload cover image(s)</label>
-                <input type="file" class="form-control" id="eventImages" multiple />
+                {{form.event_image.label}}
+                {{form.event_image}}
                 <div class="form-text">Use JPG or PNG. Ideal size ~1600×900 (16:9).</div>
               </div>
 
               <!-- Terms -->
               <div class="col-12">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="agreeTos" />
+                  {{form.terms_conditions}}
                   <label class="form-check-label" for="agreeTos">
-                    I agree to the <a href="https://en.wikipedia.org/wiki/Terms_of_service" target="_blank" rel="noopener">terms and conditions</a>.
+                  *  I agree to the <a href="https://en.wikipedia.org/wiki/Terms_of_service" target="_blank" rel="noopener">terms and conditions</a>.
                   </label>
                 </div>
               </div>
@@ -244,7 +223,7 @@
               <div class="col-12 d-flex justify-content-end gap-2 mt-2">
                 <button type="button" class="btn btn-outline-secondary">Save draft</button>
                 <button type="button" class="btn btn-danger">Delete</button>
-                <button type="submit" class="btn btn-primary">Publish</button>
+                {{form.submit}}
               </div>
 
             </form>
