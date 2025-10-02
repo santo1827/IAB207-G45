@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileAllowed
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, SelectField, DateTimeLocalField, IntegerField, BooleanField
 from wtforms.validators import InputRequired, Length, Email, EqualTo, NumberRange
 
@@ -65,7 +65,7 @@ class EventForm(FlaskForm):
                                            "step": "1",
                                            "placeholder": "e.g., 20"})
 
-    event_image = FileField("Upload Cover Image(s)", id='eventImages', validators=[InputRequired(), FileAllowed(['jpg', 'png'], 'Images Only!')],
+    event_image = FileField("Upload Cover Image(s)", id='eventImages', validators=[FileAllowed(['jpg', 'png'], FileRequired())],
                             render_kw={'class': 'form-control',
                                        'multiple': True})
     
