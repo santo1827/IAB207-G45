@@ -1,329 +1,179 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Event Details</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="static/style/style.css">
-  <link rel="icon" href="static/img/Header_brand_original.png" type="image/png">
-</head>
+{% extends 'base.html' %}
 
-<body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <!-- Header -->
-    <header>
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top flex-md-nowrap">
-          <div class="container-fluid align-items-center">
+{% block title %} Details - FitTogether {% endblock %}
 
-            <!-- Brand Logo -->
-            <a class="navbar-brand order-1 order-lg- me-2" href="Index.html">
-              <img src="static/img/Header_brand_original.png" alt="FitTogether" width="120" height="100">
-            </a>
+{% block content %}
+<div class="container py-4">
 
-            <!-- Search-->
-            <form
-              class="order-3 order-lg-2  w-100 w-md-auto flex-grow-1 mx-md-3 mb-2 mb-lg-0" role="search">
-                <div class="input-group shadow-sm rounded-pill overflow-hidden">
-                    <input type="search" class="form-control border-0 rounded-start-pill"
-                                    placeholder="Search events, locations…" aria-label="Search">
-                    <button class="btn btn-primary rounded-end-pill" type="submit">
-                    <i class="bi bi-search"></i> Search
-                    </button>
-                </div>
-            </form>
+  <!-- Breadcrumb / back -->
+  <nav class="mb-3" aria-label="breadcrumb">
+    <ol class="breadcrumb small">
+      <li class="breadcrumb-item"><a href="Index.html">Home</a></li>
+      <li class="breadcrumb-item"><a href="#">Yoga</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Morning Yoga in the Park</li>
+    </ol>
+  </nav>
 
-            <!-- Secondary Navigation + Create button -->
-            <div class="collapse navbar-collapse order-4 order-lg-3" id="mainNav">
-              <ul class="navbar-nav mb-2 mb-lg-0">
-                  <!-- categories -->
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle text-nowrap" href="#" id="catDrop" role="button"
-                     data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
-                  <ul class="dropdown-menu" aria-labelledby="catDrop">
-                    <li><a class="dropdown-item" href="#">Running</a></li>
-                    <li><a class="dropdown-item" href="#">Yoga</a></li>
-                    <li><a class="dropdown-item" href="#">Strength</a></li>
-                    <li><a class="dropdown-item" href="#">Cycling</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">All activities</a></li>
-                  </ul>
-                </li>
+  <!-- Title + meta -->
+  <header class="mb-3">
+    <h1 class="h3 mb-2">Morning Yoga in the Park</h1>
 
-                  <!-- Events -->
-                <li class="nav-item"><a class="nav-link text-nowrap" href="#">My Events</a></li>
-                <li class="nav-item"><a class="nav-link text-nowrap" href="BookingHistory.html">Booking History</a></li>
+    <ul class="list-inline text-muted small m-0">
+      <li class="list-inline-item me-3">
+        <i class="bi bi-calendar-event me-1"></i> Tue, 10 Sep 2025 · 07:00–08:00
+      </li>
+      <li class="list-inline-item me-3">
+        <i class="bi bi-geo-alt me-1"></i> Southbank Lawns, Brisbane
+      </li>
+      <li class="list-inline-item">
+        <span class="badge rounded-pill text-bg-success">Open</span>
+      </li>
+    </ul>
+  </header>
 
-                <!-- Create Button -->
-                <li class="nav-item ms-xl-3">
-                  <a class="btn btn-primary text-nowrap" href="EventCreation.html">
-                    <i class="bi bi-plus-circle me-1"></i>Create Event
-                  </a>
-                </li>
-              </ul>
-            </div>
+  <!-- 2-column layout -->
+  <div class="row g-4">
 
-            <!-- Account Cluster -->
-            <ul class="navbar-nav flex-row align-items-center ms-lg-auto order-2 order-md-3 order-lg-4">
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 text-nowrap" href="#"
-                   id="userDrop" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="static/img/user_avatar.png" width="36" height="36" alt="User" class="rounded-circle">
-                  <span class="">Account</span>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDrop">
-                  <li><a class="dropdown-item" href="#">Profile</a></li>
-                  <li><a class="dropdown-item" href="#">Settings</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Log out</a></li>
-                </ul>
-              </li>
+    <!-- LEFT: media + description + map + reviews -->
+    <div class="col-lg-8">
 
-                <!-- Toggle Bar -->
-              <li class="nav-item d-lg-none ms-2">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-              </li>
-            </ul>
-
+      <!-- Hero carousel -->
+      <div id="Carousel2" class="carousel slide mb-4" data-bs-ride="carousel">
+        <div class="carousel-inner rounded-4 overflow-hidden">
+          <div class="carousel-item active" data-bs-interval="6000" style="height: clamp(240px, 40vh, 520px);">
+            <img src="static/img/SouthBankYoga.jpg" class="w-100 h-100 object-fit-cover" alt="Event photo 1" loading="eager">
+            <span class="position-absolute top-0 start-0 end-0 bottom-0 bg-gradient"></span>
           </div>
-        </nav>
-    </header>
-
-
-    <main>
-        <div class="container py-4">
-
-          <!-- Breadcrumb / back -->
-          <nav class="mb-3" aria-label="breadcrumb">
-            <ol class="breadcrumb small">
-              <li class="breadcrumb-item"><a href="Index.html">Home</a></li>
-              <li class="breadcrumb-item"><a href="#">Yoga</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Morning Yoga in the Park</li>
-            </ol>
-          </nav>
-
-          <!-- Title + meta -->
-          <header class="mb-3">
-            <h1 class="h3 mb-2">Morning Yoga in the Park</h1>
-
-            <ul class="list-inline text-muted small m-0">
-              <li class="list-inline-item me-3">
-                <i class="bi bi-calendar-event me-1"></i> Tue, 10 Sep 2025 · 07:00–08:00
-              </li>
-              <li class="list-inline-item me-3">
-                <i class="bi bi-geo-alt me-1"></i> Southbank Lawns, Brisbane
-              </li>
-              <li class="list-inline-item">
-                <span class="badge rounded-pill text-bg-success">Open</span>
-              </li>
-            </ul>
-          </header>
-
-          <!-- 2-column layout -->
-          <div class="row g-4">
-
-            <!-- LEFT: media + description + map + reviews -->
-            <div class="col-lg-8">
-
-              <!-- Hero carousel -->
-              <div id="Carousel2" class="carousel slide mb-4" data-bs-ride="carousel">
-                <div class="carousel-inner rounded-4 overflow-hidden">
-                  <div class="carousel-item active" data-bs-interval="6000" style="height: clamp(240px, 40vh, 520px);">
-                    <img src="static/img/SouthBankYoga.jpg" class="w-100 h-100 object-fit-cover" alt="Event photo 1" loading="eager">
-                    <span class="position-absolute top-0 start-0 end-0 bottom-0 bg-gradient"></span>
-                  </div>
-                  <div class="carousel-item" data-bs-interval="6000" style="height: clamp(240px, 40vh, 520px);">
-                    <img src="static/img/SouthBankYoga2.jpg" class="w-100 h-100 object-fit-cover" alt="Event photo 2">
-                    <span class="position-absolute top-0 start-0 end-0 bottom-0 bg-gradient"></span>
-                  </div>
-                  <div class="carousel-item" data-bs-interval="6000" style="height: clamp(240px, 40vh, 520px);">
-                    <img src="static/img/SouthBankYoga3.png" class="w-100 h-100 object-fit-cover" alt="Event photo 3">
-                    <span class="position-absolute top-0 start-0 end-0 bottom-0 bg-gradient"></span>
-                  </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#Carousel2" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#Carousel2" data-bs-slide="next">
-                  <span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span>
-                </button>
-              </div>
-
-              <!-- About / description -->
-              <section class="mb-4">
-                <h2 class="h5">About this event</h2>
-                <p class="mb-2">
-                  Start your morning with a relaxing, instructor-led yoga session suitable for all levels.
-                  Bring a mat, water, and wear comfortable clothing.
-                </p>
-                <ul class="list-unstyled small text-muted">
-                  <li class="d-flex"><i class="bi bi-people me-2"></i> Beginner-friendly · Group size 20</li>
-                  <li class="d-flex"><i class="bi bi-clock me-2"></i> Please arrive 10 minutes early for check-in</li>
-                </ul>
-              </section>
-
-              <!-- Location / map -->
-              <section class="mb-4">
-                <h2 class="h5">Location</h2>
-                <p class="text-muted small mb-2">
-                  <i class="bi bi-geo-alt me-1"></i> Southbank Lawns, 4101
-                </p>
-                <div class="ratio ratio-16x9 rounded-3 overflow-hidden">
-                    <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2219.1672168818045!2d153.02308600170437!3d-27.480105751916845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b915a0def52db3f%3A0x345a1e35a05de0cf!2sRiver%20Quay%20Green%20South%20Bank!5e0!3m2!1sen!2sau!4v1757236531718!5m2!1sen!2sau"
-                             allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-              </section>
-
-              <!-- Host -->
-              <section class="mb-4">
-                <h2 class="h5">Hosted by</h2>
-                <div class="card border-0 shadow-sm">
-                  <div class="card-body d-flex align-items-center gap-3">
-                    <img src="static/img/QutSportPhoto.png"
-                         alt="Host avatar" width="56" height="56" class="rounded-circle">
-                    <div>
-                      <div class="fw-semibold">QUT Sport • Wellness Team</div>
-                      <div class="small text-muted">12 upcoming sessions · 4.8 ★ (124 reviews)</div>
-                    </div>
-                    <div class="ms-auto">
-                      <a class="btn btn-outline-primary btn-sm" href="#">Message host</a>
-                    </div>
-                  </div>
-                </div>
-              </section>
-
-              <!-- Reviews -->
-              <section class="mb-4">
-                <h2 class="h5">Reviews</h2>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item px-0">
-                    <div class="d-flex align-items-start gap-3">
-                      <img src="https://media.licdn.com/dms/image/v2/D4D03AQHkC7N5AFn6dg/profile-displayphoto-shrink_200_200/B4DZdXUIsHHkAY-/0/1749516586626?e=2147483647&v=beta&t=UaWkO_g2TE3ama7-vOL-OR8r4wKCGNXM6sEd-5MFJb0" class="rounded-circle" width="48" height="48" alt="">
-                      <div>
-                        <div class="fw-semibold">Nodir<span class="text-warning">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i>
-                          </span></div>
-                        <div class="text-muted small mb-1">Attended Sep 2024</div>
-                        <p class="mb-0">Great atmosphere, gentle pace, perfect start to the day!</p>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-
-                <!-- Add comment -->
-                <form class="mt-3">
-                  <label class="form-label small">Leave a comment</label>
-                  <textarea class="form-control" rows="3" placeholder="Share your thoughts…"></textarea>
-                  <div class="mt-2 d-flex gap-2">
-                    <button type="button" class="btn btn-primary btn-sm">Post</button>
-                    <button type="button" class="btn btn-outline-secondary btn-sm">Cancel</button>
-                  </div>
-                </form>
-              </section>
-            </div>
-
-            <!-- RIGHT: booking card -->
-            <aside class="col-lg-4">
-              <div class="card shadow-sm position-sticky top-0" style="z-index: 1;">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="badge text-bg-success">Open</span>
-                    <a href="#" class="text-muted small"><i class="bi bi-share me-1"></i>Share</a>
-                  </div>
-
-                  <div class="display-6 fw-bold mb-2">$15</div>
-                  <p class="text-muted small mb-3">Free for QUT members</p>
-
-                  <div class="mb-3">
-                    <label class="form-label">Tickets</label>
-                    <div class="input-group">
-                      <button class="btn btn-outline-secondary" type="button">-</button>
-                      <input type="number" class="form-control text-center" value="1" min="1">
-                      <button class="btn btn-outline-secondary" type="button">+</button>
-                    </div>
-                    <div class="form-text">6 remaining • <span class="text-warning"><i class="bi bi-fire"></i> Selling fast</span></div>
-                  </div>
-
-                  <button class="btn btn-primary w-100 mb-2">Book Now</button>
-                  <button class="btn btn-outline-secondary w-100">Add to calendar</button>
-
-                  <hr>
-
-                  <ul class="list-unstyled small text-muted mb-0">
-                    <li class="d-flex"><i class="bi bi-shield-check me-2"></i> Secure checkout</li>
-                    <li class="d-flex"><i class="bi bi-info-circle me-2"></i> No refunds</li>
-                  </ul>
-                </div>
-              </div>
-            </aside>
-
+          <div class="carousel-item" data-bs-interval="6000" style="height: clamp(240px, 40vh, 520px);">
+            <img src="static/img/SouthBankYoga2.jpg" class="w-100 h-100 object-fit-cover" alt="Event photo 2">
+            <span class="position-absolute top-0 start-0 end-0 bottom-0 bg-gradient"></span>
+          </div>
+          <div class="carousel-item" data-bs-interval="6000" style="height: clamp(240px, 40vh, 520px);">
+            <img src="static/img/SouthBankYoga3.png" class="w-100 h-100 object-fit-cover" alt="Event photo 3">
+            <span class="position-absolute top-0 start-0 end-0 bottom-0 bg-gradient"></span>
           </div>
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#Carousel2" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#Carousel2" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span>
+        </button>
+      </div>
 
-        <!-- Footer -->
-        <footer class="bg-light border-top py-5 mt-5">
-          <div class="container">
-            <div class="row">
-              <!-- Brand + Copy -->
-              <div class="col-md-4 mb-3 mb-md-0">
-                <a href="Index.html" class="d-flex align-items-center mb-2 link-dark text-decoration-none">
-                  <img src="static/img/Header_brand_original.png" alt="FitTogether" width="150" height="100">
-                </a>
-                <p class="text-muted mb-0">© 2025 FitTogether. All rights reserved.</p>
-              </div>
+      <!-- About / description -->
+      <section class="mb-4">
+        <h2 class="h5">About this event</h2>
+        <p class="mb-2">
+          Start your morning with a relaxing, instructor-led yoga session suitable for all levels.
+          Bring a mat, water, and wear comfortable clothing.
+        </p>
+        <ul class="list-unstyled small text-muted">
+          <li class="d-flex"><i class="bi bi-people me-2"></i> Beginner-friendly · Group size 20</li>
+          <li class="d-flex"><i class="bi bi-clock me-2"></i> Please arrive 10 minutes early for check-in</li>
+        </ul>
+      </section>
 
-              <!-- Explore -->
-              <div class="col-6 col-md-2 mb-3">
-                <h6 class="fw-bold">Explore</h6>
-                <ul class="nav flex-column">
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Events</a></li>
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Categories</a></li>
-                </ul>
-              </div>
+      <!-- Location / map -->
+      <section class="mb-4">
+        <h2 class="h5">Location</h2>
+        <p class="text-muted small mb-2">
+          <i class="bi bi-geo-alt me-1"></i> Southbank Lawns, 4101
+        </p>
+        <div class="ratio ratio-16x9 rounded-3 overflow-hidden">
+            <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2219.1672168818045!2d153.02308600170437!3d-27.480105751916845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b915a0def52db3f%3A0x345a1e35a05de0cf!2sRiver%20Quay%20Green%20South%20Bank!5e0!3m2!1sen!2sau!4v1757236531718!5m2!1sen!2sau"
+                      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </section>
 
-              <!-- Support -->
-              <div class="col-6 col-md-2 mb-3">
-                <h6 class="fw-bold">Support</h6>
-                <ul class="nav flex-column">
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Help Center</a></li>
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Contact Us</a></li>
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Terms & Privacy</a></li>
-                </ul>
-              </div>
-
-              <!-- Community -->
-              <div class="col-6 col-md-2 mb-3">
-                <h6 class="fw-bold">Community</h6>
-                <ul class="nav flex-column">
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Blog</a></li>
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Careers</a></li>
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Partnerships</a></li>
-                </ul>
-              </div>
-
-              <!-- Social Media -->
-              <div class="col-md-2 d-flex justify-content-md-end">
-                <a href="#" class="me-3 text-muted"><i class="bi bi-facebook fs-4"></i></a>
-                <a href="#" class="me-3 text-muted"><i class="bi bi-instagram fs-4"></i></a>
-                <a href="#" class="me-3 text-muted"><i class="bi bi-twitter-x fs-4"></i></a>
-                <a href="#" class="text-muted"><i class="bi bi-linkedin fs-4"></i></a>
-                </div>
+      <!-- Host -->
+      <section class="mb-4">
+        <h2 class="h5">Hosted by</h2>
+        <div class="card border-0 shadow-sm">
+          <div class="card-body d-flex align-items-center gap-3">
+            <img src="static/img/QutSportPhoto.png"
+                  alt="Host avatar" width="56" height="56" class="rounded-circle">
+            <div>
+              <div class="fw-semibold">QUT Sport • Wellness Team</div>
+              <div class="small text-muted">12 upcoming sessions · 4.8 ★ (124 reviews)</div>
+            </div>
+            <div class="ms-auto">
+              <a class="btn btn-outline-primary btn-sm" href="#">Message host</a>
             </div>
           </div>
-        </footer>
+        </div>
+      </section>
 
-    </main>
-</body>
-</html>
+      <!-- Reviews -->
+      <section class="mb-4">
+        <h2 class="h5">Reviews</h2>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item px-0">
+            <div class="d-flex align-items-start gap-3">
+              <img src="https://media.licdn.com/dms/image/v2/D4D03AQHkC7N5AFn6dg/profile-displayphoto-shrink_200_200/B4DZdXUIsHHkAY-/0/1749516586626?e=2147483647&v=beta&t=UaWkO_g2TE3ama7-vOL-OR8r4wKCGNXM6sEd-5MFJb0" class="rounded-circle" width="48" height="48" alt="">
+              <div>
+                <div class="fw-semibold">Nodir<span class="text-warning">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-half"></i>
+                  </span></div>
+                <div class="text-muted small mb-1">Attended Sep 2024</div>
+                <p class="mb-0">Great atmosphere, gentle pace, perfect start to the day!</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+        <!-- Add comment -->
+        <form class="mt-3">
+          <label class="form-label small">Leave a comment</label>
+          <textarea class="form-control" rows="3" placeholder="Share your thoughts…"></textarea>
+          <div class="mt-2 d-flex gap-2">
+            <button type="button" class="btn btn-primary btn-sm">Post</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm">Cancel</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <!-- RIGHT: booking card -->
+    <aside class="col-lg-4">
+      <div class="card shadow-sm position-sticky top-0" style="z-index: 1;">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="badge text-bg-success">Open</span>
+            <a href="#" class="text-muted small"><i class="bi bi-share me-1"></i>Share</a>
+          </div>
+
+          <div class="display-6 fw-bold mb-2">$15</div>
+          <p class="text-muted small mb-3">Free for QUT members</p>
+
+          <div class="mb-3">
+            <label class="form-label">Tickets</label>
+            <div class="input-group">
+              <button class="btn btn-outline-secondary" type="button">-</button>
+              <input type="number" class="form-control text-center" value="1" min="1">
+              <button class="btn btn-outline-secondary" type="button">+</button>
+            </div>
+            <div class="form-text">6 remaining • <span class="text-warning"><i class="bi bi-fire"></i> Selling fast</span></div>
+          </div>
+
+          <button class="btn btn-primary w-100 mb-2">Book Now</button>
+          <button class="btn btn-outline-secondary w-100">Add to calendar</button>
+
+          <hr>
+
+          <ul class="list-unstyled small text-muted mb-0">
+            <li class="d-flex"><i class="bi bi-shield-check me-2"></i> Secure checkout</li>
+            <li class="d-flex"><i class="bi bi-info-circle me-2"></i> No refunds</li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+{% endblock %}
