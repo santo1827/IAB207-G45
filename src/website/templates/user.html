@@ -1,4 +1,9 @@
 {% extends "base.html" %} {% from "bootstrap5/form.html" import render_form %}
+
+{% block title %}
+  {{ heading }} - FitTogether
+{% endblock %}
+
 {% block content %}
 <div class="container m-3">
   <div class="page-header">
@@ -18,7 +23,8 @@
       register.
     </p>
   </div>
-  {% endif %} {% if heading == 'Register' %}
+  {% endif %} 
+  {% if heading == 'Register' %}
   <div class="col-md-4">
     <p>
       Already have an account?
