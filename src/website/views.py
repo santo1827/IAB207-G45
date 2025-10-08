@@ -65,3 +65,15 @@ def create_event():
           return redirect(url_for('main.create_event'))
           
      return render_template('EventCreation.html', form=form)
+
+@main_bp.route('/mybookings')
+def bookings():
+    return render_template('UserBookingHistory.html')
+
+@main_bp.route('/eventdetails')
+def eventdetails():
+    return render_template('EventDetailsPage.html')
+
+@main_bp.route('/user')
+def user():
+    return render_template('user.html')

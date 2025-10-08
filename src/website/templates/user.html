@@ -1,21 +1,36 @@
-{% include "base.html" %}
-{% from "bootstrap5/form.html" import render_form %}
-{% block body %}
+{% extends "base.html" %} {% from "bootstrap5/form.html" import render_form %}
 
-<div class="page-header">
+{% block title %}
+  {{ heading }} - FitTogether
+{% endblock %}
+
+{% block content %}
+<div class="container m-3">
+  <div class="page-header">
     <h4>{{heading}}</h4>
-</div>
+  </div>
 
-<!-- Form rendering is simple and easy if using WTForms and Bootstrap -->
-<div class="col-md-6">
+  <!-- Form rendering is simple and easy if using WTForms and Bootstrap -->
+  <div class="col-md-6">
     {{render_form(form)}}
-</div>
+  </div>
 
-<!-- When you have Login form, then show the user a link to register -->
-{% if heading == 'Login' %}
-<div class="col-md-4">
-    <p>New user? <a href="{{url_for('auth.register')}}">Click here</a> to register.</p>
+  <!-- When you have Login form, then show the user a link to register -->
+  {% if heading == 'Login' %}
+  <div class="col-md-4">
+    <p>
+      New user? <a href="{{url_for('auth.register')}}">Click here</a> to
+      register.
+    </p>
+  </div>
+  {% endif %} 
+  {% if heading == 'Register' %}
+  <div class="col-md-4">
+    <p>
+      Already have an account?
+      <a href="{{url_for('auth.login')}}">Click here</a> to login.
+    </p>
+  </div>
+  {% endif %}
 </div>
-{% endif %}
-
 {% endblock %}

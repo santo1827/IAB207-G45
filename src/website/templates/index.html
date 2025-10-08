@@ -1,538 +1,392 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="static/style/style.css">
-    <link rel="icon" href="static/img/Header_brand_original.png" type="image/png">
-</head>
-<body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <header>
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top flex-md-nowrap">
-          <div class="container-fluid align-items-center">
+{% extends 'base.html' %}
 
-            <!-- Brand Logo -->
-            <a class="navbar-brand order-1 order-lg- me-2" href="Index.html">
-              <img src="static/img/Header_brand_original.png" alt="FitTogether" width="120" height="100">
-            </a>
+{% block title %} Home - FitTogether {% endblock %}
 
-            <!-- Search-->
-            <form
-              class="order-3 order-lg-2  w-100 w-md-auto flex-grow-1 mx-md-3 mb-2 mb-lg-0" role="search">
-                <div class="input-group shadow-sm rounded-pill overflow-hidden">
-                    <input type="search" class="form-control border-0 rounded-start-pill"
-                                    placeholder="Search events, locations…" aria-label="Search">
-                    <button class="btn btn-primary rounded-end-pill" type="submit">
-                    <i class="bi bi-search"></i> Search
-                    </button>
-                </div>
-            </form>
+{% block content %}
+<!-- Carousel -->
+<div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-touch="true" data-bs-keyboard="true">
+      <!-- Indicators -->
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
 
-            <!-- Secondary Navigation + Create button -->
-            <div class="collapse navbar-collapse order-4 order-lg-3" id="mainNav">
-              <ul class="navbar-nav mb-2 mb-lg-0">
-                  <!-- categories -->
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle text-nowrap" href="#" id="catDrop" role="button"
-                     data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
-                  <ul class="dropdown-menu" aria-labelledby="catDrop">
-                    <li><a class="dropdown-item" href="#">Running</a></li>
-                    <li><a class="dropdown-item" href="#">Yoga</a></li>
-                    <li><a class="dropdown-item" href="#">Strength</a></li>
-                    <li><a class="dropdown-item" href="#">Cycling</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">All activities</a></li>
-                  </ul>
-                </li>
-
-                  <!-- Events -->
-                <li class="nav-item"><a class="nav-link text-nowrap" href="#">My Events</a></li>
-                <li class="nav-item"><a class="nav-link text-nowrap" href="UserBookingHistory.html">Booking History</a></li>
-
-                <!-- Create Button -->
-                <li class="nav-item ms-xl-3">
-                  <a class="btn btn-primary text-nowrap" href="{{ url_for('main.create_event') }}">
-                    <i class="bi bi-plus-circle me-1"></i>Create Event
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <!-- Account Cluster -->
-            <ul class="navbar-nav flex-row align-items-center ms-lg-auto order-2 order-md-3 order-lg-4">
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 text-nowrap" href="#"
-                   id="userDrop" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="static/img/user_avatar.png" width="36" height="36" alt="User" class="rounded-circle">
-                  <span class="">Account</span>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDrop">
-                  <li><a class="dropdown-item" href="#">Profile</a></li>
-                  <li><a class="dropdown-item" href="#">Settings</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="{{ url_for('auth.login') }}">Log out</a></li>
-                </ul>
-              </li>
-
-                <!-- Toggle Bar -->
-              <li class="nav-item d-lg-none ms-2">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-              </li>
-            </ul>
-
+      <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="6000">
+          <img src="static/img/RunningCard.jpeg" alt="Outdoor bootcamp at sunrise" loading="eager" decoding="async">
+          <span class="overlay-gradient"></span>
+          <div class="carousel-caption text-start">
+            <h2 class="h4 fw-semibold">Train Together</h2>
+            <p class="small mb-3">Join outdoor sessions near you.</p>
+            <a class="btn btn-primary btn-sm" href="#events">Browse events</a>
           </div>
-        </nav>
-    </header>
+        </div>
 
-    <main>
-            <!-- Carousel -->
-        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-touch="true" data-bs-keyboard="true">
-              <!-- Indicators -->
-              <div class="carousel-indicators">
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-              </div>
+        <div class="carousel-item" data-bs-interval="6000">
+          <img src="static/img/HIITTrainingCarousel.webp" alt="Yoga group in a bright studio" loading="lazy" decoding="async">
+          <span class="overlay-gradient"></span>
+          <div class="carousel-caption">
+            <h2 class="h4 fw-semibold">Find Your Flow</h2>
+            <p class="small mb-3">Yoga, pilates and mobility classes.</p>
+            <a class="btn btn-outline-light btn-sm" href="#categories">Explore categories</a>
+          </div>
+        </div>
 
-              <div class="carousel-inner">
-                <div class="carousel-item active" data-bs-interval="6000">
-                  <img src="static/img/RunningCard.jpeg" alt="Outdoor bootcamp at sunrise" loading="eager" decoding="async">
-                  <span class="overlay-gradient"></span>
-                  <div class="carousel-caption text-start">
-                    <h2 class="h4 fw-semibold">Train Together</h2>
-                    <p class="small mb-3">Join outdoor sessions near you.</p>
-                    <a class="btn btn-primary btn-sm" href="#events">Browse events</a>
-                  </div>
-                </div>
+        <div class="carousel-item" data-bs-interval="6000">
+          <img src="static/img/Canvas_Image_3.png" alt="Cycling group on a riverside trail" loading="lazy" decoding="async">
+          <span class="overlay-gradient"></span>
+          <div class="carousel-caption text-end">
+            <h2 class="h4 fw-semibold">Ride With Us</h2>
+            <p class="small mb-3">Social rides for all levels.</p>
+            <a class="btn btn-primary btn-sm" href="#featured">See featured</a>
+          </div>
+        </div>
+      </div>
 
-                <div class="carousel-item" data-bs-interval="6000">
-                  <img src="static/img/HIITTrainingCarousel.webp" alt="Yoga group in a bright studio" loading="lazy" decoding="async">
-                  <span class="overlay-gradient"></span>
-                  <div class="carousel-caption">
-                    <h2 class="h4 fw-semibold">Find Your Flow</h2>
-                    <p class="small mb-3">Yoga, pilates and mobility classes.</p>
-                    <a class="btn btn-outline-light btn-sm" href="#categories">Explore categories</a>
-                  </div>
-                </div>
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" aria-label="Previous slide">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" aria-label="Next slide">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      </button>
+    </div>
 
-                <div class="carousel-item" data-bs-interval="6000">
-                  <img src="static/img/Canvas_Image_3.png" alt="Cycling group on a riverside trail" loading="lazy" decoding="async">
-                  <span class="overlay-gradient"></span>
-                  <div class="carousel-caption text-end">
-                    <h2 class="h4 fw-semibold">Ride With Us</h2>
-                    <p class="small mb-3">Social rides for all levels.</p>
-                    <a class="btn btn-primary btn-sm" href="#featured">See featured</a>
-                  </div>
-                </div>
-              </div>
+<!-- Categories -->
+<div class="container py-4">
+  <!-- Horizontal scroller on mobile-->
+  <ul class="list-unstyled d-flex gap-4 overflow-auto py-3 flex-nowrap flex-lg-wrap m-0 justify-content-center">
+    <!-- Each item is a link/button styled like a chip -->
+    <li>
+      <a href="#" class="cat-chip text-decoration-none">
+        <span class="cat-circle">
+          <i class="bi bi-flower1"></i>
+        </span>
+        <span class="cat-label">Yoga</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="cat-chip text-decoration-none">
+        <span class="cat-circle">
+          <i class="bi bi-activity"></i>
+        </span>
+        <span class="cat-label">Running</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="cat-chip text-decoration-none">
+        <span class="cat-circle">
+          <i class="bi bi-trophy"></i>
+        </span>
+        <span class="cat-label">Bodybuilding</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="cat-chip text-decoration-none">
+        <span class="cat-circle">
+          <i class="bi bi-trophy-fill"></i>
+        </span>
+        <span class="cat-label">Powerlifting</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="cat-chip text-decoration-none">
+        <span class="cat-circle">
+          <i class="bi bi-water"></i>
+        </span>
+        <span class="cat-label">Swimming</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="cat-chip text-decoration-none">
+        <span class="cat-circle">
+          <i class="bi bi-bicycle"></i>
+        </span>
+        <span class="cat-label">Cycling</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="cat-chip text-decoration-none">
+        <span class="cat-circle">
+          <i class="bi bi-lightning"></i>
+        </span>
+        <span class="cat-label">HIIT</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="cat-chip text-decoration-none">
+        <span class="cat-circle">
+          <i class="bi bi-grid-1x2"></i>
+        </span>
+        <span class="cat-label">Cross-training</span>
+      </a>
+    </li>
+  </ul>
+</div>
 
-              <!-- Controls -->
-              <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" aria-label="Previous slide">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" aria-label="Next slide">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              </button>
-            </div>
+<!-- Cards/Events Examples -->
+<div class="container py-4">
+      <!-- Filter bar -->
+      <ul class="nav nav-pills mb-4">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">All</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Today</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">This weekend</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Free events</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Paid events</a>
+        </li>
+      </ul>
 
-        <!-- Categories -->
-        <div class="container py-4">
-          <!-- Horizontal scroller on mobile-->
-          <ul class="list-unstyled d-flex gap-4 overflow-auto py-3 flex-nowrap flex-lg-wrap m-0 justify-content-center">
-            <!-- Each item is a link/button styled like a chip -->
-            <li>
-              <a href="#" class="cat-chip text-decoration-none">
-                <span class="cat-circle">
-                  <i class="bi bi-flower1"></i>
-                </span>
-                <span class="cat-label">Yoga</span>
-              </a>
+
+    <!-- Section title -->
+  <h2 class="h4 mb-3">Upcoming events</h2>
+
+  <!-- Responsive grid: 1 / 2 / 3 / 4 columns -->
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
+
+    <!-- Yoga Card -->
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        <div class="position-relative">
+          <img src="/static/img/Yoge.jpeg"
+                class="card-img-top event-thumb"
+                alt="Morning Yoga in the Park"
+                loading="lazy" decoding="async">
+          <span class="badge bg-success position-absolute top-0 start-0 m-2">Open</span>
+        </div>
+
+        <div class="card-body d-flex flex-column">
+          <h3 class="h6 card-title mb-1 text-truncate">Morning Yoga in the Park</h3>
+          <p class="text-muted small mb-2">Beginner • Yoga</p>
+
+          <ul class="list-unstyled small mb-3">
+            <li class="d-flex align-items-center">
+              <i class="bi bi-calendar-date me-2"></i>10 Sep 2025 · 07:00–08:00
             </li>
-            <li>
-              <a href="#" class="cat-chip text-decoration-none">
-                <span class="cat-circle">
-                  <i class="bi bi-activity"></i>
-                </span>
-                <span class="cat-label">Running</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="cat-chip text-decoration-none">
-                <span class="cat-circle">
-                  <i class="bi bi-trophy"></i>
-                </span>
-                <span class="cat-label">Bodybuilding</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="cat-chip text-decoration-none">
-                <span class="cat-circle">
-                  <i class="bi bi-trophy-fill"></i>
-                </span>
-                <span class="cat-label">Powerlifting</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="cat-chip text-decoration-none">
-                <span class="cat-circle">
-                  <i class="bi bi-water"></i>
-                </span>
-                <span class="cat-label">Swimming</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="cat-chip text-decoration-none">
-                <span class="cat-circle">
-                  <i class="bi bi-bicycle"></i>
-                </span>
-                <span class="cat-label">Cycling</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="cat-chip text-decoration-none">
-                <span class="cat-circle">
-                  <i class="bi bi-lightning"></i>
-                </span>
-                <span class="cat-label">HIIT</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="cat-chip text-decoration-none">
-                <span class="cat-circle">
-                  <i class="bi bi-grid-1x2"></i>
-                </span>
-                <span class="cat-label">Cross-training</span>
-              </a>
+            <li class="d-flex align-items-center">
+              <i class="bi bi-geo-alt me-2"></i>Southbank Lawns
             </li>
           </ul>
-        </div>
 
-        <!-- Cards/Events Examples -->
-        <div class="container py-4">
-              <!-- Filter bar -->
-              <ul class="nav nav-pills mb-4">
-                <li class="nav-item">
-                  <a class="nav-link active" href="#">All</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Today</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">This weekend</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Free events</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Paid events</a>
-                </li>
-              </ul>
-
-
-            <!-- Section title -->
-          <h2 class="h4 mb-3">Upcoming events</h2>
-
-          <!-- Responsive grid: 1 / 2 / 3 / 4 columns -->
-          <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
-
-            <!-- Yoga Card -->
-            <div class="col">
-              <div class="card h-100 shadow-sm">
-                <div class="position-relative">
-                  <img src="/static/img/Yoge.jpeg"
-                       class="card-img-top event-thumb"
-                       alt="Morning Yoga in the Park"
-                       loading="lazy" decoding="async">
-                  <span class="badge bg-success position-absolute top-0 start-0 m-2">Open</span>
-                </div>
-
-                <div class="card-body d-flex flex-column">
-                  <h3 class="h6 card-title mb-1 text-truncate">Morning Yoga in the Park</h3>
-                  <p class="text-muted small mb-2">Beginner • Yoga</p>
-
-                  <ul class="list-unstyled small mb-3">
-                    <li class="d-flex align-items-center">
-                      <i class="bi bi-calendar-date me-2"></i>10 Sep 2025 · 07:00–08:00
-                    </li>
-                    <li class="d-flex align-items-center">
-                      <i class="bi bi-geo-alt me-2"></i>Southbank Lawns
-                    </li>
-                  </ul>
-
-                  <div class="d-flex justify-content-between align-items-center mt-auto">
-                    <span class="fw-semibold">$15</span>
-                    <div class="btn-group">
-                      <a href="EventDeatailsPage.html" class="btn btn-outline-primary btn-sm">Details</a>
-                      <button class="btn btn-primary btn-sm" type="button">Book</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- RiverWalk Card -->
-            <div class="col">
-              <div class="card h-100 shadow-sm">
-                <div class="position-relative">
-                  <img src="static/img/River_Walk.png" class="card-img-top event-thumb" alt="Riverwalk 5K" loading="lazy">
-                  <span class="badge bg-danger position-absolute top-0 start-0 m-2">Sold out</span>
-                </div>
-                <div class="card-body d-flex flex-column">
-                  <h3 class="h6 card-title mb-1 text-truncate">Riverwalk 5K</h3>
-                  <p class="text-muted small mb-2">Running • Community</p>
-                  <ul class="list-unstyled small mb-3">
-                    <li class="d-flex align-items-center"><i class="bi bi-calendar-date me-2"></i>01 Oct 2025 · 06:30</li>
-                    <li class="d-flex align-items-center"><i class="bi bi-geo-alt me-2"></i>City Riverside</li>
-                  </ul>
-                  <div class="d-flex justify-content-between align-items-center mt-auto">
-                    <span class="fw-semibold">$0</span>
-                    <div class="btn-group">
-                      <a href="EventDeatailsPage.html" class="btn btn-outline-primary btn-sm">Details</a>
-                      <button class="btn btn-primary btn-sm" type="button">Book</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-              <!-- Cycling Card -->
-            <div class="col">
-              <div class="card h-100 shadow-sm">
-                <div class="position-relative">
-                  <img src="static/img/Cycling.jpeg" class="card-img-top event-thumb" alt="Cycling 10K" loading="lazy">
-                  <span class="badge bg-success position-absolute top-0 start-0 m-2">Open</span>
-                </div>
-                <div class="card-body d-flex flex-column">
-                  <h3 class="h6 card-title mb-1 text-truncate">Cycling 10K</h3>
-                  <p class="text-muted small mb-2">Cycling • Community</p>
-                  <ul class="list-unstyled small mb-3">
-                    <li class="d-flex align-items-center"><i class="bi bi-calendar-date me-2"></i>10 Oct 2025 · 07:30</li>
-                    <li class="d-flex align-items-center"><i class="bi bi-geo-alt me-2"></i>City Riverside</li>
-                  </ul>
-                  <div class="d-flex justify-content-between align-items-center mt-auto">
-                    <span class="fw-semibold">$0</span>
-                    <div class="btn-group">
-                      <a href="EventDeatailsPage.html" class="btn btn-outline-primary btn-sm">Details</a>
-                      <button class="btn btn-primary btn-sm" type="button">Book</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-              <!-- PowerLiftingForBeginners Card-->
-            <div class="col">
-              <div class="card h-100 shadow-sm">
-                <div class="position-relative">
-                  <img src="static/img/Powerlifting.jpeg" class="card-img-top event-thumb" alt="Powerlifting For Beginners" loading="lazy">
-                  <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2"> <i class="bi bi-fire"></i> Selling fast</span>
-                </div>
-                <div class="card-body d-flex flex-column">
-                  <h3 class="h6 card-title mb-1 text-truncate">Power Building For Beginners</h3>
-                  <p class="text-muted small mb-2">Weight Lifting • QUT Sport</p>
-                  <ul class="list-unstyled small mb-3">
-                    <li class="d-flex align-items-center"><i class="bi bi-calendar-date me-2"></i>23 September 2025 · 15:30</li>
-                    <li class="d-flex align-items-center"><i class="bi bi-geo-alt me-2"></i>QUT P block</li>
-                  </ul>
-                  <div class="d-flex justify-content-between align-items-center mt-auto">
-                    <span class="fw-semibold">$25</span>
-                    <div class="btn-group">
-                      <a href="EventDeatailsPage.html" class="btn btn-outline-primary btn-sm">Details</a>
-                      <button class="btn btn-primary btn-sm" type="button">Book</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-              <!-- LearnToSwimCard -->
-            <div class="col">
-              <div class="card h-100 shadow-sm">
-                <div class="position-relative">
-                  <img src="static/img/LearnToSwim.jpg" class="card-img-top event-thumb" alt="Learn To Swim" loading="lazy">
-                  <span class="badge bg-success position-absolute top-0 start-0 m-2">Open</span>
-                </div>
-                <div class="card-body d-flex flex-column">
-                  <h3 class="h6 card-title mb-1 text-truncate">Learn To Swim</h3>
-                  <p class="text-muted small mb-2">Swimming • QUT Sport</p>
-                  <ul class="list-unstyled small mb-3">
-                    <li class="d-flex align-items-center"><i class="bi bi-calendar-date me-2"></i>29 September 2025 · 15:30</li>
-                    <li class="d-flex align-items-center"><i class="bi bi-geo-alt me-2"></i>QUT P block</li>
-                  </ul>
-                  <div class="d-flex justify-content-between align-items-center mt-auto">
-                    <span class="fw-semibold">$10</span>
-                    <div class="btn-group">
-                      <a href="EventDeatailsPage.html" class="btn btn-outline-primary btn-sm">Details</a>
-                      <button class="btn btn-primary btn-sm" type="button">Book</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Body Building Card -->
-            <div class="col">
-              <div class="card h-100 shadow-sm">
-                <div class="position-relative">
-                  <img src="static/img/BodyBuilding.webp" class="card-img-top event-thumb" alt="Body Building" loading="lazy">
-                  <span class="badge bg-danger position-absolute top-0 start-0 m-2">Sold out</span>
-                </div>
-                <div class="card-body d-flex flex-column">
-                  <h3 class="h6 card-title mb-1 text-truncate">Bodybuilding Training</h3>
-                  <p class="text-muted small mb-2">Body Building • Muscle Gym</p>
-                  <ul class="list-unstyled small mb-3">
-                    <li class="d-flex align-items-center"><i class="bi bi-calendar-date me-2"></i>10 Oct 2025 · 05:30</li>
-                    <li class="d-flex align-items-center"><i class="bi bi-geo-alt me-2"></i>Muscle Gym</li>
-                  </ul>
-                  <div class="d-flex justify-content-between align-items-center mt-auto">
-                    <span class="fw-semibold">$40</span>
-                    <div class="btn-group">
-                      <a href="EventDeatailsPage.html" class="btn btn-outline-primary btn-sm">Details</a>
-                      <button class="btn btn-primary btn-sm" type="button">Book</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-            <!-- HIIT Training Card -->
-            <div class="col">
-              <div class="card h-100 shadow-sm">
-                <div class="position-relative">
-                  <img src="static/img/HIITTraining.webp" class="card-img-top event-thumb" alt="Riverwalk 5K" loading="lazy">
-                  <span class="badge bg-danger position-absolute top-0 start-0 m-2">Sold out</span>
-                </div>
-                <div class="card-body d-flex flex-column">
-                  <h3 class="h6 card-title mb-1 text-truncate">HIIT Training</h3>
-                  <p class="text-muted small mb-2">HIIT • Community</p>
-                  <ul class="list-unstyled small mb-3">
-                    <li class="d-flex align-items-center"><i class="bi bi-calendar-date me-2"></i>01 Oct 2025 · 06:30</li>
-                    <li class="d-flex align-items-center"><i class="bi bi-geo-alt me-2"></i>City Riverside</li>
-                  </ul>
-                  <div class="d-flex justify-content-between align-items-center mt-auto">
-                    <span class="fw-semibold">$0</span>
-                    <div class="btn-group">
-                      <a href="EventDeatailsPage.html" class="btn btn-outline-primary btn-sm">Details</a>
-                      <button class="btn btn-primary btn-sm" type="button">Book</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-              <!-- Running Card -->
-            <div class="col">
-              <div class="card h-100 shadow-sm">
-                <div class="position-relative">
-                  <img src="static/img/RunningCard.webp" class="card-img-top event-thumb" alt="" loading="lazy">
-                  <span class="badge bg-danger position-absolute top-0 start-0 m-2">Sold out</span>
-                </div>
-                <div class="card-body d-flex flex-column">
-                  <h3 class="h6 card-title mb-1 text-truncate">Marathon Running</h3>
-                  <p class="text-muted small mb-2">Charity • Brisbane City Council</p>
-                  <ul class="list-unstyled small mb-3">
-                    <li class="d-flex align-items-center"><i class="bi bi-calendar-date me-2"></i>23 Dec 2025 · 09:30</li>
-                    <li class="d-flex align-items-center"><i class="bi bi-geo-alt me-2"></i>City Riverside</li>
-                  </ul>
-                  <div class="d-flex justify-content-between align-items-center mt-auto">
-                    <span class="fw-semibold">$0</span>
-                    <div class="btn-group">
-                      <a href="EventDeatailsPage.html" class="btn btn-outline-primary btn-sm">Details</a>
-                      <button class="btn btn-primary btn-sm" type="button">Book</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div class="d-flex justify-content-between align-items-center mt-auto">
+            <span class="fw-semibold">$15</span>
+            <div class="btn-group">
+              <a href="EventDeatailsPage.html" class="btn btn-outline-primary btn-sm">Details</a>
+              <button class="btn btn-primary btn-sm" type="button">Book</button>
             </div>
           </div>
-
-
-          <!-- Pagination -->
-          <nav aria-label="Events pages">
-            <ul class="pagination justify-content-center gap-2 my-4">
-              <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true" aria-label="Previous page">
-                  <i class="bi bi-chevron-left me-2" aria-hidden="true"></i>Previous
-                </a>
-              </li>
-
-              <li class="page-item active" aria-current="page">
-                <span class="page-link">1</span>
-              </li>
-              <li class="page-item"><a class="page-link" href="#" aria-label="Go to page 2">2</a></li>
-              <li class="page-item"><a class="page-link" href="#" aria-label="Go to page 3">3</a></li>
-
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next page">
-                  Next<i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
-                </a>
-              </li>
-            </ul>
-          </nav>
         </div>
-        <!-- Footer -->
-        <footer class="bg-light border-top py-5 mt-5">
-          <div class="container">
-            <div class="row">
-              <!-- Brand + Copy -->
-              <div class="col-md-4 mb-3 mb-md-0">
-                <a href="Index.html" class="d-flex align-items-center mb-2 link-dark text-decoration-none">
-                  <img src="static/img/Header_brand_original.png" alt="FitTogether" width="150" height="100">
-                </a>
-                <p class="text-muted mb-0">© 2025 FitTogether. All rights reserved.</p>
-              </div>
+      </div>
+    </div>
 
-              <!-- Explore -->
-              <div class="col-6 col-md-2 mb-3">
-                <h6 class="fw-bold">Explore</h6>
-                <ul class="nav flex-column">
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Events</a></li>
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Categories</a></li>
-                </ul>
-              </div>
-
-              <!-- Support -->
-              <div class="col-6 col-md-2 mb-3">
-                <h6 class="fw-bold">Support</h6>
-                <ul class="nav flex-column">
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Help Center</a></li>
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Contact Us</a></li>
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Terms & Privacy</a></li>
-                </ul>
-              </div>
-
-              <!-- Community -->
-              <div class="col-6 col-md-2 mb-3">
-                <h6 class="fw-bold">Community</h6>
-                <ul class="nav flex-column">
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Blog</a></li>
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Careers</a></li>
-                  <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Partnerships</a></li>
-                </ul>
-              </div>
-
-              <!-- Social Media -->
-              <div class="col-md-2 d-flex justify-content-md-end">
-                <a href="#" class="me-3 text-muted"><i class="bi bi-facebook fs-4"></i></a>
-                <a href="#" class="me-3 text-muted"><i class="bi bi-instagram fs-4"></i></a>
-                <a href="#" class="me-3 text-muted"><i class="bi bi-twitter-x fs-4"></i></a>
-                <a href="#" class="text-muted"><i class="bi bi-linkedin fs-4"></i></a>
-                </div>
+    <!-- RiverWalk Card -->
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        <div class="position-relative">
+          <img src="static/img/River_Walk.png" class="card-img-top event-thumb" alt="Riverwalk 5K" loading="lazy">
+          <span class="badge bg-danger position-absolute top-0 start-0 m-2">Sold out</span>
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h3 class="h6 card-title mb-1 text-truncate">Riverwalk 5K</h3>
+          <p class="text-muted small mb-2">Running • Community</p>
+          <ul class="list-unstyled small mb-3">
+            <li class="d-flex align-items-center"><i class="bi bi-calendar-date me-2"></i>01 Oct 2025 · 06:30</li>
+            <li class="d-flex align-items-center"><i class="bi bi-geo-alt me-2"></i>City Riverside</li>
+          </ul>
+          <div class="d-flex justify-content-between align-items-center mt-auto">
+            <span class="fw-semibold">$0</span>
+            <div class="btn-group">
+              <a href="EventDeatailsPage.html" class="btn btn-outline-primary btn-sm">Details</a>
+              <button class="btn btn-primary btn-sm" type="button">Book</button>
             </div>
           </div>
-        </footer>
-    </main>
+        </div>
+      </div>
+    </div>
 
-</body>
-</html>
+      <!-- Cycling Card -->
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        <div class="position-relative">
+          <img src="static/img/Cycling.jpeg" class="card-img-top event-thumb" alt="Cycling 10K" loading="lazy">
+          <span class="badge bg-success position-absolute top-0 start-0 m-2">Open</span>
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h3 class="h6 card-title mb-1 text-truncate">Cycling 10K</h3>
+          <p class="text-muted small mb-2">Cycling • Community</p>
+          <ul class="list-unstyled small mb-3">
+            <li class="d-flex align-items-center"><i class="bi bi-calendar-date me-2"></i>10 Oct 2025 · 07:30</li>
+            <li class="d-flex align-items-center"><i class="bi bi-geo-alt me-2"></i>City Riverside</li>
+          </ul>
+          <div class="d-flex justify-content-between align-items-center mt-auto">
+            <span class="fw-semibold">$0</span>
+            <div class="btn-group">
+              <a href="EventDeatailsPage.html" class="btn btn-outline-primary btn-sm">Details</a>
+              <button class="btn btn-primary btn-sm" type="button">Book</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- PowerLiftingForBeginners Card-->
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        <div class="position-relative">
+          <img src="static/img/Powerlifting.jpeg" class="card-img-top event-thumb" alt="Powerlifting For Beginners" loading="lazy">
+          <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-2"> <i class="bi bi-fire"></i> Selling fast</span>
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h3 class="h6 card-title mb-1 text-truncate">Power Building For Beginners</h3>
+          <p class="text-muted small mb-2">Weight Lifting • QUT Sport</p>
+          <ul class="list-unstyled small mb-3">
+            <li class="d-flex align-items-center"><i class="bi bi-calendar-date me-2"></i>23 September 2025 · 15:30</li>
+            <li class="d-flex align-items-center"><i class="bi bi-geo-alt me-2"></i>QUT P block</li>
+          </ul>
+          <div class="d-flex justify-content-between align-items-center mt-auto">
+            <span class="fw-semibold">$25</span>
+            <div class="btn-group">
+              <a href="EventDeatailsPage.html" class="btn btn-outline-primary btn-sm">Details</a>
+              <button class="btn btn-primary btn-sm" type="button">Book</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- LearnToSwimCard -->
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        <div class="position-relative">
+          <img src="static/img/LearnToSwim.jpg" class="card-img-top event-thumb" alt="Learn To Swim" loading="lazy">
+          <span class="badge bg-success position-absolute top-0 start-0 m-2">Open</span>
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h3 class="h6 card-title mb-1 text-truncate">Learn To Swim</h3>
+          <p class="text-muted small mb-2">Swimming • QUT Sport</p>
+          <ul class="list-unstyled small mb-3">
+            <li class="d-flex align-items-center"><i class="bi bi-calendar-date me-2"></i>29 September 2025 · 15:30</li>
+            <li class="d-flex align-items-center"><i class="bi bi-geo-alt me-2"></i>QUT P block</li>
+          </ul>
+          <div class="d-flex justify-content-between align-items-center mt-auto">
+            <span class="fw-semibold">$10</span>
+            <div class="btn-group">
+              <a href="EventDeatailsPage.html" class="btn btn-outline-primary btn-sm">Details</a>
+              <button class="btn btn-primary btn-sm" type="button">Book</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body Building Card -->
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        <div class="position-relative">
+          <img src="static/img/BodyBuilding.webp" class="card-img-top event-thumb" alt="Body Building" loading="lazy">
+          <span class="badge bg-danger position-absolute top-0 start-0 m-2">Sold out</span>
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h3 class="h6 card-title mb-1 text-truncate">Bodybuilding Training</h3>
+          <p class="text-muted small mb-2">Body Building • Muscle Gym</p>
+          <ul class="list-unstyled small mb-3">
+            <li class="d-flex align-items-center"><i class="bi bi-calendar-date me-2"></i>10 Oct 2025 · 05:30</li>
+            <li class="d-flex align-items-center"><i class="bi bi-geo-alt me-2"></i>Muscle Gym</li>
+          </ul>
+          <div class="d-flex justify-content-between align-items-center mt-auto">
+            <span class="fw-semibold">$40</span>
+            <div class="btn-group">
+              <a href="EventDeatailsPage.html" class="btn btn-outline-primary btn-sm">Details</a>
+              <button class="btn btn-primary btn-sm" type="button">Book</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- HIIT Training Card -->
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        <div class="position-relative">
+          <img src="static/img/HIITTraining.webp" class="card-img-top event-thumb" alt="Riverwalk 5K" loading="lazy">
+          <span class="badge bg-danger position-absolute top-0 start-0 m-2">Sold out</span>
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h3 class="h6 card-title mb-1 text-truncate">HIIT Training</h3>
+          <p class="text-muted small mb-2">HIIT • Community</p>
+          <ul class="list-unstyled small mb-3">
+            <li class="d-flex align-items-center"><i class="bi bi-calendar-date me-2"></i>01 Oct 2025 · 06:30</li>
+            <li class="d-flex align-items-center"><i class="bi bi-geo-alt me-2"></i>City Riverside</li>
+          </ul>
+          <div class="d-flex justify-content-between align-items-center mt-auto">
+            <span class="fw-semibold">$0</span>
+            <div class="btn-group">
+              <a href="EventDeatailsPage.html" class="btn btn-outline-primary btn-sm">Details</a>
+              <button class="btn btn-primary btn-sm" type="button">Book</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- Running Card -->
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        <div class="position-relative">
+          <img src="static/img/RunningCard.webp" class="card-img-top event-thumb" alt="" loading="lazy">
+          <span class="badge bg-danger position-absolute top-0 start-0 m-2">Sold out</span>
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h3 class="h6 card-title mb-1 text-truncate">Marathon Running</h3>
+          <p class="text-muted small mb-2">Charity • Brisbane City Council</p>
+          <ul class="list-unstyled small mb-3">
+            <li class="d-flex align-items-center"><i class="bi bi-calendar-date me-2"></i>23 Dec 2025 · 09:30</li>
+            <li class="d-flex align-items-center"><i class="bi bi-geo-alt me-2"></i>City Riverside</li>
+          </ul>
+          <div class="d-flex justify-content-between align-items-center mt-auto">
+            <span class="fw-semibold">$0</span>
+            <div class="btn-group">
+              <a href="{{ url_for('main.eventdetails') }}" class="btn btn-outline-primary btn-sm">Details</a>
+              <button class="btn btn-primary btn-sm" type="button">Book</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Pagination -->
+  <nav aria-label="Events pages">
+    <ul class="pagination justify-content-center gap-2 my-4">
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="true" aria-label="Previous page">
+          <i class="bi bi-chevron-left me-2" aria-hidden="true"></i>Previous
+        </a>
+      </li>
+
+      <li class="page-item active" aria-current="page">
+        <span class="page-link">1</span>
+      </li>
+      <li class="page-item"><a class="page-link" href="#" aria-label="Go to page 2">2</a></li>
+      <li class="page-item"><a class="page-link" href="#" aria-label="Go to page 3">3</a></li>
+
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next page">
+          Next<i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+{% endblock %}
