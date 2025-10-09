@@ -90,14 +90,21 @@ def create_event():
         
     return render_template('EventCreation.html', form=form)
 
+# Page displaying the users booking
 @main_bp.route('/mybookings')
 def bookings():
+    user_events = Event.query.filter()
+    print(user_events)
     return render_template('UserBookingHistory.html')
 
-@main_bp.route('/eventdetails')
+#Page that shows a given events details
+@main_bp.route('/event')
 def eventdetails():
     return render_template('EventDetailsPage.html')
 
-@main_bp.route('/user')
-def user():
-    return render_template('user.html')
+#Page that shows the events a user has created
+@main_bp.route('/myevents')
+def my_events():
+    user_events = Event.query.filter_by(user_id='1').all()
+    print(user_events)
+    return render_template('UserCreatedEvents.html', events=user_events)
