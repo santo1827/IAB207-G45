@@ -20,6 +20,8 @@ def index():
 
     all_events = db.session.execute(query).scalars().all()
 
+    print(all_events)
+
     return render_template('index.html', events=all_events)
 
 @main_bp.route('/search')
@@ -113,9 +115,6 @@ def my_events():
     query = (
         #Select all events
         select(Event)
-
-        .where(Event.organiser_id == 1)
     )
     user_events = db.session.execute(query).scalars().all()
-
     return render_template('UserCreatedEvents.html', events=user_events)
