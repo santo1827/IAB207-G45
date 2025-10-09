@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
-from .models import User, Event, Review, Category
+from .models import User, Event, Review, Category, Booking
 from .forms import EventForm
 from . import db
 from werkzeug.utils import secure_filename
 import os
+from sqlalchemy import select
 
 uploads_folder = os.path.join(os.getcwd(), 'src', 'website', 'static', 'uploads')
 
@@ -93,8 +94,8 @@ def create_event():
 # Page displaying the users booking
 @main_bp.route('/mybookings')
 def bookings():
-    user_events = Event.query.filter()
-    print(user_events)
+    user_bookings = Booking.query.all()
+    print(user_bookings)
     return render_template('UserBookingHistory.html')
 
 #Page that shows a given events details
@@ -105,6 +106,12 @@ def eventdetails():
 #Page that shows the events a user has created
 @main_bp.route('/myevents')
 def my_events():
-    user_events = Event.query.filter_by(user_id='1').all()
-    print(user_events)
+    query = (
+        #Select all events
+        select(Event)
+
+        .where(Event.organiser_id == 1)
+    )
+    user_events = db.session.execute(query).scalars().all()
+
     return render_template('UserCreatedEvents.html', events=user_events)
