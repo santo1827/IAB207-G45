@@ -25,6 +25,7 @@ class Event(db.Model):
     title = db.Column(db.String(80), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
     experience_level = db.Column(db.String(50), nullable=True)
+    
     description = db.Column(db.Text, nullable=False)
 
     start_time = db.Column(db.DateTime, nullable=False)
@@ -40,7 +41,6 @@ class Event(db.Model):
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    description = db.Column(db.String(200))
     images = db.Column(db.String(1000))
     reviews = db.relationship('Review', backref='events')
 
