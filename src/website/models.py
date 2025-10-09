@@ -36,15 +36,12 @@ class Event(db.Model):
     ticket_price = db.Column(db.Integer, default=0)
     number_of_tickets = db.Column(db.Integer, nullable=False)
 
-    event_image = db.Column(db.String(255))
-
     organiser_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     description = db.Column(db.String(200))
-    image = db.Column(db.String(400))
-    currency = db.Column(db.String(3))
+    images = db.Column(db.String(1000))
     reviews = db.relationship('Review', backref='events')
 
 	# string print method
