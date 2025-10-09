@@ -154,14 +154,14 @@
   <!-- CARD CONTAINER -->
   <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
     {% for e in events %}
+    {% set imgs = (e.images or '').split(',') %}
     <!-- Card -->
     <div class="col">
       <div class="card h-100 shadow-sm">
         <div class="position-relative">
-          <img src=" {{ e.images }} "
-                class="card-img-top event-thumb"
-                alt="Morning Yoga in the Park"
-                decoding="async">
+        {% if imgs and imgs[0] %}
+        <img src="{{ url_for('static', filename='uploads/' ~ imgs[0]) }}" alt="{{ e.title }}" class="card-img-top event-thumb" me-2">
+        {% endif %}
           <span class="badge bg-success position-absolute top-0 start-0 m-2">Open</span>
         </div>
 

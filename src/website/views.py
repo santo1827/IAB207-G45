@@ -58,8 +58,7 @@ def create_event():
             for file in uploaded_images:
                 if file and file.filename:
                     filename = secure_filename(file.filename)
-                    filepath = os.path.join(uploads_folder, filename)
-                    file.save(filepath)
+                    file.save(os.path.join(uploads_folder, filename))
                     image_filenames.append(filename)
         
             event_image_filenames = ','.join(image_filenames)
