@@ -150,35 +150,36 @@
     <!-- Section title -->
   <h2 class="h4 mb-3">Upcoming events</h2>
 
-  <!-- Responsive grid: 1 / 2 / 3 / 4 columns -->
+  {% if events %}
+  <!-- CARD CONTAINER -->
   <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
-
-    <!-- Yoga Card -->
+    {% for e in events %}
+    <!-- Card -->
     <div class="col">
       <div class="card h-100 shadow-sm">
         <div class="position-relative">
-          <img src="/static/img/Yoge.jpeg"
+          <img src=" {{ e.images }} "
                 class="card-img-top event-thumb"
                 alt="Morning Yoga in the Park"
-                loading="lazy" decoding="async">
+                decoding="async">
           <span class="badge bg-success position-absolute top-0 start-0 m-2">Open</span>
         </div>
 
         <div class="card-body d-flex flex-column">
-          <h3 class="h6 card-title mb-1 text-truncate">Morning Yoga in the Park</h3>
-          <p class="text-muted small mb-2">Beginner • Yoga</p>
+          <h3 class="h6 card-title mb-1 text-truncate"> {{ e.title }} </h3>
+          <p class="text-muted small mb-2">{{e.experience_level}} • {{ e.category_id }}</p>
 
           <ul class="list-unstyled small mb-3">
             <li class="d-flex align-items-center">
-              <i class="bi bi-calendar-date me-2"></i>10 Sep 2025 · 07:00–08:00
+              <i class="bi bi-calendar-date me-2"> {{ e.start_time }} </i>
             </li>
             <li class="d-flex align-items-center">
-              <i class="bi bi-geo-alt me-2"></i>Southbank Lawns
+              <i class="bi bi-geo-alt me-2"> {{ e.location }} </i>
             </li>
           </ul>
 
           <div class="d-flex justify-content-between align-items-center mt-auto">
-            <span class="fw-semibold">$15</span>
+            <span class="fw-semibold"> {{ e.ticket_price }} </span>
             <div class="btn-group">
               <a href="EventDeatailsPage.html" class="btn btn-outline-primary btn-sm">Details</a>
               <button class="btn btn-primary btn-sm" type="button">Book</button>
@@ -187,6 +188,10 @@
         </div>
       </div>
     </div>
+    {% endfor %}
+    {% else %}
+    <p>NO EVENTS</p>
+    {% endif %}
 
     <!-- RiverWalk Card -->
     <div class="col">
