@@ -1,5 +1,5 @@
 # import flask - from 'package' import 'Class'
-from flask import Flask 
+from flask import Flask, render_template
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
@@ -41,5 +41,18 @@ def create_app():
 
     from . import auth
     app.register_blueprint(auth.auth_bp)
+
+    # error handlers (with db rollback for 500 errors)
+    @app.errorhandler(404)
+    def not_found(e):
+        return render_template('errors/404.html'), 404
+
+    @app.errorhandler(500)
+    def server_error(e):
+        try:
+            db.session.rollback()
+        except Exception:
+            pass
+        return render_template('errors/500.html'), 500
     
     return app
