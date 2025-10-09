@@ -3,6 +3,7 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, SelectField, DateTimeLocalField, IntegerField, BooleanField
 from wtforms.validators import InputRequired, Length, Email, EqualTo, NumberRange
 
+
 # creates the login information
 class LoginForm(FlaskForm):
     user_name=StringField("User Name", validators=[InputRequired('Enter user name')])
@@ -12,6 +13,7 @@ class LoginForm(FlaskForm):
  # this is the registration form
 class RegisterForm(FlaskForm):
     user_name=StringField("User Name", validators=[InputRequired()])
+    phone = StringField("Phone Number", validators=[InputRequired()])
     email = StringField("Email Address", validators=[Email("Please enter a valid email")])
     # linking two fields - password should be equal to data entered in confirm
     password=PasswordField("Password", validators=[InputRequired(),
@@ -30,9 +32,8 @@ class EventForm(FlaskForm):
                         ('Powerlifting','Powerlifting'),
                         ('Swiming','Swiming'),
                         ('Cycling','Cycling'),]
-    
-    event_category = SelectField("Category *", choices=event_category_options, id='EventCategory', validators=[InputRequired()], render_kw={"class": "form-select"})
-
+    #choices=event_category_options,
+    event_category = SelectField("Category *",  id='EventCategory', validators=[InputRequired()], render_kw={"class": "form-select"})
 
     event_experience_options = [('', 'Choose...'),
                                 ('Beginner Friendly','Beginner Friendly'),

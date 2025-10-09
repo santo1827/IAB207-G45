@@ -1,17 +1,19 @@
 from . import db
 from datetime import datetime
 from flask_login import UserMixin
+from sqlalchemy import CheckConstraint
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users' # good practice to specify table name
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), index=True, unique=True, nullable=False)
-    emailid = db.Column(db.String(100), index=True, nullable=False)
+    email = db.Column(db.String(100), index=True, nullable=False)
+    phone = db.Column(db.Integer, nullable=False)
 	#password is never stored in the DB, an encrypted password is stored
 	# the storage should be at least 255 chars long
     password_hash = db.Column(db.String(255), nullable=False)
     # relation to call user.comments and comment.name
-    comments = db.relationship('Comment', backref='user')
+    reviews = db.relationship('Review', backref='user')
 
     # string print method
     def __repr__(self):
@@ -21,8 +23,8 @@ class Event(db.Model):
     __tablename__ = 'events'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
-    category = db.Column(db.String(50), nullable=False)
-    experience_level = db.Column(db.String(50))
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
+    experience_level = db.Column(db.String(50), nullable=True)
     description = db.Column(db.Text, nullable=False)
 
     start_time = db.Column(db.DateTime, nullable=False)
@@ -36,34 +38,53 @@ class Event(db.Model):
 
     event_image = db.Column(db.String(255))
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    organiser_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     description = db.Column(db.String(200))
     image = db.Column(db.String(400))
     currency = db.Column(db.String(3))
-    # ... Create the Comments db.relationship
-	# relation to call destination.comments and comment.destination
-    comments = db.relationship('Comment', backref='events')
+    reviews = db.relationship('Review', backref='events')
 
 	# string print method
     def __repr__(self):
         return f"Event: {self.title}"
 
-class Comment(db.Model):
-    __tablename__ = 'comments'
+class Booking(db.Model):
+    __tablename__ = 'bookings'
     id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(400))
-    created_at = db.Column(db.DateTime, default=datetime.now())
-    # add the foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
+    ticket_qty = db.Column(db.Integer, nullable=False)
+    ticket_price = db.Column(db.Integer, nullable=False)
+    order_total = db.Column(db.Integer, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # string print method
+    def __repr__(self):
+        return f"Booking: {self.id}"
+
+
+class Review(db.Model):
+    __tablename__ = 'reviews'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
+    rating = db.Column(db.Float, CheckConstraint('rating >= 1 AND rating <= 5'), nullable=False)
+    comment = db.Column(db.String(400))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # string print method
     def __repr__(self):
-        return f"Comment: {self.text}"
+        return f"Review: {self.id}"
+    
+class Category(db.Model):
+    __tablename__ = 'categories'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    description = db.Column(db.String(400))
 
-
-#class Order(db.Model):
-#    a=0
+    # string print method
+    def __repr__(self):
+        return f"Category: {self.name}"

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
-from .models import User, Event, Comment
+from .models import User, Event, Review, Category
 from .forms import EventForm
 from . import db
 from werkzeug.utils import secure_filename
@@ -13,7 +13,7 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def index():
-    events = Event.query.all() # Get all the events
+    #events = Event.query.all() # Get all the events
     return render_template('index.html')#, events=events)
 
 @main_bp.route('/search')
@@ -38,6 +38,7 @@ def create_event():
      
      print('Creating Event')
      form = EventForm()
+     form.event_category.choices = [(category.id, category.name) for category in Category.query.all()]
      
      if form.validate_on_submit():
           print("Form has been submitted successfully")
@@ -48,7 +49,7 @@ def create_event():
           event_image_file.save(filepath)
 
           new_event = Event(title=form.event_title.data,
-                            category=form.event_category.data,
+                            category_id=form.event_category.data,
                             experience_level=form.event_experience_level.data,
                             description=form.event_description.data,
                             start_time=form.event_start_datetime.data,
@@ -58,7 +59,7 @@ def create_event():
                             ticket_price=form.ticket_price.data,
                             number_of_tickets=form.number_of_tickets.data,
                             event_image=event_image_filename,
-                            user_id=current_user.id)
+                            organiser_id=current_user.id)
 
           db.session.add(new_event)
           db.session.commit()
