@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
-from .models import User, Event, Review, Category
+from .models import User, Event, Review, Category, Booking
 from .forms import EventForm
 from . import db
 from werkzeug.utils import secure_filename
 import os
+from sqlalchemy import select
 
 uploads_folder = os.path.join(os.getcwd(), 'src', 'website', 'static', 'uploads')
 
@@ -13,8 +14,13 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def index():
-    #events = Event.query.all() # Get all the events
-    return render_template('index.html')#, events=events)
+    query = (
+        select(Event)
+    )
+
+    all_events = db.session.execute(query).scalars().all()
+
+    return render_template('index.html', events=all_events)
 
 @main_bp.route('/search')
 def search():
@@ -52,8 +58,7 @@ def create_event():
             for file in uploaded_images:
                 if file and file.filename:
                     filename = secure_filename(file.filename)
-                    filepath = os.path.join(uploads_folder, filename)
-                    file.save(filepath)
+                    file.save(os.path.join(uploads_folder, filename))
                     image_filenames.append(filename)
         
             event_image_filenames = ','.join(image_filenames)
@@ -90,14 +95,27 @@ def create_event():
         
     return render_template('EventCreation.html', form=form)
 
+# Page displaying the users booking
 @main_bp.route('/mybookings')
 def bookings():
+    user_bookings = Booking.query.all()
+    print(user_bookings)
     return render_template('UserBookingHistory.html')
 
-@main_bp.route('/eventdetails')
+#Page that shows a given events details
+@main_bp.route('/event')
 def eventdetails():
     return render_template('EventDetailsPage.html')
 
-@main_bp.route('/user')
-def user():
-    return render_template('user.html')
+#Page that shows the events a user has created
+@main_bp.route('/myevents')
+def my_events():
+    query = (
+        #Select all events
+        select(Event)
+
+        .where(Event.organiser_id == 1)
+    )
+    user_events = db.session.execute(query).scalars().all()
+
+    return render_template('UserCreatedEvents.html', events=user_events)

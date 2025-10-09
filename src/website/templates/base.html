@@ -85,12 +85,12 @@
 
               <!-- Events -->
               <li class="nav-item">
-                <a class="nav-link text-nowrap" href="#">My Events</a>
+                <a class="nav-link text-nowrap" href="{{ url_for('main.my_events')}}">My Events</a>
               </li>
               <li class="nav-item">
                 <a
                   class="nav-link text-nowrap"
-                  href="{{ url_for('main.bookings') }}"
+                  href="{{ url_for('main.bookings')}}"
                   >Booking History</a
                 >
               </li>
