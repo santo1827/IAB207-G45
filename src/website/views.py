@@ -29,7 +29,7 @@ def search():
 
 
 @main_bp.route('/event/create', methods=['GET','POST']) # both get and post
-#@login_required
+@login_required
 def create_event():
      #if current_user.usertype != 'admin':
      #     flash("Need administrator login")
