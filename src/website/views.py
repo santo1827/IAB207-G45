@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from .models import User, Event, Review, Category
 from .forms import EventForm
@@ -41,39 +41,52 @@ def create_event():
     form.event_category.choices = [(category.id, category.name) for category in Category.query.all()]
     
     if form.validate_on_submit():
+        try:
+            print("Success")
+            #Create a new event with the submitted info
 
-        print("Form has been submitted successfully")
-        #Create a new event with the submitted info
+            # Get all uploaded images
+            uploaded_images = request.files.getlist(form.event_image.name)
+            image_filenames = []
 
-        # Get all uploaded images
-        uploaded_images = request.files.getlist(form.event_image.name)
-        image_filenames = []
+            for file in uploaded_images:
+                if file and file.filename:
+                    filename = secure_filename(file.filename)
+                    filepath = os.path.join(uploads_folder, filename)
+                    file.save(filepath)
+                    image_filenames.append(filename)
+        
+            event_image_filenames = ','.join(image_filenames)
 
-        for file in uploaded_images:
-            if file and file.filename:
-                filename = secure_filename(file.filename)
-                filepath = os.path.join(uploads_folder, filename)
-                file.save(filepath)
-                image_filenames.append(filename)
+            new_event = Event(title=form.event_title.data,
+                            category_id=form.event_category.data,
+                            experience_level=form.event_experience_level.data,
+                            description=form.event_description.data,
+                            start_time=form.event_start_datetime.data,
+                            end_time=form.event_end_datetime.data,
+                            location=form.event_location.data,
+                            venue_details=form.venue_details.data,
+                            ticket_price=form.ticket_price.data,
+                            number_of_tickets=form.number_of_tickets.data,
+                            images=event_image_filenames,
+                            organiser_id=current_user.id)
+
+            db.session.add(new_event)
+            db.session.commit()
+
+            print("Success")
+            flash("Event created successfully!","success")
+            
+            return redirect(url_for('main.create_event'))
     
-        event_image_filenames = ','.join(image_filenames)
 
-        new_event = Event(title=form.event_title.data,
-                        category_id=form.event_category.data,
-                        experience_level=form.event_experience_level.data,
-                        description=form.event_description.data,
-                        start_time=form.event_start_datetime.data,
-                        end_time=form.event_end_datetime.data,
-                        location=form.event_location.data,
-                        venue_details=form.venue_details.data,
-                        ticket_price=form.ticket_price.data,
-                        number_of_tickets=form.number_of_tickets.data,
-                        images=event_image_filenames,
-                        organiser_id=current_user.id)
-
-        db.session.add(new_event)
-        db.session.commit()
-        return redirect(url_for('main.create_event'))
+        except Exception as e:
+            db.session.rollback() # Undo any partial changes to the db
+            print(e)
+            flash("Failed to create the event. Please try again, Error: " + str(e), "danger")
+    elif(form.errors):
+        flash("Failed to create the event. Please try again, Error: " + str(form.errors), "danger")
+        print("Form Error:", form.errors)   
         
     return render_template('EventCreation.html', form=form)
 
