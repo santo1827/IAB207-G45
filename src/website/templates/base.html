@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -42,22 +43,21 @@
           </a>
 
           <!-- Search-->
-          <form
-            class="order-3 order-lg-2 w-100 w-md-auto flex-grow-1 mx-md-3 mb-2 mb-lg-0"
-            role="search"
-          >
+        <form id="searchForm" method="GET" action="{{ url_for('main.search') }}" class="order-3 order-lg-2 w-100 w-md-auto flex-grow-1 mx-md-3 mb-2 mb-lg-0" role="search">
             <div class="input-group shadow-sm rounded-pill overflow-hidden">
-              <input
+                <input
+                id="searchInput"
+                name="search"
                 type="search"
                 class="form-control border-0 rounded-start-pill"
                 placeholder="Search events, locations…"
                 aria-label="Search"
-              />
-              <button class="btn btn-primary rounded-end-pill" type="submit">
+                />
+                <button id="searchButton" class="btn btn-primary rounded-end-pill" type="submit" form="searchForm">
                 <i class="bi bi-search"></i> Search
-              </button>
+                </button>
             </div>
-          </form>
+        </form>
 
           <!-- Secondary Navigation + Create button -->
           <div class="collapse navbar-collapse order-4 order-lg-3" id="mainNav">
@@ -97,52 +97,56 @@
 
               <!-- Create Button -->
               <li class="nav-item ms-xl-3">
-                <a
-                  class="btn btn-primary text-nowrap"
-                  href="{{ url_for('main.create_event') }}"
-                >
-                  <i class="bi bi-plus-circle me-1"></i>Create Event
+                <a id="createEventButton" class="btn btn-primary text-nowrap" href="{{ url_for('main.create_event') }}">
+                <i class="bi bi-plus-circle me-1"></i>Create Event
                 </a>
               </li>
             </ul>
           </div>
 
-          <!-- Account Cluster -->
-          <ul
-            class="navbar-nav flex-row align-items-center ms-lg-auto order-2 order-md-3 order-lg-4"
-          >
-            <li class="nav-item dropdown">
-              <button
-                class="nav-link dropdown-toggle btn btn-link d-flex align-items-center gap-2 text-nowrap p-0"
-                id="userDrop"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <img
-                  src="{{ url_for('static', filename='img/user_avatar.png') }}"
-                  width="36"
-                  height="36"
-                  alt="User"
-                  class="rounded-circle"
-                />
-                <span>Account</span>
-              </button>
+        
+        <!-- Account Cluster -->
+        <ul class="navbar-nav flex-row align-items-center ms-lg-auto order-2 order-md-3 order-lg-4">
+        {% if current_user.is_authenticated %}
+        <!-- Show this when the user IS logged in -->
+        <li class="nav-item dropdown">
+            <button
+            class="nav-link dropdown-toggle btn btn-link d-flex align-items-center gap-2 text-nowrap p-0"
+            id="userDrop"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            >
+            <img
+                src="{{ url_for('static', filename='img/user_avatar.png') }}"
+                width="36"
+                height="36"
+                alt="User"
+                class="rounded-circle"
+            />
+            <span>{{ current_user.name }}</span>
+            </button>
 
-              <ul
-                class="dropdown-menu dropdown-menu-end"
-                aria-labelledby="userDrop"
-              >
-                <li>
-                  <a class="dropdown-item" href="{{ url_for('auth.login') }}"
-                    >Profile</a
-                  >
-                </li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Log out</a></li>
-              </ul>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDrop">
+            <li>
+                <a class="dropdown-item" href="#">Profile</a>
             </li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a id="logoutButton" class="dropdown-item text-danger" href="{{ url_for('auth.logout') }}">Log out</a></li>
+            </ul>
+        </li>
+
+        {% else %}
+        <!-- Show this when the user is NOT logged in -->
+        <li class="nav-item">
+            <a id="loginNavButton" class="nav-link text-nowrap" href="{{ url_for('auth.login') }}">Log in</a>
+        </li>
+        <li class="nav-item">
+            <a id="signupNavButton" class="btn btn-primary ms-2 text-nowrap" href="{{ url_for('auth.register') }}">Sign up</a>
+        </li>
+        {% endif %}
+        </ul>
 
             <li class="nav-item d-lg-none ms-2">
               <button
@@ -161,22 +165,18 @@
         </div>
       </nav>
       <!-- Code for using Flask flash -->
-      <div class="container-fluid">
-        {% with messages = get_flashed_messages() %} {% if messages %} {% for
-        message in get_flashed_messages() %}
-        <div class="alert alert-warning">
-          <button
-            type="button"
-            class="close"
-            data-dismiss="alert"
-            aria-label="close"
-          >
-            x
-          </button>
-          {{message}}
+        <div id="flashContainer" class="container-fluid mt-2">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+                <div id="flashMessage-{{ loop.index }}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+            {% endif %}
+        {% endwith %}
         </div>
-        {% endfor %} {% endif %} {% endwith %}
-      </div>
     </header>
 
     <main class="flex-grow-1">

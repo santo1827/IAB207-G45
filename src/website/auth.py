@@ -7,55 +7,78 @@ from . import db
 #create a blueprint
 auth_bp = Blueprint('auth', __name__ )
 
+#=======================#
+#--------Sign Up--------#
+#=======================#
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
-    register = RegisterForm()
-    #the validation of form is fine, HTTP request is POST
-    if (register.validate_on_submit()==True):
-            #get username, password and email from the form
-            uname = register.user_name.data
-            pwd = register.password.data
-            email = register.email.data
-            phone = register.phone.data
-            #check if a user exists
-            user = db.session.scalar(db.select(User).where(User.name==uname))
-            if user:#this returns true when user is not None
-                flash('Username already exists, please try another')
-                return redirect(url_for('auth.register'))
-            # don't store the password in plaintext!
-            pwd_hash = generate_password_hash(pwd)
-            #create a new User model object
-            new_user = User(name=uname, phone=phone, password_hash=pwd_hash, email=email)
-            db.session.add(new_user)
-            db.session.commit()
-            #commit to the database and redirect to HTML page
-            return redirect(url_for('main.index'))
-    #the else is called when the HTTP request calling this page is a GET
-    else:
-        return render_template('user.html', form=register, heading='Register')
+    register_form = RegisterForm()
 
+    # Validate when user actually submits the form
+    if request.method == 'POST' and register_form.validate_on_submit():
+        uname = register_form.user_name.data
+        pwd = register_form.password.data
+        email = register_form.email.data
+        phone = register_form.phone.data
+
+        # Check if username already exists
+        user = db.session.scalar(db.select(User).where(User.name == uname))
+        if user:
+            flash('Username already exists. Please choose another.', 'warning')
+            return redirect(url_for('auth.register'))
+
+        # Hash password for security
+        pwd_hash = generate_password_hash(pwd)
+
+        # Create new user
+        new_user = User(
+            name=uname,
+            phone=phone,
+            email=email,
+            password_hash=pwd_hash
+        )
+        db.session.add(new_user)
+        db.session.commit()
+
+        # Success feedback
+        flash('Account created successfully! You can now log in.', 'success')
+        return redirect(url_for('auth.login'))
+    
+    return render_template('SignUp.html', form=register_form, heading='Register')
+
+
+
+#=======================#
+#--------Log In---------#
+#=======================#
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     login_form = LoginForm()
     error = None
-    if(login_form.validate_on_submit()==True):
-        #get the username and password from the database
+
+    # Process login logic when the user submits the form (POST)
+    if request.method == 'POST' and login_form.validate_on_submit():
         user_name = login_form.user_name.data
         password = login_form.password.data
-        user = db.session.scalar(db.select(User).where(User.name==user_name))
-        #if there is no user with that name
+
+        # Find user by username
+        user = db.session.scalar(db.select(User).where(User.name == user_name))
+
+        # Validate credentials
         if user is None:
-            error = 'Incorrect username'#could be a security risk to give this much info away
-        #check the password - notice password hash function
-        elif not check_password_hash(user.password_hash, password): # takes the hash and password
+            error = 'Incorrect username'
+        elif not check_password_hash(user.password_hash, password):
             error = 'Incorrect password'
+
+        # Login if OK, otherwise flash the error
         if error is None:
-            #all good, set the login_user of flask_login to manage the user
             login_user(user)
+            flash(f"Welcome back, {user.name}!", "success")
             return redirect(url_for('main.index'))
         else:
-            flash(error)
-    return render_template('user.html', form=login_form, heading='Login')
+            flash(error, "warning")
+
+    return render_template('LogIn.html', form=login_form, heading='Log In')
 
 @auth_bp.route('/logout')
 @login_required

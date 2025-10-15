@@ -1,219 +1,145 @@
 {% extends 'base.html' %}
 
-{% block title %} Home - FitTogether {% endblock %}
+{% block title %}Home - FitTogether{% endblock %}
 
 {% block content %}
 <!-- Carousel -->
 <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-touch="true" data-bs-keyboard="true">
-      <!-- Indicators -->
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  <!-- Indicators -->
+  <div class="carousel-indicators">
+    <button id="carouselIndicator-1" type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button id="carouselIndicator-2" type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button id="carouselIndicator-3" type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+
+  <div class="carousel-inner">
+    <div class="carousel-item active" data-bs-interval="6000">
+      <img src="{{ url_for('static', filename='img/RunningCard.jpeg') }}" alt="Outdoor bootcamp at sunrise" loading="eager" decoding="async">
+      <span class="overlay-gradient"></span>
+      <div class="carousel-caption text-start">
+        <h2 class="h4 fw-semibold">Train Together</h2>
+        <p class="small mb-3">Join outdoor sessions near you.</p>
+        <a id="browseEventsButton" class="btn btn-primary btn-sm" href="#events">Browse events</a>
       </div>
-
-      <div class="carousel-inner">
-        <div class="carousel-item active" data-bs-interval="6000">
-          <img src="static/img/RunningCard.jpeg" alt="Outdoor bootcamp at sunrise" loading="eager" decoding="async">
-          <span class="overlay-gradient"></span>
-          <div class="carousel-caption text-start">
-            <h2 class="h4 fw-semibold">Train Together</h2>
-            <p class="small mb-3">Join outdoor sessions near you.</p>
-            <a class="btn btn-primary btn-sm" href="#events">Browse events</a>
-          </div>
-        </div>
-
-        <div class="carousel-item" data-bs-interval="6000">
-          <img src="static/img/HIITTrainingCarousel.webp" alt="Yoga group in a bright studio" loading="lazy" decoding="async">
-          <span class="overlay-gradient"></span>
-          <div class="carousel-caption">
-            <h2 class="h4 fw-semibold">Find Your Flow</h2>
-            <p class="small mb-3">Yoga, pilates and mobility classes.</p>
-            <a class="btn btn-outline-light btn-sm" href="#categories">Explore categories</a>
-          </div>
-        </div>
-
-        <div class="carousel-item" data-bs-interval="6000">
-          <img src="static/img/Canvas_Image_3.png" alt="Cycling group on a riverside trail" loading="lazy" decoding="async">
-          <span class="overlay-gradient"></span>
-          <div class="carousel-caption text-end">
-            <h2 class="h4 fw-semibold">Ride With Us</h2>
-            <p class="small mb-3">Social rides for all levels.</p>
-            <a class="btn btn-primary btn-sm" href="#featured">See featured</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Controls -->
-      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" aria-label="Previous slide">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" aria-label="Next slide">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      </button>
     </div>
 
+    <div class="carousel-item" data-bs-interval="6000">
+      <img src="{{ url_for('static', filename='img/HIITTrainingCarousel.webp') }}" alt="Yoga group in a bright studio" loading="lazy" decoding="async">
+      <span class="overlay-gradient"></span>
+      <div class="carousel-caption">
+        <h2 class="h4 fw-semibold">Find Your Flow</h2>
+        <p class="small mb-3">Yoga, pilates and mobility classes.</p>
+        <a id="exploreCategoriesButton" class="btn btn-outline-light btn-sm" href="#categories">Explore categories</a>
+      </div>
+    </div>
+
+    <div class="carousel-item" data-bs-interval="6000">
+      <img src="{{ url_for('static', filename='img/Canvas_Image_3.png') }}" alt="Cycling group on a riverside trail" loading="lazy" decoding="async">
+      <span class="overlay-gradient"></span>
+      <div class="carousel-caption text-end">
+        <h2 class="h4 fw-semibold">Ride With Us</h2>
+        <p class="small mb-3">Social rides for all levels.</p>
+        <a id="seeFeaturedButton" class="btn btn-primary btn-sm" href="#featured">See featured</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <button id="carouselPrevButton" class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" aria-label="Previous slide">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+  </button>
+  <button id="carouselNextButton" class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" aria-label="Next slide">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+  </button>
+</div>
+
 <!-- Categories -->
-<div class="container py-4">
-  <!-- Horizontal scroller on mobile-->
+<div class="container py-4" id="categories">
   <ul class="list-unstyled d-flex gap-4 overflow-auto py-3 flex-nowrap flex-lg-wrap m-0 justify-content-center">
-    <!-- Each item is a link/button styled like a chip -->
+    {% set categories = [
+      ('Yoga', 'bi-flower1'),
+      ('Running', 'bi-activity'),
+      ('Bodybuilding', 'bi-trophy'),
+      ('Powerlifting', 'bi-trophy-fill'),
+      ('Swimming', 'bi-water'),
+      ('Cycling', 'bi-bicycle'),
+      ('HIIT', 'bi-lightning'),
+      ('Cross-training', 'bi-grid-1x2')
+    ] %}
+    {% for name, icon in categories %}
     <li>
-      <a href="#" class="cat-chip text-decoration-none">
-        <span class="cat-circle">
-          <i class="bi bi-flower1"></i>
-        </span>
-        <span class="cat-label">Yoga</span>
+      <a id="catButton-{{ name | lower }}" href="#" class="cat-chip text-decoration-none">
+        <span class="cat-circle"><i class="bi {{ icon }}"></i></span>
+        <span class="cat-label">{{ name }}</span>
       </a>
     </li>
-    <li>
-      <a href="#" class="cat-chip text-decoration-none">
-        <span class="cat-circle">
-          <i class="bi bi-activity"></i>
-        </span>
-        <span class="cat-label">Running</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" class="cat-chip text-decoration-none">
-        <span class="cat-circle">
-          <i class="bi bi-trophy"></i>
-        </span>
-        <span class="cat-label">Bodybuilding</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" class="cat-chip text-decoration-none">
-        <span class="cat-circle">
-          <i class="bi bi-trophy-fill"></i>
-        </span>
-        <span class="cat-label">Powerlifting</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" class="cat-chip text-decoration-none">
-        <span class="cat-circle">
-          <i class="bi bi-water"></i>
-        </span>
-        <span class="cat-label">Swimming</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" class="cat-chip text-decoration-none">
-        <span class="cat-circle">
-          <i class="bi bi-bicycle"></i>
-        </span>
-        <span class="cat-label">Cycling</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" class="cat-chip text-decoration-none">
-        <span class="cat-circle">
-          <i class="bi bi-lightning"></i>
-        </span>
-        <span class="cat-label">HIIT</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" class="cat-chip text-decoration-none">
-        <span class="cat-circle">
-          <i class="bi bi-grid-1x2"></i>
-        </span>
-        <span class="cat-label">Cross-training</span>
-      </a>
-    </li>
+    {% endfor %}
   </ul>
 </div>
 
-<!-- Cards/Events Examples -->
-<div class="container py-4">
-      <!-- Filter bar -->
-      <ul class="nav nav-pills mb-4">
-        <li class="nav-item">
-          <a class="nav-link active" href="#">All</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Today</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">This weekend</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Free events</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Paid events</a>
-        </li>
-      </ul>
+<!-- Event Cards -->
+<div class="container py-4" id="events">
+  <ul class="nav nav-pills mb-4" id="filterBar">
+    <li class="nav-item"><a id="filterAll" class="nav-link active" href="#">All</a></li>
+    <li class="nav-item"><a id="filterToday" class="nav-link" href="#">Today</a></li>
+    <li class="nav-item"><a id="filterWeekend" class="nav-link" href="#">This weekend</a></li>
+    <li class="nav-item"><a id="filterFree" class="nav-link" href="#">Free events</a></li>
+    <li class="nav-item"><a id="filterPaid" class="nav-link" href="#">Paid events</a></li>
+  </ul>
 
-
-    <!-- Section title -->
   <h2 class="h4 mb-3">Upcoming events</h2>
 
   {% if events %}
-  <!-- CARD CONTAINER -->
   <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
     {% for e in events %}
     {% set imgs = (e.images or '').split(',') %}
-    <!-- Card -->
     <div class="col">
-      <div class="card h-100 shadow-sm">
+      <div id="eventCard-{{ e.id }}" class="card h-100 shadow-sm">
         <div class="position-relative">
-        {% if imgs and imgs[0] %}
-        <img src="{{ url_for('static', filename='uploads/' ~ imgs[0]) }}" alt="{{ e.title }}" class="card-img-top event-thumb" me-2">
-        {% endif %}
-          <span class="badge bg-success position-absolute top-0 start-0 m-2">Open</span>
+          {% if imgs and imgs[0] %}
+          <img id="eventImage-{{ e.id }}" src="{{ url_for('static', filename='uploads/' ~ imgs[0]) }}" alt="{{ e.title }}" class="card-img-top event-thumb">
+          {% endif %}
+          <span id="eventStatus-{{ e.id }}" class="badge bg-success position-absolute top-0 start-0 m-2">Open</span>
         </div>
 
         <div class="card-body d-flex flex-column">
-          <h3 class="h6 card-title mb-1 text-truncate"> {{ e.title }} </h3>
-          <p class="text-muted small mb-2">{{e.experience_level}} • {{ e.category_id }}</p>
+          <h3 id="eventTitle-{{ e.id }}" class="h6 card-title mb-1 text-truncate">{{ e.title }}</h3>
+          <p id="eventMeta-{{ e.id }}" class="text-muted small mb-2">{{ e.experience_level }} • {{ e.category_id }}</p>
 
           <ul class="list-unstyled small mb-3">
-            <li class="d-flex align-items-center">
-              <i class="bi bi-calendar-date me-2"> {{ e.start_time }} </i>
-            </li>
-            <li class="d-flex align-items-center">
-              <i class="bi bi-geo-alt me-2"> {{ e.location }} </i>
-            </li>
+            <li><i class="bi bi-calendar-date me-2"></i>{{ e.start_time }}</li>
+            <li><i class="bi bi-geo-alt me-2"></i>{{ e.location }}</li>
           </ul>
 
           <div class="d-flex justify-content-between align-items-center mt-auto">
-            <span class="fw-semibold"> {{ e.ticket_price }} </span>
+            <span id="eventPrice-{{ e.id }}" class="fw-semibold">${{ e.ticket_price }}</span>
             <div class="btn-group">
-              <a href="EventDeatailsPage.html" class="btn btn-outline-primary btn-sm">Details</a>
-              <button class="btn btn-primary btn-sm" type="button">Book</button>
+              <a id="detailsButton-{{ e.id }}" href="{{ url_for('main.eventdetails') }}" class="btn btn-outline-primary btn-sm">Details</a>
+              <button id="bookButton-{{ e.id }}" class="btn btn-primary btn-sm" type="button">Book</button>
             </div>
           </div>
         </div>
       </div>
     </div>
     {% endfor %}
-    {% else %}
-      <p class="text-muted">No events found.</p>
-    </div>
+  </div>
+  {% else %}
+  <p class="text-muted">No events found.</p>
   {% endif %}
 
-
   <!-- Pagination -->
-  <nav aria-label="Events pages">
+  <nav id="paginationNav" aria-label="Events pages">
     <ul class="pagination justify-content-center gap-2 my-4">
       <li class="page-item disabled">
-        <a class="page-link" href="#" tabindex="-1" aria-disabled="true" aria-label="Previous page">
-          <i class="bi bi-chevron-left me-2" aria-hidden="true"></i>Previous
+        <a id="pagePrev" class="page-link" href="#" tabindex="-1" aria-disabled="true">
+          <i class="bi bi-chevron-left me-2"></i>Previous
         </a>
       </li>
-
-      <li class="page-item active" aria-current="page">
-        <span class="page-link">1</span>
-      </li>
-      <li class="page-item"><a class="page-link" href="#" aria-label="Go to page 2">2</a></li>
-      <li class="page-item"><a class="page-link" href="#" aria-label="Go to page 3">3</a></li>
-
+      <li class="page-item active"><span class="page-link">1</span></li>
+      <li class="page-item"><a id="page2" class="page-link" href="#">2</a></li>
+      <li class="page-item"><a id="page3" class="page-link" href="#">3</a></li>
       <li class="page-item">
-        <a class="page-link" href="#" aria-label="Next page">
-          Next<i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
-        </a>
+        <a id="pageNext" class="page-link" href="#">Next<i class="bi bi-chevron-right ms-2"></i></a>
       </li>
     </ul>
   </nav>
