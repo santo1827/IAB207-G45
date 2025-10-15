@@ -82,7 +82,8 @@
                   <li><a class="dropdown-item" href="#">All activities</a></li>
                 </ul>
               </li>
-
+            {% if current_user.is_authenticated %}
+            <!-- Show MyEvents and BookingHistory when the user IS logged in-->
               <!-- Events -->
               <li class="nav-item">
                 <a class="nav-link text-nowrap" href="{{ url_for('main.my_events')}}">My Events</a>
@@ -94,6 +95,7 @@
                   >Booking History</a
                 >
               </li>
+              {% endif %}
 
               <!-- Create Button -->
               <li class="nav-item ms-xl-3">

@@ -99,6 +99,7 @@ def create_event():
 
 # Page displaying the users booking
 @main_bp.route('/mybookings')
+@login_required
 def bookings():
     user_bookings = Booking.query.all()
     print(user_bookings)
@@ -106,6 +107,7 @@ def bookings():
 
 #Page that shows a given events details
 @main_bp.route('/event')
+@login_required
 def eventdetails():
     return render_template('EventDetailsPage.html')
 
