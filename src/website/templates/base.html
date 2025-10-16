@@ -171,7 +171,16 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             {% for category, message in messages %}
-                <div id="flashMessage-{{ loop.index }}" class="alert alert-warning alert-dismissible fade show" role="alert">
+              {% set alert_class = 'alert-warning' %} <!-- Default-->
+              {% if category == 'success' %}
+                {% set alert_class = 'alert-success' %}
+              {% elif category == 'error' %}
+                {% set alert_class = 'alert-danger' %}
+              {% elif category == 'info' %}
+                {% set alert_class = 'alert-info' %}
+              {% endif %}
+
+                <div id="flashMessage-{{ loop.index }}" class="alert {{alert_class}} alert-dismissible fade show" role="alert">
                 {{ message }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
