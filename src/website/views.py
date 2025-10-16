@@ -64,6 +64,7 @@ def create_event():
                     image_filenames.append(filename)
         
             event_image_filenames = ','.join(image_filenames)
+            print(event_image_filenames)
 
             new_event = Event(title=form.event_title.data,
                             category_id=form.event_category.data,

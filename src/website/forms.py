@@ -66,7 +66,7 @@ class EventForm(FlaskForm):
                                            "step": "1",
                                            "placeholder": "e.g., 20"})
 
-    event_image = FileField("Upload Cover Image(s)", id='eventImages', validators=[FileAllowed(['jpg', 'png'], FileRequired())],
+    event_image = FileField("Upload Cover Image(s)", id='eventImages', validators=[FileAllowed(['jpeg','jpg', 'png', 'webp'], FileRequired())],
                             render_kw={'class': 'form-control',
                                        'multiple': True})
     
