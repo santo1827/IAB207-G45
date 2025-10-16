@@ -108,12 +108,12 @@
 
         
         <!-- Account Cluster -->
-        <ul class="navbar-nav flex-row align-items-center ms-lg-auto order-2 order-md-3 order-lg-4">
+        <ul class="navbar-nav flex-row align-items-center ms-lg-auto order-2 order-md-3 order-lg-4 ">
         {% if current_user.is_authenticated %}
         <!-- Show this when the user IS logged in -->
         <li class="nav-item dropdown">
             <button
-            class="nav-link dropdown-toggle btn btn-link d-flex align-items-center gap-2 text-nowrap p-0"
+            class="nav-link dropdown-toggle btn btn-link d-flex align-items-center text-nowrap p-0 me-3 ms-3 gap-3"
             id="userDrop"
             type="button"
             data-bs-toggle="dropdown"
@@ -124,9 +124,9 @@
                 width="36"
                 height="36"
                 alt="User"
-                class="rounded-circle"
+                class="rounded-circle mb-2 me-1"
             />
-            <span>{{ current_user.name }}</span>
+            <span class="fw-semibold" >{{ current_user.name }}</span>
             </button>
 
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDrop">

@@ -97,7 +97,7 @@
           <p id="eventMeta-{{ e.id }}" class="text-muted small mb-2">{{ e.experience_level }} • {{ e.category_id }}</p>
 
           <ul class="list-unstyled small mb-3">
-            <li><i class="bi bi-calendar-date me-2"></i>{{ e.start_time }}</li>
+            <li><i class="bi bi-calendar-date me-2"></i>{{ e.start_time.strftime('%d %b %Y, %I:%M %p') }}</li>
             <li><i class="bi bi-geo-alt me-2"></i>{{ e.location }}</li>
           </ul>
 
