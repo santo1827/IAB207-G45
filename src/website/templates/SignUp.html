@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up | FitTogether{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <h3 class="text-center mb-4">Create an Account</h3>
+
+          <!-- Registration Form -->
+          <form id="signupForm" method="POST" action="{{ url_for('auth.register') }}">
+            {{ form.hidden_tag() }}
+
+            <div class="mb-3">
+              <label for="signupUsername" class="form-label">User Name</label>
+              {{ form.user_name(class="form-control", id="signupUsername", placeholder="Choose a username") }}
+            </div>
+
+            <div class="mb-3">
+              <label for="signupPhone" class="form-label">Phone Number</label>
+              {{ form.phone(class="form-control", id="signupPhone", placeholder="+61 400 123 456") }}
+            </div>
+
+            <div class="mb-3">
+              <label for="signupEmail" class="form-label">Email</label>
+              {{ form.email(class="form-control", id="signupEmail", placeholder="Enter your email") }}
+            </div>
+
+            <div class="mb-3">
+              <label for="signupPassword" class="form-label">Password</label>
+              {{ form.password(class="form-control", id="signupPassword", placeholder="Enter a password") }}
+            </div>
+
+            <div class="mb-3">
+              <label for="signupConfirm" class="form-label">Confirm Password</label>
+              {{ form.confirm(class="form-control", id="signupConfirm", placeholder="Confirm your password") }}
+            </div>
+
+            <div class="d-grid mb-3">
+              <button id="signupButton" type="submit" class="btn btn-primary" form="signupForm">
+                {{ form.submit.label.text }}
+              </button>
+            </div>
+
+            <p class="text-center mb-0">
+              Already have an account?
+              <a href="{{ url_for('auth.login') }}">Log in here</a>.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

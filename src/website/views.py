@@ -99,6 +99,7 @@ def create_event():
 
 # Page displaying the users booking
 @main_bp.route('/mybookings')
+@login_required
 def bookings():
     user_bookings = Booking.query.all()
     print(user_bookings)
@@ -106,6 +107,7 @@ def bookings():
 
 #Page that shows a given events details
 @main_bp.route('/event')
+@login_required
 def eventdetails():
     return render_template('EventDetailsPage.html')
 
@@ -118,3 +120,46 @@ def my_events():
     )
     user_events = db.session.execute(query).scalars().all()
     return render_template('UserCreatedEvents.html', events=user_events)
+
+# Editing user created events
+@main_bp.route('/edit_event/<int:event_id>', methods=['GET', 'POST'])
+@login_required
+def edit_event(event_id):
+    event = db.session.get(Event, event_id)
+    if event is None or event.creator_id != current_user.id:
+        flash('You are not authorized to edit this event.', 'danger')
+        return redirect(url_for('main.my_events'))
+
+    form = EventForm(obj=event)  # populate form with existing event data
+    if form.validate_on_submit():
+        form.populate_obj(event)
+        db.session.commit()
+        flash('Event updated successfully!', 'success')
+        return redirect(url_for('main.my_events'))
+
+    return render_template('EditEvent.html', form=form, event=event)
+
+# Deleting user created events
+@main_bp.route('/delete_event/<int:event_id>', methods=['POST'])
+@login_required
+def delete_event(event_id):
+    event = db.session.get(Event, event_id)
+
+    if event is None:
+        flash("Event not found.", "warning")
+        return redirect(url_for('main.my_events'))
+
+    # Make sure the logged-in user is the event creator
+    if event.organiser_id != current_user.id:
+        flash("You are not authorized to delete this event.", "danger")
+        return redirect(url_for('main.my_events'))
+
+    try:
+        db.session.delete(event)
+        db.session.commit()
+        flash("Event deleted successfully!", "success")
+    except Exception as e:
+        db.session.rollback()
+        flash(f"Error deleting event: {e}", "danger")
+
+    return redirect(url_for('main.my_events'))

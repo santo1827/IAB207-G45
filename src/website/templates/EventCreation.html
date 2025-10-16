@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Event Creation - FitTogether {% endblock %}
+{% block title %}Event Creation - FitTogether{% endblock %}
 
 {% block content %}
 <div class="container py-4">
@@ -19,118 +19,116 @@
   <!-- Create Form (Card)-->
   <div class="card shadow-sm">
     <div class="card-body">
-      <form method='POST' enctype="multipart/form-data" action="{{ url_for('main.create_event') }}" class="row g-3">
+      <form id="eventForm" method="POST" enctype="multipart/form-data" action="{{ url_for('main.create_event') }}" class="row g-3">
+
+        {{ form.hidden_tag() }}
 
         <!-- Event Details -->
         <h5 class="section-title">Event Details</h5>
+
         <div class="col-md-6">
-          {{form.hidden_tag()}}
-          {{form.event_title.label}}
-          {{form.event_title}}
+          <label for="eventTitle" class="form-label">{{ form.event_title.label.text }}</label>
+          {{ form.event_title(class="form-control", id="eventTitle", placeholder="Enter event title") }}
         </div>
 
         <div class="col-md-6">
-          {{form.event_category.label}}
-          {{form.event_category}}
+          <label for="eventCategory" class="form-label">{{ form.event_category.label.text }}</label>
+          {{ form.event_category(class="form-select", id="eventCategory") }}
         </div>
 
         <div class="col-md-6">
-          {{form.event_experience_level.label}}
-          {{form.event_experience_level}}
+          <label for="experienceLevel" class="form-label">{{ form.event_experience_level.label.text }}</label>
+          {{ form.event_experience_level(class="form-select", id="experienceLevel") }}
         </div>
 
         <div class="col-12">
-          {{form.event_description.label}}
-          {{form.event_description}}
+          <label for="eventDescription" class="form-label">{{ form.event_description.label.text }}</label>
+          {{ form.event_description(class="form-control", id="eventDescription", rows="4", placeholder="Describe your event briefly") }}
           <div class="form-text">Keep it concise and informative. You can edit later.</div>
         </div>
 
-        <!-- Date and Time-->
+        <!-- Date and Time -->
         <h5 class="section-title">Date &amp; Time</h5>
         <div class="col-md-6">
-          {{form.event_start_datetime.label}}
-          {{form.event_start_datetime}}
+          <label for="startDatetime" class="form-label">{{ form.event_start_datetime.label.text }}</label>
+          {{ form.event_start_datetime(class="form-control", id="startDatetime") }}
         </div>
+
         <div class="col-md-6">
-          {{form.event_end_datetime.label}}
-          {{form.event_end_datetime}}
+          <label for="endDatetime" class="form-label">{{ form.event_end_datetime.label.text }}</label>
+          {{ form.event_end_datetime(class="form-control", id="endDatetime") }}
         </div>
 
         <!-- Location -->
         <h5 class="section-title">Location</h5>
         <div class="col-lg-6">
-          {{form.event_location.label}}
-          {{form.event_location}}
-          <!--
-          <label for="eventAddress" class="form-label">Event Address *</label>
-          <input class="form-control" list="addressOptions" id="eventAddress"
-                  placeholder="Start typing address… or pick from the map" />
-          <datalist id="addressOptions">
-            <option value="123 Queen St, Brisbane" />
-            <option value="456 George St, Sydney" />
-            <option value="789 Collins St, Melbourne" />
-            <option value="2 George St, Brisbane (QUT GP)" />
-          </datalist>-->
+          <label for="eventLocation" class="form-label">{{ form.event_location.label.text }}</label>
+          {{ form.event_location(class="form-control", id="eventLocation", placeholder="Enter location or venue") }}
         </div>
-          <!-- Venue details -->
+
         <div class="col-lg-6">
-          {{form.venue_details.label}}
-          {{form.venue_details}}
+          <label for="venueDetails" class="form-label">{{ form.venue_details.label.text }}</label>
+          {{ form.venue_details(class="form-control", id="venueDetails", placeholder="Additional venue details") }}
         </div>
 
         <div class="col-lg-6">
           <div class="ratio ratio-16x9 rounded-3 overflow-hidden">
             <iframe
+              id="eventMap"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1852.4585489840629!2d153.03065961192604!3d-27.477716829425127!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b915ba7ddde13bf%3A0x8484178191d26b6c!2sQUT%20Sport%20Fitness%20%26%20Aquatic%20Centre%20-%20Gardens%20Point!5e0!3m2!1sen!2sau!4v1757133752213!5m2!1sen!2sau"
-              allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
           </div>
         </div>
 
-        <!--Tickets-->
+        <!-- Tickets -->
         <h5 class="section-title">Tickets</h5>
-    
-
         <div class="col-md-6">
-          <label for="TicketPrice" class="form-label">Price (AUD)</label>
+          <label for="ticketPrice" class="form-label">Price (AUD)</label>
           <div class="input-group">
             <span class="input-group-text">$</span>
-            {{form.ticket_price}}                </div>
+            {{ form.ticket_price(class="form-control", id="ticketPrice", placeholder="0.00") }}
+          </div>
           <div class="form-text">Leave as 0 if the event is free.</div>
         </div>
 
         <div class="col-md-6">
-          {{form.number_of_tickets.label}}
-          {{form.number_of_tickets}}
+          <label for="ticketCount" class="form-label">{{ form.number_of_tickets.label.text }}</label>
+          {{ form.number_of_tickets(class="form-control", id="ticketCount", placeholder="e.g. 50") }}
         </div>
 
         <!-- Media -->
         <h5 class="section-title">Media</h5>
         <div class="col-12">
-          {{form.event_image.label}}
-          {{form.event_image}}
+          <label for="eventImage" class="form-label">{{ form.event_image.label.text }}</label>
+          {{ form.event_image(class="form-control", id="eventImage") }}
           <div class="form-text">Use JPG or PNG. Ideal size ~1600×900 (16:9).</div>
         </div>
 
         <!-- Terms -->
         <div class="col-12">
           <div class="form-check">
-            {{form.terms_conditions}}
+            {{ form.terms_conditions(class="form-check-input", id="agreeTos") }}
             <label class="form-check-label" for="agreeTos">
-            *  I agree to the <a href="https://en.wikipedia.org/wiki/Terms_of_service" target="_blank" rel="noopener">terms and conditions</a>.
+              * I agree to the 
+              <a href="https://en.wikipedia.org/wiki/Terms_of_service" target="_blank" rel="noopener">
+                terms and conditions
+              </a>.
             </label>
           </div>
         </div>
 
         <!-- Actions -->
         <div class="col-12 d-flex justify-content-end gap-2 mt-2">
-          <button type="button" class="btn btn-outline-secondary">Save draft</button>
-          <button type="button" class="btn btn-danger">Delete</button>
-          {{form.submit}}
+          <button id="saveDraftButton" type="button" class="btn btn-outline-secondary">Save draft</button>
+          <button id="deleteEventButton" type="button" class="btn btn-danger">Delete</button>
+          {{ form.submit(class="btn btn-primary", id="publishEventButton", form="eventForm") }}
         </div>
 
       </form>
     </div>
   </div>
-
 </div>
 {% endblock %}

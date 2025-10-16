@@ -1,165 +1,107 @@
 {% extends 'base.html' %}
 
-{% block title %} Booking History - FitTogether {% endblock %}
-
+{% block title %}My Bookings - FitTogether{% endblock %}
 
 {% block content %}
-        <div class="container py-4">
+<div class="container py-4">
 
-            <!-- Breadcrumb / back -->
-            <nav class="mb-3" aria-label="breadcrumb">
-              <ol class="breadcrumb small">
-                <li class="breadcrumb-item"><a href="Index.html">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Bookings</li>
-              </ol>
-            </nav>
+  <!-- Breadcrumb -->
+  <nav id="breadcrumbNav" class="mb-3" aria-label="breadcrumb">
+    <ol class="breadcrumb small">
+      <li class="breadcrumb-item"><a id="breadcrumbHome" href="{{ url_for('main.index') }}">Home</a></li>
+      <li class="breadcrumb-item"><a id="breadcrumbDashboard" href="#">Dashboard</a></li>
+      <li class="breadcrumb-item active" aria-current="page">My Bookings</li>
+    </ol>
+  </nav>
 
-            <!-- Header and controls -->
-            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
-              <h1 class="h3 m-0">Your Bookings</h1>
+  <!-- Header and controls -->
+  <div id="headerControls" class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+    <h1 class="h3 m-0">My Booked Events</h1>
 
-              <div class="d-flex gap-2">
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Event name">
-                  <span class="input-group-text"><i class="bi bi-search"></i> </span>
-                </div>
-                <select class="form-select" style="max-width: 220px;">
-                  <option selected>Sort: Most recent</option>
-                  <option>Sort: Oldest</option>
-                  <option>Sort: Event date (soonest)</option>
-                </select>
-              </div>
-            </div>
+    <div id="searchSortContainer" class="d-flex gap-2">
+      <div id="searchGroup" class="input-group">
+        <input id="searchInput" type="text" class="form-control" placeholder="Search booked events…" aria-label="Search events">
+        <span id="searchIcon" class="input-group-text"><i class="bi bi-search"></i></span>
+      </div>
 
-            <div class="row g-4">
-              <!-- Upcoming -->
-              <div class="col-12 col-sm-6 col-lg-4">
-                <div class="card h-100 shadow-sm">
-                  <div class="ratio ratio-16x9">
-                    <img src="static/img/Yoge.jpeg" class="card-img-top object-fit-cover" alt="Morning Yoga in the Park">
-                  </div>
-                  <div class="card-body d-flex flex-column">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                      <h2 class="h6 card-title mb-0">
-                        <a href="EventDeatailsPage.html" class="stretched-link text-decoration-none">Morning Yoga in the Park</a>
-                      </h2>
-                      <span class="badge text-bg-info">Starts in 3 days</span>
-                    </div>
-                    <ul class="list-unstyled small mb-3">
-                      <li><strong>Booked on:</strong> 03 Sep 2025, 14:12</li>
-                      <li><strong>Event date:</strong> 10 Sep 2025, 07:00–08:00</li>
-                      <li><strong>Tickets:</strong> 2 × Standard</li>
-                    </ul>
-                    <div class="mt-auto d-flex gap-2">
-                      <a class="btn btn-outline-primary btn-sm" href="EventDeatailsPage.html">View event</a>
-                      <button class="btn btn-outline-secondary btn-sm" type="button" disabled>Download receipt</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+      <select id="sortSelect" class="form-select" style="max-width: 220px;" aria-label="Sort bookings">
+        <option selected>Sort: Most recent</option>
+        <option>Sort: Oldest</option>
+        <option>Sort: Event date (soonest)</option>
+      </select>
+    </div>
+  </div>
 
-              <!-- Example Card: Yoga Happening now -->
-              <div class="col-12 col-sm-6 col-lg-4">
-                <div class="card h-100 shadow-sm">
-                  <div class="ratio ratio-16x9">
-                    <img src="static/img/Powerlifting.jpeg" class="card-img-top object-fit-cover" alt="Strength Circuit">
-                  </div>
-                  <div class="card-body d-flex flex-column">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                      <h2 class="h6 card-title mb-0">
-                        <a href="EventDeatailsPage.html" class="stretched-link text-decoration-none">Strength Circuit</a>
-                      </h2>
-                      <span class="badge text-bg-success">Happening now</span>
-                    </div>
-                    <ul class="list-unstyled small mb-3">
-                      <li><strong>Booked on:</strong> 05 Sep 2025, 10:02</li>
-                      <li><strong>Event date:</strong> 07 Sep 2025, 18:00–19:00</li>
-                      <li><strong>Tickets:</strong> 1 × Standard</li>
-                    </ul>
-                    <div class="mt-auto d-flex gap-2">
-                      <a class="btn btn-outline-primary btn-sm" href="EventDeatailsPage.html">View event</a>
-                      <button class="btn btn-outline-secondary btn-sm" type="button" disabled>Download receipt</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+  <!-- Booked Events Grid -->
+  {% if bookings %}
+  <div id="bookedEventsGrid" class="row g-4">
+    {% for booking in bookings %}
+    {% set event = booking.event %}
+    {% set imgs = (event.images or '').split(',') %}
 
-              <!-- Example card: River walk 5K Ended -->
-              <div class="col-12 col-sm-6 col-lg-4">
-                <div class="card h-100 shadow-sm">
-                  <div class="ratio ratio-16x9">
-                    <img src="static/img/River_Walk.png" class="card-img-top object-fit-cover" alt="Riverwalk 5K Run">
-                  </div>
-                  <div class="card-body d-flex flex-column">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                      <h2 class="h6 card-title mb-0">
-                        <a href="EventDeatailsPage.html" class="stretched-link text-decoration-none">Riverwalk 5K Run</a>
-                      </h2>
-                      <span class="badge text-bg-secondary">Ended</span>
-                    </div>
-                    <ul class="list-unstyled small mb-3">
-                      <li><strong>Booked on:</strong> 21 Aug 2024, 09:30</li>
-                      <li><strong>Event date:</strong> 01 Sep 2024, 06:30–08:00</li>
-                      <li><strong>Tickets:</strong> 1 × Free</li>
-                    </ul>
-                    <div class="mt-auto d-flex gap-2">
-                      <a class="btn btn-outline-primary btn-sm" href="EventDeatailsPage.html">View event</a>
-                      <button class="btn btn-outline-secondary btn-sm" type="button" disabled>Download receipt</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Example Card: Cycling Cancelled -->
-              <div class="col-12 col-sm-6 col-lg-4">
-                <div class="card h-100 shadow-sm">
-                  <div class="ratio ratio-16x9">
-                    <img src="static/img/Cycling.jpeg" class="card-img-top object-fit-cover" alt="Cycling 10K">
-                  </div>
-                  <div class="card-body d-flex flex-column">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                      <h2 class="h6 card-title mb-0">
-                        <a href="EventDeatailsPage.html" class="stretched-link text-decoration-none">Cycling 10k</a>
-                      </h2>
-                      <span class="badge text-bg-danger">Cancelled</span>
-                    </div>
-                    <ul class="list-unstyled small mb-3">
-                      <li><strong>Booked on:</strong> 01 Sep 2025, 12:20</li>
-                      <li><strong>Event date:</strong> 04 Sep 2025, 17:30–18:30</li>
-                      <li><strong>Tickets:</strong> 1 × Standard</li>
-                    </ul>
-                    <div class="mt-auto d-flex gap-2">
-                      <a class="btn btn-outline-primary btn-sm" href="EventDeatailsPage.html">View event</a>
-                      <button class="btn btn-outline-secondary btn-sm" type="button" disabled>Download receipt</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Pagination -->
-            <nav aria-label="Events pages">
-              <ul class="pagination justify-content-center gap-2 my-4">
-                <li class="page-item disabled">
-                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true" aria-label="Previous page">
-                    <i class="bi bi-chevron-left me-2" aria-hidden="true"></i>Previous
-                  </a>
-                </li>
-
-                <li class="page-item active" aria-current="page">
-                  <span class="page-link">1</span>
-                </li>
-                <li class="page-item"><a class="page-link" href="#" aria-label="Go to page 2">2</a></li>
-                <li class="page-item"><a class="page-link" href="#" aria-label="Go to page 3">3</a></li>
-
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Next page">
-                    Next<i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-
+    <div id="bookedEventCard-{{ booking.id }}" class="col-12 col-sm-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="ratio ratio-16x9">
+          {% if imgs and imgs[0] %}
+          <img id="bookedEventImage-{{ booking.id }}" src="{{ url_for('static', filename='uploads/' ~ imgs[0]) }}" class="card-img-top object-fit-cover" alt="{{ event.title }}">
+          {% else %}
+          <img id="bookedEventPlaceholder-{{ booking.id }}" src="{{ url_for('static', filename='img/placeholder-event.png') }}" class="card-img-top object-fit-cover" alt="Event image placeholder">
+          {% endif %}
         </div>
+
+        <div class="card-body d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <h2 id="bookedEventTitle-{{ booking.id }}" class="h6 card-title mb-0">
+              <a id="bookedEventLink-{{ booking.id }}" href="{{ url_for('main.eventdetails', event_id=event.id) }}" class="stretched-link text-decoration-none">
+                {{ event.title }}
+              </a>
+            </h2>
+            <span id="bookedEventStatus-{{ booking.id }}" class="badge text-bg-success">
+              {{ 'Upcoming' if event.start_time > now() else 'Past' }}
+            </span>
+          </div>
+
+          <ul id="bookedEventDetails-{{ booking.id }}" class="list-unstyled small mb-3">
+            <li><strong>Booked on:</strong> {{ booking.booking_date.strftime('%d %b %Y, %H:%M') }}</li>
+            <li><strong>Event date:</strong> {{ event.start_time.strftime('%d %b %Y, %H:%M') }}</li>
+            <li><strong>Tickets:</strong> {{ booking.tickets_booked }} × Standard</li>
+            <li><strong>Price:</strong> ${{ '%.2f'|format(event.ticket_price) }}</li>
+          </ul>
+
+          <div class="mt-auto d-flex gap-2">
+            <a id="viewEventButton-{{ booking.id }}" class="btn btn-outline-primary btn-sm" href="{{ url_for('main.eventdetails', event_id=event.id) }}">View Event</a>
+            <a id="contactHostButton-{{ booking.id }}" class="btn btn-outline-secondary btn-sm" href="#">Contact Host</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p id="noBookingsMessage" class="text-muted">You haven’t booked any events yet.</p>
+  {% endif %}
+
+  <!-- Pagination -->
+  <nav id="paginationNav" aria-label="Bookings pages">
+    <ul class="pagination justify-content-center gap-2 my-4">
+      <li class="page-item disabled">
+        <a id="prevPageButton" class="page-link" href="#" tabindex="-1" aria-disabled="true" aria-label="Previous page">
+          <i class="bi bi-chevron-left me-2" aria-hidden="true"></i>Previous
+        </a>
+      </li>
+
+      <li class="page-item active" aria-current="page">
+        <span id="currentPageIndicator" class="page-link">1</span>
+      </li>
+      <li class="page-item"><a id="page2Button" class="page-link" href="#" aria-label="Go to page 2">2</a></li>
+      <li class="page-item"><a id="page3Button" class="page-link" href="#" aria-label="Go to page 3">3</a></li>
+
+      <li class="page-item">
+        <a id="nextPageButton" class="page-link" href="#" aria-label="Next page">
+          Next<i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
 {% endblock %}
