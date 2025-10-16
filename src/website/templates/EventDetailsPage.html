@@ -9,20 +9,20 @@
   <nav class="mb-3" aria-label="breadcrumb">
     <ol class="breadcrumb small">
       <li class="breadcrumb-item"><a id="breadcrumbHome" href="{{ url_for('main.index') }}">Home</a></li>
-      <li class="breadcrumb-item"><a id="breadcrumbCategory" href="#">Yoga</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Morning Yoga in the Park</li>
+      <li class="breadcrumb-item"><a id="breadcrumbCategory" href="{{url_for('main.view_category', category_name=category_name)}}">{{category_name}}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{event.title}}</li>
     </ol>
   </nav>
-
+ 
   <!-- Title + meta -->
   <header class="mb-3">
-    <h1 id="eventTitle" class="h3 mb-2">Morning Yoga in the Park</h1>
+    <h1 id="eventTitle" class="h3 mb-2">{{event.title}}</h1>
     <ul class="list-inline text-muted small m-0">
       <li class="list-inline-item me-3" id="eventDateTime">
-        <i class="bi bi-calendar-event me-1"></i> Tue, 10 Sep 2025 · 07:00–08:00
+        <i class="bi bi-calendar-event me-1"></i> {{event.start_time.strftime('%d %b %Y, %I:%M %p')}} - {{event.end_time.strftime('%d %b %Y, %I:%M %p')}}
       </li>
       <li class="list-inline-item me-3" id="eventLocationMeta">
-        <i class="bi bi-geo-alt me-1"></i> Southbank Lawns, Brisbane
+        <i class="bi bi-geo-alt me-1"></i> {{event.location}}
       </li>
       <li class="list-inline-item">
         <span id="eventStatusBadge" class="badge rounded-pill text-bg-success">Open</span>
@@ -61,12 +61,11 @@
       <section id="aboutSection" class="mb-4">
         <h2 class="h5">About this event</h2>
         <p class="mb-2">
-          Start your morning with a relaxing, instructor-led yoga session suitable for all levels.
-          Bring a mat, water, and wear comfortable clothing.
+          {{event.description}}
         </p>
         <ul class="list-unstyled small text-muted">
-          <li class="d-flex"><i class="bi bi-people me-2"></i> Beginner-friendly · Group size 20</li>
-          <li class="d-flex"><i class="bi bi-clock me-2"></i> Please arrive 10 minutes early for check-in</li>
+          <li class="d-flex"><i class="bi bi-people me-2"></i> {{event.experience_level}}</li>
+          <li class="d-flex"><i class="bi bi-clock me-2"></i>{{event.venue_details}}</li>
         </ul>
       </section>
 
@@ -74,7 +73,7 @@
       <section id="locationSection" class="mb-4">
         <h2 class="h5">Location</h2>
         <p id="eventAddress" class="text-muted small mb-2">
-          <i class="bi bi-geo-alt me-1"></i> Southbank Lawns, 4101
+          <i class="bi bi-geo-alt me-1"></i> {{event.location}}
         </p>
         <div class="ratio ratio-16x9 rounded-3 overflow-hidden">
           <iframe id="eventMap"
@@ -146,17 +145,17 @@
             </a>
           </div>
 
-          <div id="eventPrice" class="display-6 fw-bold mb-2">$15</div>
+          <div id="eventPrice" class="display-6 fw-bold mb-2">${{event.ticket_price}}</div>
           <p class="text-muted small mb-3">Free for QUT members</p>
 
-          <div class="mb-3">
+          <div class="mb-3">  
             <label for="ticketCountInput" class="form-label">Tickets</label>
             <div class="input-group">
               <button id="decreaseTicketButton" class="btn btn-outline-secondary" type="button">-</button>
               <input id="ticketCountInput" type="number" class="form-control text-center" value="1" min="1">
               <button id="increaseTicketButton" class="btn btn-outline-secondary" type="button">+</button>
             </div>
-            <div id="ticketStatus" class="form-text">6 remaining • 
+            <div id="ticketStatus" class="form-text">{{event.number_of_tickets}} remaining • 
               <span class="text-warning"><i class="bi bi-fire"></i> Selling fast</span>
             </div>
           </div>

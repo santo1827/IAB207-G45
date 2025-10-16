@@ -31,16 +31,33 @@ def view_category(category_name):
         category_id = int(category_id[0])
     else:
         print(f"Failed to retreive id for {category_name} category")
-
+        category_id = 9999999
 
     query = select(Event).where(Event.category_id == category_id)
     events = db.session.execute(query).scalars().all()
-
 
     if(not events):
         flash(f"No events found in category: {category_name}.", "info")
 
     return render_template('index.html', events=events, selected_category=category_name)
+
+@main_bp.route('/event/<string:event_id>')
+def view_event(event_id):
+    query = (
+        select(Event, Category.name.label('category_name'))
+        .join(Category, Event.category_id == Category.id)
+        .where(Event.id == event_id)
+    )
+
+    result = db.session.execute(query).first()
+
+    if(not result):
+        flash(f"No event found for id: {event_id}.", "error")
+        return redirect(url_for('main.index'))
+
+    event, category_name = result
+
+    return render_template('EventDetailsPage.html', event=event, category_name=category_name)
 
 @main_bp.route('/search')
 def search():
