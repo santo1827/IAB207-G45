@@ -39,15 +39,12 @@
       <!-- Hero carousel -->
       <div id="eventCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
         <div class="carousel-inner rounded-4 overflow-hidden">
-          <div class="carousel-item active" id="carouselImage1" data-bs-interval="6000">
-            <img src="{{ url_for('static', filename='img/SouthBankYoga.jpg') }}" class="w-100 h-100 object-fit-cover" alt="Event photo 1">
+          {% set image_list = event.images.split(',') %}
+          {% for image in image_list %}
+          <div class="carousel-item {% if loop.index0 == 0%}active{% endif %}" id="carouselImage{{ loop.index0 + 1}}" data-bs-interval="6000">
+            <img src="{{ url_for('static', filename='uploads/'~ image.strip()) }}" class="w-100 h-100 object-fit-cover" alt="Event photo {{ loop.index0+1 }}">
           </div>
-          <div class="carousel-item" id="carouselImage2" data-bs-interval="6000">
-            <img src="{{ url_for('static', filename='img/SouthBankYoga2.jpg') }}" class="w-100 h-100 object-fit-cover" alt="Event photo 2">
-          </div>
-          <div class="carousel-item" id="carouselImage3" data-bs-interval="6000">
-            <img src="{{ url_for('static', filename='img/SouthBankYoga3.png') }}" class="w-100 h-100 object-fit-cover" alt="Event photo 3">
-          </div>
+          {% endfor %}
         </div>
         <button id="carouselPrev" class="carousel-control-prev" type="button" data-bs-target="#eventCarousel" data-bs-slide="prev">
           <span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span>
