@@ -79,8 +79,9 @@ class Review(db.Model):
 class Category(db.Model):
     __tablename__ = 'categories'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    description = db.Column(db.String(400))
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(400), nullable=False)
+    icon = db.Column(db.String(400), nullable=False)
 
     # string print method
     def __repr__(self):

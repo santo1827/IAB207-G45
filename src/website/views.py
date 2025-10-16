@@ -14,15 +14,33 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def index():
-    query = (
-        select(Event)
-    )
+    query = select(Event)
 
     all_events = db.session.execute(query).scalars().all()
 
-    print(all_events)
+    query = select(Category)
+    all_categories = db.session.execute(query).scalars().all()
 
-    return render_template('index.html', events=all_events)
+    return render_template('index.html', events=all_events, categories=all_categories)
+
+@main_bp.route('/category/<string:category_name>')
+def view_category(category_name):
+    query = select(Category.id).where(Category.name == category_name)
+    category_id = db.session.execute(query).scalars().all()
+    if(category_id):
+        category_id = int(category_id[0])
+    else:
+        print(f"Failed to retreive id for {category_name} category")
+
+
+    query = select(Event).where(Event.category_id == category_id)
+    events = db.session.execute(query).scalars().all()
+
+
+    if(not events):
+        flash(f"No events found in category: {category_name}.", "info")
+
+    return render_template('index.html', events=events, selected_category=category_name)
 
 @main_bp.route('/search')
 def search():

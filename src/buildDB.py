@@ -3,12 +3,14 @@ from website import create_app, db
 from website.models import User, Event, Review, Category
 def PopulateDB():
     categories = [
-        Category(name='Yoga', description='Improve flexibility, strength and mindfulness'),
-        Category(name='Running', description='Outdoor and indoor running activites'),
-        Category(name='BodyBuilding', description='Strength and muscle growth training'),
-        Category(name='Powerlifting', description='Competitive strength lifting - squat, bench, deadlift'),
-        Category(name='Swimming', description='Pool or open water swimming sessions'),
-        Category(name='Cycling', description='Indoor or outdoor cycling events'),
+        Category(name='Yoga', description='Improve flexibility, strength and mindfulness', icon='bi-flower1'),
+        Category(name='Running', description='Outdoor and indoor running activites', icon='bi-activity'),
+        Category(name='BodyBuilding', description='Strength and muscle growth training', icon='bi-trophy'),
+        Category(name='Powerlifting', description='Competitive strength lifting - squat, bench, deadlift', icon='bi-trophy-fill'),
+        Category(name='Swimming', description='Pool or open water swimming sessions', icon='bi-water'),
+        Category(name='Cycling', description='Indoor or outdoor cycling events', icon='bi-bicycle'),
+        Category(name='HIIT', description='High Intensity Interval Training', icon='bi-lightning'),
+        Category(name='Cross-training', description='Outdoor or indoor cross-training events', icon='bi-grid-1x2'),
     ]
     db.session.add_all(categories)
 

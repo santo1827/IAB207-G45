@@ -56,23 +56,13 @@
 <!-- Categories -->
 <div class="container py-4" id="categories">
   <ul class="list-unstyled d-flex gap-4 overflow-auto py-3 flex-nowrap flex-lg-wrap m-0 justify-content-center">
-    {% set categories = [
-      ('Yoga', 'bi-flower1'),
-      ('Running', 'bi-activity'),
-      ('Bodybuilding', 'bi-trophy'),
-      ('Powerlifting', 'bi-trophy-fill'),
-      ('Swimming', 'bi-water'),
-      ('Cycling', 'bi-bicycle'),
-      ('HIIT', 'bi-lightning'),
-      ('Cross-training', 'bi-grid-1x2')
-    ] %}
-    {% for name, icon in categories %}
-    <li>
-      <a id="catButton-{{ name | lower }}" href="#" class="cat-chip text-decoration-none">
-        <span class="cat-circle"><i class="bi {{ icon }}"></i></span>
-        <span class="cat-label">{{ name }}</span>
-      </a>
-    </li>
+    {% for category in categories %}
+      <li>
+        <a id="catButton-{{ category.name | lower }}" href="{{ url_for('main.view_category', category_name=category.name)}}" class="cat-chip text-decoration-none">
+          <span class="cat-circle"><i class="bi {{ category.icon }}"></i></span>
+          <span class="cat-label">{{ category.name }}</span>
+        </a>
+      </li>
     {% endfor %}
   </ul>
 </div>
