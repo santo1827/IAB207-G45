@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 import os
 from sqlalchemy import select
 
-uploads_folder = os.path.join(os.getcwd(), 'src', 'website', 'static', 'uploads')
+uploads_folder = os.path.join(os.getcwd(), 'website', 'static', 'uploads')
 
 
 main_bp = Blueprint('main', __name__)
@@ -70,23 +70,26 @@ def search():
         return redirect(url_for('main.index'))
     
 
-
+#Create a new event with the submitted info
 @main_bp.route('/event/create', methods=['GET','POST']) # both get and post
 @login_required
-def create_event():
-    #if current_user.usertype != 'admin':
-    #     flash("Need administrator login")
-    #     return redirect(url_for('auth.login'))
-    
-    
-    print('Creating Event')
+def create_event():   
     form = EventForm()
     form.event_category.choices = [(category.id, category.name) for category in Category.query.all()]
     
     if form.validate_on_submit():
         try:
-            print("Success")
-            #Create a new event with the submitted info
+            # Check for duplicate events
+            existing_event = Event.query.filter_by(
+                title=form.event_title.data.strip(),
+                start_time=form.event_start_datetime.data,
+                location=form.event_location.data.strip()
+            ).first()
+
+            if(existing_event):
+                flash("An event with the same title, start time and location already exists!", "warning")
+                return redirect(url_for('main.create_event'))
+            
 
             # Get all uploaded images
             uploaded_images = request.files.getlist(form.event_image.name)
