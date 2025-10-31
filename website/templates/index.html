@@ -101,7 +101,7 @@
 
           <div class="card-body d-flex flex-column">
             <h3 id="eventTitle-{{ e.id }}" class="h6 card-title mb-1 text-truncate">{{ e.title }}</h3>
-            <p id="eventMeta-{{ e.id }}" class="text-muted small mb-2">{{ e.experience_level }} • {{ e.category_id }}</p>
+            <p id="eventMeta-{{ e.id }}" class="text-muted small mb-2">{{ e.experience_level }}</p>
 
             <ul class="list-unstyled small mb-3">
               <li><i class="bi bi-calendar-date me-2"></i>{{ e.start_time.strftime('%d %b %Y, %I:%M %p') }}</li>
