@@ -73,14 +73,17 @@
                   aria-expanded="false"
                   >Categories</a
                 >
+
                 <ul class="dropdown-menu" aria-labelledby="catDrop">
-                  <li><a class="dropdown-item" href="#">Running</a></li>
-                  <li><a class="dropdown-item" href="#">Yoga</a></li>
-                  <li><a class="dropdown-item" href="#">Strength</a></li>
-                  <li><a class="dropdown-item" href="#">Cycling</a></li>
+
+                  {% for category in categories %}
+                    <li><a class="dropdown-item" href="{{ url_for('main.view_category', category_name=category.name)}}">{{ category.name }}</a></li>
+                  {% endfor %}
+
                   <li><hr class="dropdown-divider" /></li>
-                  <li><a class="dropdown-item" href="#">All activities</a></li>
+                  <li><a class="dropdown-item" href="/">All activities</a></li>
                 </ul>
+              
               </li>
             {% if current_user.is_authenticated %}
             <!-- Show MyEvents and BookingHistory when the user IS logged in-->
