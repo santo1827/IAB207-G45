@@ -190,10 +190,13 @@ def edit_event(event_id):
         form.ticket_price.data = event.ticket_price
         form.number_of_tickets.data = event.number_of_tickets
         form.terms_conditions.data = True 
-        print(event.category_name)
 
     if form.validate_on_submit():
         try:
+            if(form.number_of_tickets.data < event.tickets_sold): #Make sure not to remove tickets that have been sold
+                flash(f"You cannot remove tickets that have already been sold. Currently {event.tickets_sold} ticket(s) have been sold.","danger")
+                return redirect(url_for('main.edit_event', event_id=event.id))
+            
             event.title = form.event_title.data
             event.category_id = int(form.event_category.data)
             event.experience_level = form.event_experience_level.data
