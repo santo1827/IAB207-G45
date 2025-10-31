@@ -20,6 +20,7 @@ def register():
         pwd = register_form.password.data
         email = register_form.email.data
         phone = register_form.phone.data
+        address = register_form.address.data
 
         # Check if username already exists
         user = db.session.scalar(db.select(User).where(User.name == uname))
@@ -34,6 +35,7 @@ def register():
         new_user = User(
             name=uname,
             phone=phone,
+            address=address,
             email=email,
             password_hash=pwd_hash
         )
@@ -43,6 +45,8 @@ def register():
         # Success feedback
         flash('Account created successfully! You can now log in.', 'success')
         return redirect(url_for('auth.login'))
+    elif(register_form.errors):
+        flash("Failed to create account, error: " + str(register_form.errors), "danger")
     
     return render_template('SignUp.html', form=register_form, heading='Register')
 
