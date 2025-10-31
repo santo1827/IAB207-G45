@@ -1,5 +1,50 @@
 {% extends 'base.html' %}
 
+{% macro render_event_cards(events) %}
+  {% if events %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
+      {% for e in events %}
+      {% set imgs = (e.images or '').split(',') %}
+      <div class="col">
+        <a href="{{ url_for('main.view_event', event_id=e.id)}}" class="text-decoration-none text-dark">
+          <div id="eventCard-{{ e.id }}" class="card h-100 shadow-sm">
+            <div class="position-relative">
+              {% if imgs and imgs[0] %}
+              <img id="eventImage-{{ e.id }}" src="{{ url_for('static', filename='uploads/' ~ imgs[0]) }}" alt="{{ e.title }}" class="card-img-top event-thumb">
+              {% endif %}
+              <span id="bookingStatusBadge" class="badge
+                          {% if e.status == 'Open'%}text-bg-success
+                          {% elif e.status == 'Sold Out'%}text-bg-warning
+                          {% elif e.status == 'Inactive'%}text-bg-secondary
+                          {% elif e.status == 'Cancelled'%}text-bg-danger
+                          {% endif %}">{{e.status}}
+              </span>
+            </div>
+
+            <div class="card-body d-flex flex-column">
+              <h3 id="eventTitle-{{ e.id }}" class="h6 card-title mb-1 text-truncate">{{ e.title }}</h3>
+              <p id="eventMeta-{{ e.id }}" class="text-muted small mb-2">{{ e.experience_level }}</p>
+
+              <ul class="list-unstyled small mb-3">
+                <li><i class="bi bi-calendar-date me-2"></i>{{ e.start_time.strftime('%d %b %Y, %I:%M %p') }}</li>
+                <li><i class="bi bi-geo-alt me-2"></i>{{ e.location }}</li>
+              </ul>
+
+              <div class="d-flex justify-content-between align-items-center mt-auto">
+                <span id="eventPrice-{{ e.id }}" class="fw-semibold">${{ e.ticket_price }}</span>
+                <a id="bookButton-{{ e.id }}" href="{{ url_for('main.view_event', event_id=e.id) }}" class="btn btn-primary btn-sm" type="button">Details</a>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-muted">No events found.</p>
+  {% endif %}
+{% endmacro %}
+
 {% block title %}Home - FitTogether{% endblock %}
 
 {% block content %}
@@ -76,50 +121,24 @@
     <li class="nav-item"><a id="filterFree" class="nav-link" href="#">Free events</a></li>
     <li class="nav-item"><a id="filterPaid" class="nav-link" href="#">Paid events</a></li>
   </ul>
+  {% if upcoming_events %}
+  <h2 class="h4 mb-1">Upcoming events</h2>
+  <hr class="my-3">
+  {{ render_event_cards(upcoming_events)}}
+  {% endif %}
 
-  <h2 class="h4 mb-3">Upcoming events</h2>
+  {% if past_events %}
+  <h2 class="h4 mb-1 mt-5">Past events</h2>
+  <hr class="my-3">
+  {{ render_event_cards(past_events)}}
+  {% endif %}  
 
   {% if events %}
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
-    {% for e in events %}
-    {% set imgs = (e.images or '').split(',') %}
-    <div class="col">
-      <a href="{{ url_for('main.view_event', event_id=e.id)}}" class="text-decoration-none text-dark">
-        <div id="eventCard-{{ e.id }}" class="card h-100 shadow-sm">
-          <div class="position-relative">
-            {% if imgs and imgs[0] %}
-            <img id="eventImage-{{ e.id }}" src="{{ url_for('static', filename='uploads/' ~ imgs[0]) }}" alt="{{ e.title }}" class="card-img-top event-thumb">
-            {% endif %}
-            <span id="bookingStatusBadge" class="badge
-                        {% if e.status == 'Open'%}text-bg-success
-                        {% elif e.status == 'Sold Out'%}text-bg-warning
-                        {% elif e.status == 'Inactive'%}text-bg-secondary
-                        {% elif e.status == 'Cancelled'%}text-bg-danger
-                        {% endif %}">{{e.status}}
-            </span>
-          </div>
-
-          <div class="card-body d-flex flex-column">
-            <h3 id="eventTitle-{{ e.id }}" class="h6 card-title mb-1 text-truncate">{{ e.title }}</h3>
-            <p id="eventMeta-{{ e.id }}" class="text-muted small mb-2">{{ e.experience_level }}</p>
-
-            <ul class="list-unstyled small mb-3">
-              <li><i class="bi bi-calendar-date me-2"></i>{{ e.start_time.strftime('%d %b %Y, %I:%M %p') }}</li>
-              <li><i class="bi bi-geo-alt me-2"></i>{{ e.location }}</li>
-            </ul>
-
-            <div class="d-flex justify-content-between align-items-center mt-auto">
-              <span id="eventPrice-{{ e.id }}" class="fw-semibold">${{ e.ticket_price }}</span>
-              <a id="bookButton-{{ e.id }}" href="{{ url_for('main.view_event', event_id=e.id) }}" class="btn btn-primary btn-sm" type="button">Details</a>
-            </div>
-          </div>
-        </div>
-      </a>
-    </div>
-    {% endfor %}
-  </div>
-  {% else %}
-  <p class="text-muted">No events found.</p>
+  {% if selected_category %}
+  <h2 class="h4 mb-1">{{selected_category}} Events</h2>
+  <hr class="my-3">
+  {% endif %}
+  {{ render_event_cards(events)}}
   {% endif %}
 
   <!-- Pagination -->

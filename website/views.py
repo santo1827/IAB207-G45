@@ -6,6 +6,8 @@ from . import db
 from werkzeug.utils import secure_filename
 import os
 from sqlalchemy import select
+from datetime import datetime
+
 
 uploads_folder = os.path.join(os.getcwd(), 'website', 'static', 'uploads')
 
@@ -14,10 +16,12 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def index():
-    all_events = db.session.execute(select(Event)).scalars().all()
+    upcoming_events = Event.query.filter(Event.start_time >= datetime.utcnow()).order_by(Event.start_time).all()
+    past_events = Event.query.filter(Event.start_time < datetime.utcnow()).order_by(Event.start_time.desc()).all()
+
     all_categories = db.session.execute(select(Category)).scalars().all()
 
-    return render_template('index.html', events=all_events, categories=all_categories)
+    return render_template('index.html', upcoming_events=upcoming_events, past_events=past_events, categories=all_categories)
 
 @main_bp.route('/category/<string:category_name>')
 def view_category(category_name):
