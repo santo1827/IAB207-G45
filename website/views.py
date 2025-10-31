@@ -145,7 +145,7 @@ def create_event():
 def bookings():
     user_bookings = Booking.query.all()
     print(user_bookings)
-    return render_template('UserBookingHistory.html')
+    return render_template('UserBookingHistory.html', bookings=user_bookings, now=datetime.utcnow())
 
 
 #Page that shows the events a user has created
