@@ -145,20 +145,20 @@
           <div id="eventPrice" class="display-6 fw-bold mb-2">${{event.ticket_price}}</div>
           <!-- <p class="text-muted small mb-3">Free for QUT members</p> -->
 
-          <div class="mb-3">  
-            <label for="ticketCountInput" class="form-label">Tickets</label>
-            <div class="input-group">
-              <button id="decreaseTicketButton" class="btn btn-outline-secondary" type="button">-</button>
-              <input id="ticketCountInput" type="number" class="form-control text-center" value="1" min="1">
-              <button id="increaseTicketButton" class="btn btn-outline-secondary" type="button">+</button>
+          <form method="POST" action="{{url_for('main.book_event', event_id=event.id)}}">
+            <div class="mb-3">  
+              <label for="ticketCountInput" class="form-label">Tickets</label>
+              <div class="input-group">
+                <input id="ticketCountInput" type="number" class="form-control text-center" value="1" min="1">
+              </div>
+              <div id="ticketStatus" class="form-text">{{event.number_of_tickets}} remaining • 
+                <span class="text-warning"><i class="bi bi-fire"></i> Selling fast</span>
+              </div>
             </div>
-            <div id="ticketStatus" class="form-text">{{event.number_of_tickets}} remaining • 
-              <span class="text-warning"><i class="bi bi-fire"></i> Selling fast</span>
-            </div>
-          </div>
 
-          <button id="bookNowButton" class="btn btn-primary w-100 mb-2">Book Now</button>
-          <button id="addToCalendarButton" class="btn btn-outline-secondary w-100">Add to calendar</button>
+            <button id="bookNowButton" class="btn btn-primary w-100 mb-2" type="submit">Book Now</button>
+            <button id="addToCalendarButton" class="btn btn-outline-secondary w-100">Add to calendar</button>
+          </form>
 
           <hr>
 
@@ -169,6 +169,7 @@
         </div>
       </div>
     </aside>
+   
 
   </div>
 </div>

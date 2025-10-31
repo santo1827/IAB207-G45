@@ -201,3 +201,43 @@ def delete_event(event_id):
         flash(f"Error deleting event: {e}", "danger")
 
     return redirect(url_for('main.my_events'))
+
+
+@main_bp.route('/book/<int:event_id>', methods=['POST'])
+@login_required
+def book_event(event_id):
+    #Get event to book tickets for
+    event = Event.query.get_or_404(event_id)
+
+    try:
+        ticket_qty = int(request.form.get('ticket_qty', 1))
+        total_cost = ticket_qty*event.ticket_price
+
+        number_tickets_remaining = 1 # Fixxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        #Check for availablilty 
+        if(ticket_qty > number_tickets_remaining):
+            flash(f"Only {number_tickets_remaining} ticket(s) remaining, unable to purchase {ticket_qty} ticket(s).", "danger")
+            return redirect(url_for('main.view_event', event_id=event_id))
+    
+        # create the booking
+        booking = Booking(
+            user_id=current_user.id,
+            event_id=event_id,
+            ticket_qty=ticket_qty,
+            ticket_price=event.ticket_price,
+            order_total=total_cost
+        )
+
+        # Update number of remaining tickets
+        #fix !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        db.session.add(booking)
+        db.session.commit()
+
+        flash(f"Successfully booked {ticket_qty} ticket(s) for ${total_cost}.","success")
+        return redirect(url_for('main.bookings'))
+
+    except Exception as e:
+        db.session.rollback()
+        flash("Booking failed: "+str(e),"danger")
+        return redirect(url_for('main.view_event', event_id=event_id))
