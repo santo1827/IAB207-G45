@@ -19,9 +19,7 @@ def index():
     upcoming_events = Event.query.filter(Event.start_time >= datetime.utcnow()).order_by(Event.start_time).all()
     past_events = Event.query.filter(Event.start_time < datetime.utcnow()).order_by(Event.start_time.desc()).all()
 
-    all_categories = db.session.execute(select(Category)).scalars().all()
-
-    return render_template('index.html', upcoming_events=upcoming_events, past_events=past_events, categories=all_categories)
+    return render_template('index.html', upcoming_events=upcoming_events, past_events=past_events)
 
 @main_bp.route('/category/<string:category_name>')
 def view_category(category_name):
@@ -39,8 +37,7 @@ def view_category(category_name):
     if(not events):
         flash(f"No events found in category: {category_name}.", "info")
 
-    all_categories = db.session.execute(select(Category)).scalars().all()
-    return render_template('index.html', events=events, selected_category=category_name, categories=all_categories)
+    return render_template('index.html', events=events, selected_category=category_name)
 
 @main_bp.route('/event/<string:event_id>')
 def view_event(event_id):
@@ -58,8 +55,7 @@ def view_event(event_id):
 
     event, category_name = result
 
-    all_categories = db.session.execute(select(Category)).scalars().all()
-    return render_template('EventDetailsPage.html', event=event, category_name=category_name, categories=all_categories)
+    return render_template('EventDetailsPage.html', event=event, category_name=category_name)
 
 @main_bp.route('/search')
 def search():
@@ -67,8 +63,7 @@ def search():
         print(request.args['search'])
         query = "%" + request.args['search'] + "%"
         events = db.session.scalars(db.select(Event).where(Event.description.like(query)))
-        all_categories = db.session.execute(select(Category)).scalars().all()
-        return render_template('index.html', events=events, categories=all_categories)
+        return render_template('index.html', events=events)
     else:
         return redirect(url_for('main.index'))
     
