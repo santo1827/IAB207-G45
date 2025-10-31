@@ -234,6 +234,30 @@ def edit_event(event_id):
 
     return render_template('EditEvent.html', form=form, event=event)
 
+# Cancel Event
+@main_bp.route('/cancel_event/<int:event_id>', methods=['POST'])
+@login_required
+def cancel_event(event_id):
+    event = db.session.get(Event, event_id)
+
+    if(event is None):
+        flash("Event not fount.", "warning")
+        return redirect(url_for('main.my_events'))
+    
+    if(event.organiser_id != current_user.id):
+        flash("You are not authorised to cancel this event.", "danger")
+        return redirect(url_for("main.my_events"))
+        
+    try:
+        event.cancelled = True
+        db.session.commit()
+        flash(f"Event '{event.title}' has been cancelled.", "danger")
+    except Exception as e:
+        db.session.rollback()
+        flash(f"Error cancelling event: {e}", "danger")
+    
+    return redirect(url_for('main.my_events'))
+
 # Deleting user created events
 @main_bp.route('/delete_event/<int:event_id>', methods=['POST'])
 @login_required
@@ -242,6 +266,10 @@ def delete_event(event_id):
 
     if event is None:
         flash("Event not found.", "warning")
+        return redirect(url_for('main.my_events'))
+    
+    if(event.tickets_sold > 0):
+        flash("Cannot delete an event with booked tickets.", "warning")
         return redirect(url_for('main.my_events'))
 
     # Make sure the logged-in user is the event creator

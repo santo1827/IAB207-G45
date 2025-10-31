@@ -66,8 +66,10 @@
 
           <div class="mt-auto d-flex gap-2">
             <a id="viewEventButton-{{ e.id }}" class="btn btn-outline-primary btn-sm" href="{{ url_for('main.view_event', event_id=e.id) }}">View</a>
-            <a id="editEventButton-{{ e.id }}" class="btn btn-outline-secondary btn-sm" href="{{ url_for('main.edit_event', event_id=e.id) }}">Edit</a>
-
+            <a id="editEventButton-{{ e.id }}" class="btn btn-outline-primary btn-sm" href="{{ url_for('main.edit_event', event_id=e.id) }}">Edit</a>
+            <form method="POST" action="{{ url_for('main.cancel_event', event_id=e.id)}}" onsubmit="return confirm('Are you sure you want to cancel this event?');">
+              <button type="submit" class="btn btn-warning btn-sm">Cancel</button>
+            </form>
             <form id="deleteEventForm-{{ e.id }}" method="POST" action="{{ url_for('main.delete_event', event_id=e.id) }}" onsubmit="return confirm('Are you sure you want to delete this event?');">
               <button id="deleteEventButton-{{ e.id }}" class="btn btn-danger btn-sm" type="submit">Delete</button>
             </form>
