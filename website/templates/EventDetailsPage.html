@@ -24,9 +24,6 @@
       <li class="list-inline-item me-3" id="eventLocationMeta">
         <i class="bi bi-geo-alt me-1"></i> {{event.location}}
       </li>
-      <li class="list-inline-item">
-        <span id="eventStatusBadge" class="badge rounded-pill text-bg-success">Open</span>
-      </li>
     </ul>
   </header>
 
@@ -101,34 +98,80 @@
       <section id="reviewSection" class="mb-4">
         <h2 class="h5">Reviews</h2>
         <ul class="list-group list-group-flush">
+          {% for review in reviews %}
           <li id="reviewItem1" class="list-group-item px-0">
             <div class="d-flex align-items-start gap-3">
               <img src="https://media.licdn.com/dms/image/v2/D4D03AQHkC7N5AFn6dg/profile-displayphoto-shrink_200_200/B4DZdXUIsHHkAY-/0/1749516586626?e=2147483647&v=beta&t=UaWkO_g2TE3ama7-vOL-OR8r4wKCGNXM6sEd-5MFJb0" class="rounded-circle" width="48" height="48" alt="">
               <div>
-                <div class="fw-semibold">Nodir
+                <div class="fw-semibold">{{review.user.username}}
                   <span class="text-warning">
-                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    {% for i in range(review.rating|int) %}
+                    <i class="bi bi-star-fill"></i>
+                    {% endfor %}
+                    {% if review.rating - (review.rating|int) >= 0.5 %}
                     <i class="bi bi-star-half"></i>
+                    {% endif %}
                   </span>
                 </div>
-                <div class="text-muted small mb-1">Attended Sep 2024</div>
-                <p class="mb-0">Great atmosphere, gentle pace, perfect start to the day!</p>
+                <div class="text-muted small mb-1">{{ review.created_at.strftime('%b %Y')}}</div>
+                <p class="mb-0">{{ review.comment }}</p>
               </div>
             </div>
           </li>
+          {% endfor %}
         </ul>
 
-        <!-- Add comment -->
-        <form id="reviewForm" class="mt-3">
-          <label class="form-label small" for="reviewText">Leave a comment</label>
-          <textarea id="reviewText" class="form-control" rows="3" placeholder="Share your thoughts…"></textarea>
-          <div class="mt-2 d-flex gap-2">
-            <button id="postReviewButton" type="button" class="btn btn-primary btn-sm" form="reviewForm">Post</button>
-            <button id="cancelReviewButton" type="button" class="btn btn-outline-secondary btn-sm">Cancel</button>
+        <!-- Post comment form-->
+        {% if current_user.is_authenticated %}
+        <form id="reviewForm" method="POST" class="mt-3">
+          {{ form.hidden_tag()}}
+          <div class="mb-2">
+            <label class="form-label small" for="reviewText">Rating</label>
+            <div id="starRating" class="star-rating d-inline-flex flex-row-reverse justify-content-end">
+              {% for i in range(5,0,-1) %}
+                <input type="radio" name="rating" id="star{{ i }}" value="{{ i }}" class="d-none" required {% if form.rating.data == i|string %}checked{% endif %}>
+                <label for="star{{ i }}" class="star fs-4 mb-0">
+                  <i class="bi bi-star-fill"></i>
+                </label>
+                {% endfor %}
+            </div>
           </div>
+
+          
+          {{ form.comment(class="form-control mb-2", rows="3", placeholder="Share your throughts...")}}
+          {{ form.submit(class="btn btn-primary btn-sm")}}
         </form>
+        {% else %}
+          <p class="mt-2 text-muted small">You must <a href="{{url_for('auth.login')}}">log in</a> to leave a review.</p>
+        {% endif %}
       </section>
+
+      <style>
+        .star-rating {
+          display: flex;
+          flex-direction: row-reverse;
+          justify-content: flex-end;
+        }
+
+        .star-rating input{
+          display: none;
+        }
+
+        .star-rating label{
+          cursor: pointer;
+          font-size: 1.5rem;
+          color: #ccc;
+          transition: color 0.2s;
+        }
+        .star-rating input:checked ~ label i,
+        .star-rating label:hover ~ label i,
+        .star-rating label:hover i {
+          color: gold;
+        }
+        
+      </style>
+
+
     </div>
 
     <!-- RIGHT: booking card -->
@@ -136,28 +179,35 @@
       <div class="card shadow-sm position-sticky top-0" style="z-index: 1;">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center mb-2">
-            <span id="bookingStatusBadge" class="badge text-bg-success">Open</span>
+
+            <span id="bookingStatusBadge" class="badge
+                        {% if event.status == 'Open'%}text-bg-success
+                        {% elif event.status == 'Sold Out'%}text-bg-warning
+                        {% elif event.status == 'Inactive'%}text-bg-secondary
+                        {% elif event.status == 'Cancelled'%}text-bg-danger
+                        {% endif %}">{{event.status}}
+            </span>
+
             <a id="shareEventLink" href="#" class="text-muted small">
               <i class="bi bi-share me-1"></i>Share
             </a>
           </div>
-
           <div id="eventPrice" class="display-6 fw-bold mb-2">${{event.ticket_price}}</div>
-          <p class="text-muted small mb-3">Free for QUT members</p>
+          <!-- <p class="text-muted small mb-3">Free for QUT members</p> -->
 
-          <div class="mb-3">  
-            <label for="ticketCountInput" class="form-label">Tickets</label>
-            <div class="input-group">
-              <button id="decreaseTicketButton" class="btn btn-outline-secondary" type="button">-</button>
-              <input id="ticketCountInput" type="number" class="form-control text-center" value="1" min="1">
-              <button id="increaseTicketButton" class="btn btn-outline-secondary" type="button">+</button>
+          <form method="POST" action="{{url_for('main.book_event', event_id=event.id)}}">
+            <div class="mb-3">  
+              <label for="ticketCountInput" class="form-label">Tickets</label>
+              <div class="input-group">
+                <input id="ticketCountInput" name="ticket_qty" type="number" class="form-control text-center" value="1" min="1" {% if event.status != 'Open'%} disabled title="Cannot book this event"{% endif %}>
+              </div>
+              <div id="ticketStatus" class="form-text">{{event.tickets_remaining}} remaining • 
+                <span class="text-warning"><i class="bi bi-fire"></i> Selling fast</span>
+              </div>
             </div>
-            <div id="ticketStatus" class="form-text">{{event.number_of_tickets}} remaining • 
-              <span class="text-warning"><i class="bi bi-fire"></i> Selling fast</span>
-            </div>
-          </div>
 
-          <button id="bookNowButton" class="btn btn-primary w-100 mb-2">Book Now</button>
+            <button id="bookNowButton" class="btn btn-primary w-100 mb-2" type="submit" {% if event.status != 'Open'%} disabled title="Cannot book this event"{% endif %}>Book Now</button>
+          </form>
           <button id="addToCalendarButton" class="btn btn-outline-secondary w-100">Add to calendar</button>
 
           <hr>
@@ -169,6 +219,7 @@
         </div>
       </div>
     </aside>
+   
 
   </div>
 </div>

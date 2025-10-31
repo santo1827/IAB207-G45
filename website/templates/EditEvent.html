@@ -13,13 +13,13 @@
     </ol>
   </nav>
 
-  <h1 class="h3 mb-3">Create a new event</h1>
+  <h1 class="h3 mb-3">Editing event</h1>
   <p class="text-muted mb-4">Fill in the details below. Fields marked with * are required.</p>
 
   <!-- Create Form (Card)-->
   <div class="card shadow-sm">
     <div class="card-body">
-      <form id="eventForm" method="POST" enctype="multipart/form-data" action="{{ url_for('main.create_event') }}" class="row g-3">
+      <form id="eventForm" method="POST" enctype="multipart/form-data" action="{{ url_for('main.edit_event', event_id=event.id) }}" class="row g-3">
 
         {{ form.hidden_tag() }}
 
@@ -71,17 +71,6 @@
           {{ form.venue_details(class="form-control", id="venueDetails", placeholder="Additional venue details") }}
         </div>
 
-        <div class="col-lg-6">
-          <div class="ratio ratio-16x9 rounded-3 overflow-hidden">
-            <iframe
-              id="eventMap"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1852.4585489840629!2d153.03065961192604!3d-27.477716829425127!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b915ba7ddde13bf%3A0x8484178191d26b6c!2sQUT%20Sport%20Fitness%20%26%20Aquatic%20Centre%20-%20Gardens%20Point!5e0!3m2!1sen!2sau!4v1757133752213!5m2!1sen!2sau"
-              allowfullscreen
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
-          </div>
-        </div>
 
         <!-- Tickets -->
         <h5 class="section-title">Tickets</h5>
@@ -103,9 +92,24 @@
         <h5 class="section-title">Media</h5>
         <div class="col-12">
           <label for="eventImage" class="form-label">{{ form.event_image.label.text }}</label>
+
+          {% set imgs = (event.images or '').split(',') %}
+          {% for img in imgs %}
+            <div class="mb-2">
+                <img src="{{url_for('static', filename='uploads/' ~ img)}}", alt="Current event image" class="img-fluid rounded shadow-sm" style="max-height: 250px;">
+            </div>
+          {% endfor %}
+
           {{ form.event_image(class="form-control", id="eventImage") }}
-          <div class="form-text">Use JPG or PNG. Ideal size ~1600×900 (16:9).</div>
+          <div class="form-text">Use JPG or PNG. Ideal size ~1600×900 (16:9). Uploading a new file will replace the existing images.</div>
         </div>
+
+        <script>
+            document.getElementById('eventImage').addEventListener('click', function(){
+                if({{imgs|length}} > 0)
+                alert("Choosing a new file will replace all existing event images!")
+            })
+        </script>
 
         <!-- Terms -->
         <div class="col-12">

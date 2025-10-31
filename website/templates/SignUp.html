@@ -21,7 +21,12 @@
 
             <div class="mb-3">
               <label for="signupPhone" class="form-label">Phone Number</label>
-              {{ form.phone(class="form-control", id="signupPhone", placeholder="+61 400 123 456") }}
+              {{ form.phone(class="form-control", id="signupPhone", placeholder="+61 400 000 000") }}
+            </div>
+
+            <div class="mb-3">
+              <label for="signupAddress" class="form-label">Street Address</label>
+              {{ form.address(class="form-control", id="signupAddress", placeholder="123 Main St Brisbane 4000") }}
             </div>
 
             <div class="mb-3">

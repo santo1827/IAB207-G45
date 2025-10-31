@@ -9,6 +9,7 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(100), index=True, unique=True, nullable=False)
     email = db.Column(db.String(100), index=True, nullable=False)
     phone = db.Column(db.Integer, nullable=False)
+    address = db.Column(db.String(255), nullable=False)
 	#password is never stored in the DB, an encrypted password is stored
 	# the storage should be at least 255 chars long
     password_hash = db.Column(db.String(255), nullable=False)
@@ -42,7 +43,36 @@ class Event(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     images = db.Column(db.String(1000))
+
+    cancelled = db.Column(db.Boolean, default=False)
+
     reviews = db.relationship('Review', backref='events')
+
+    bookings = db.relationship('Booking', backref='event', lazy=True)
+    
+    @property
+    def category_name(self):
+        category = db.session.get(Category, self.category_id)
+        return category.name if category else None
+
+    @property
+    def tickets_sold(self):
+        return sum(booking.ticket_qty for booking in self.bookings)
+    
+    @property
+    def tickets_remaining(self):
+        return self.number_of_tickets - self.tickets_sold
+    
+    @property
+    def status(self):
+        if(self.cancelled):
+            return "Cancelled"
+        elif(datetime.utcnow() > self.start_time):
+            return "Inactive"
+        elif(self.tickets_remaining <= 0):
+            return "Sold Out"
+        else:
+            return "Open"
 
 	# string print method
     def __repr__(self):
