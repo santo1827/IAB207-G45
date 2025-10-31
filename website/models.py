@@ -48,6 +48,11 @@ class Event(db.Model):
     reviews = db.relationship('Review', backref='events')
 
     bookings = db.relationship('Booking', backref='event', lazy=True)
+    
+    @property
+    def category_name(self):
+        category = db.session.get(Category, self.category_id)
+        return category.name if category else None
 
     @property
     def tickets_sold(self):

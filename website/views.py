@@ -164,12 +164,70 @@ def edit_event(event_id):
         flash('You are not authorized to edit this event.', 'danger')
         return redirect(url_for('main.my_events'))
 
-    form = EventForm(obj=event)  # populate form with existing event data
+    form = EventForm()  
+
+    categories = db.session.execute(select(Category)).scalars().all()
+    form.event_category.choices = [(str(c.id), c.name) for c in categories]
+
+    from wtforms.validators import Optional
+
+    form.event_image.validators = [*[
+        v for v in form.event_image.validators
+        if(v.__class__.__name__ != 'FileRequired')
+    ], Optional()]
+
+
+    # populate form with existing event data
+    if(request.method == 'GET'):
+        form.event_title.data = event.title
+        form.event_category.data = str(event.category_id)
+        form.event_experience_level.data = event.experience_level
+        form.event_description.data = event.description
+        form.event_start_datetime.data = event.start_time
+        form.event_end_datetime.data = event.end_time
+        form.event_location.data = event.location
+        form.venue_details.data = event.venue_details
+        form.ticket_price.data = event.ticket_price
+        form.number_of_tickets.data = event.number_of_tickets
+        form.terms_conditions.data = True 
+        print(event.category_name)
+
     if form.validate_on_submit():
-        form.populate_obj(event)
-        db.session.commit()
-        flash('Event updated successfully!', 'success')
-        return redirect(url_for('main.my_events'))
+        try:
+            event.title = form.event_title.data
+            event.category_id = int(form.event_category.data)
+            event.experience_level = form.event_experience_level.data
+            event.description = form.event_description.data
+            event.start_time = form.event_start_datetime.data
+            event.end_time = form.event_end_datetime.data
+            event.location = form.event_location.data
+            event.venue_details = form.venue_details.data
+            event.ticket_price = form.ticket_price.data
+            event.number_of_tickets = form.number_of_tickets.data
+
+            uploaded_files = request.files.getlist(form.event_image.name)
+            if uploaded_files and uploaded_files[0].filename:
+                filenames = []
+                for file in uploaded_files:
+                    filename = secure_filename(file.filename)
+                    filepath = os.path.join(uploads_folder, filename)
+                    file.save(filepath)
+                    filenames.append(filename)
+                event.images = ','.join(filenames)
+
+            db.session.commit()
+            flash("Event updated successfully!", "success")
+            return redirect(url_for("main.view_event", event_id=event.id))
+
+
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Error updating event: {e}", "danger")
+    
+    else: 
+        if(request.method == "POST"):
+            flash(f"Edit event form error: {form.errors}","warning")
+    
 
     return render_template('EditEvent.html', form=form, event=event)
 

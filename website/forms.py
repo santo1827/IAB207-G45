@@ -26,13 +26,6 @@ class RegisterForm(FlaskForm):
  # Event Creation Form
 class EventForm(FlaskForm):
     event_title=StringField("Event Title *", render_kw={"placeholder" : "E.g., Morning Yoga at the Park", "class": "form-control"}, id="eventTitle", validators=[InputRequired()])
-    event_category_options = [('Yoga', 'Yoga'),
-                        ('Running', 'Running'),
-                        ('Bodybuilding','Bodybuilding'),
-                        ('Powerlifting','Powerlifting'),
-                        ('Swiming','Swiming'),
-                        ('Cycling','Cycling'),]
-    #choices=event_category_options,
     event_category = SelectField("Category *",  id='EventCategory', validators=[InputRequired()], render_kw={"class": "form-select"})
 
     event_experience_options = [('', 'Choose...'),

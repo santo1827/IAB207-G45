@@ -13,13 +13,13 @@
     </ol>
   </nav>
 
-  <h1 class="h3 mb-3">Create a new event</h1>
+  <h1 class="h3 mb-3">Editing event</h1>
   <p class="text-muted mb-4">Fill in the details below. Fields marked with * are required.</p>
 
   <!-- Create Form (Card)-->
   <div class="card shadow-sm">
     <div class="card-body">
-      <form id="eventForm" method="POST" enctype="multipart/form-data" action="{{ url_for('main.create_event') }}" class="row g-3">
+      <form id="eventForm" method="POST" enctype="multipart/form-data" action="{{ url_for('main.edit_event', event_id=event.id) }}" class="row g-3">
 
         {{ form.hidden_tag() }}
 
@@ -103,8 +103,16 @@
         <h5 class="section-title">Media</h5>
         <div class="col-12">
           <label for="eventImage" class="form-label">{{ form.event_image.label.text }}</label>
+
+          {% set imgs = (event.images or '').split(',') %}
+          {% for img in imgs %}
+            <div class="mb-2">
+                <img src="{{url_for('static', filename='uploads/' ~ img)}}", alt="Current event image" class="img-fluid rounded shadow-sm" style="max-height: 250px;">
+            </div>
+          {% endfor %}
+
           {{ form.event_image(class="form-control", id="eventImage") }}
-          <div class="form-text">Use JPG or PNG. Ideal size ~1600×900 (16:9).</div>
+          <div class="form-text">Use JPG or PNG. Ideal size ~1600×900 (16:9). Uploading a new file will replace the existing images.</div>
         </div>
 
         <!-- Terms -->
@@ -122,8 +130,8 @@
 
         <!-- Actions -->
         <div class="col-12 d-flex justify-content-end gap-2 mt-2">
-          <!--<button id="saveDraftButton" type="button" class="btn btn-outline-secondary">Save draft</button>-->
-          <!--<button id="deleteEventButton" type="button" class="btn btn-danger">Delete</button>-->
+          <button id="saveDraftButton" type="button" class="btn btn-outline-secondary">Save draft</button>
+          <button id="deleteEventButton" type="button" class="btn btn-danger">Delete</button>
           {{ form.submit(class="btn btn-primary", id="publishEventButton", form="eventForm") }}
         </div>
 
