@@ -14,12 +14,8 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def index():
-    query = select(Event)
-
-    all_events = db.session.execute(query).scalars().all()
-
-    query = select(Category)
-    all_categories = db.session.execute(query).scalars().all()
+    all_events = db.session.execute(select(Event)).scalars().all()
+    all_categories = db.session.execute(select(Category)).scalars().all()
 
     return render_template('index.html', events=all_events, categories=all_categories)
 
@@ -39,7 +35,8 @@ def view_category(category_name):
     if(not events):
         flash(f"No events found in category: {category_name}.", "info")
 
-    return render_template('index.html', events=events, selected_category=category_name)
+    all_categories = db.session.execute(select(Category)).scalars().all()
+    return render_template('index.html', events=events, selected_category=category_name, categories=all_categories)
 
 @main_bp.route('/event/<string:event_id>')
 def view_event(event_id):
@@ -57,7 +54,8 @@ def view_event(event_id):
 
     event, category_name = result
 
-    return render_template('EventDetailsPage.html', event=event, category_name=category_name)
+    all_categories = db.session.execute(select(Category)).scalars().all()
+    return render_template('EventDetailsPage.html', event=event, category_name=category_name, categories=all_categories)
 
 @main_bp.route('/search')
 def search():
@@ -65,7 +63,8 @@ def search():
         print(request.args['search'])
         query = "%" + request.args['search'] + "%"
         events = db.session.scalars(db.select(Event).where(Event.description.like(query)))
-        return render_template('index.html', events=events)
+        all_categories = db.session.execute(select(Category)).scalars().all()
+        return render_template('index.html', events=events, categories=all_categories)
     else:
         return redirect(url_for('main.index'))
     
