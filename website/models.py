@@ -42,6 +42,9 @@ class Event(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     images = db.Column(db.String(1000))
+
+    cancelled = db.Column(db.Boolean, default=False)
+
     reviews = db.relationship('Review', backref='events')
 
     bookings = db.relationship('Booking', backref='event', lazy=True)
@@ -53,6 +56,17 @@ class Event(db.Model):
     @property
     def tickets_remaining(self):
         return self.number_of_tickets - self.tickets_sold
+    
+    @property
+    def status(self):
+        if(self.cancelled):
+            return "Cancelled"
+        elif(datetime.utcnow() > self.start_time):
+            return "Inactive"
+        elif(self.tickets_remaining <= 0):
+            return "Sold Out"
+        else:
+            return "Open"
 
 	# string print method
     def __repr__(self):

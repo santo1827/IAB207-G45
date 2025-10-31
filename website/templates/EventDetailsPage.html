@@ -24,9 +24,6 @@
       <li class="list-inline-item me-3" id="eventLocationMeta">
         <i class="bi bi-geo-alt me-1"></i> {{event.location}}
       </li>
-      <li class="list-inline-item">
-        <span id="eventStatusBadge" class="badge rounded-pill text-bg-success">Open</span>
-      </li>
     </ul>
   </header>
 
@@ -136,7 +133,15 @@
       <div class="card shadow-sm position-sticky top-0" style="z-index: 1;">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center mb-2">
-            <span id="bookingStatusBadge" class="badge text-bg-success">Open</span>
+
+            <span id="bookingStatusBadge" class="badge
+                        {% if event.status == 'Open'%}text-bg-success
+                        {% elif event.status == 'Sold Out'%}text-bg-warning
+                        {% elif event.status == 'Inactive'%}text-bg-secondary
+                        {% elif event.status == 'Cancelled'%}text-bg-danger
+                        {% endif %}">{{event.status}}
+            </span>
+
             <a id="shareEventLink" href="#" class="text-muted small">
               <i class="bi bi-share me-1"></i>Share
             </a>

@@ -90,7 +90,13 @@
             {% if imgs and imgs[0] %}
             <img id="eventImage-{{ e.id }}" src="{{ url_for('static', filename='uploads/' ~ imgs[0]) }}" alt="{{ e.title }}" class="card-img-top event-thumb">
             {% endif %}
-            <span id="eventStatus-{{ e.id }}" class="badge bg-success position-absolute top-0 start-0 m-2">Open</span>
+            <span id="bookingStatusBadge" class="badge
+                        {% if e.status == 'Open'%}text-bg-success
+                        {% elif e.status == 'Sold Out'%}text-bg-warning
+                        {% elif e.status == 'Inactive'%}text-bg-secondary
+                        {% elif e.status == 'Cancelled'%}text-bg-danger
+                        {% endif %}">{{e.status}}
+            </span>
           </div>
 
           <div class="card-body d-flex flex-column">
