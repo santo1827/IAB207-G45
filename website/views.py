@@ -174,8 +174,7 @@ def create_event():
 @main_bp.route('/mybookings')
 @login_required
 def bookings():
-    user_bookings = Booking.query.all()
-    print(user_bookings)
+    user_bookings = Booking.query.filter_by(user_id=current_user.id).order_by(Booking.created_at.desc()).all()
     return render_template('UserBookingHistory.html', bookings=user_bookings, now=datetime.utcnow())
 
 
