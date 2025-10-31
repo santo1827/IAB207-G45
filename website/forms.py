@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, SelectField, DateTimeLocalField, IntegerField, BooleanField
-from wtforms.validators import InputRequired, Length, Email, EqualTo, NumberRange
+from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, SelectField, DateTimeLocalField, IntegerField, BooleanField, FloatField, RadioField
+from wtforms.validators import InputRequired, Length, Email, EqualTo, NumberRange, DataRequired
 
 
 # creates the login information
@@ -67,3 +67,15 @@ class EventForm(FlaskForm):
 
 
     submit = SubmitField("Publish", render_kw={'class': 'btn btn-primary'})
+
+
+class ReviewForm(FlaskForm):
+    rating = FloatField("Rating (1-5)", validators=[InputRequired(), NumberRange(min=1,max=5)])
+
+    rating = RadioField(
+        'Rating',
+        choices=[('1','1'), ('2','2'), ('3','3'), ('4','4'), ('5','5')],
+        validators=[DataRequired(message="Please select a rating.")]
+    )
+    comment = TextAreaField("Comment", validators=[InputRequired()])
+    submit = SubmitField("Post Review")

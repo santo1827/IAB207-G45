@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from .models import User, Event, Review, Category, Booking
-from .forms import EventForm
+from .forms import EventForm, ReviewForm
 from . import db
 from werkzeug.utils import secure_filename
 import os
@@ -39,23 +39,49 @@ def view_category(category_name):
 
     return render_template('index.html', events=events, selected_category=category_name)
 
-@main_bp.route('/event/<string:event_id>')
+@main_bp.route('/event/<string:event_id>', methods=['GET', 'POST'])
 def view_event(event_id):
-    query = (
-        select(Event, Category.name.label('category_name'))
-        .join(Category, Event.category_id == Category.id)
-        .where(Event.id == event_id)
-    )
+    event = db.session.get(Event, event_id)
 
-    result = db.session.execute(query).first()
-
-    if(not result):
+    if(not event):
         flash(f"No event found for id: {event_id}.", "error")
         return redirect(url_for('main.index'))
+    
 
-    event, category_name = result
 
-    return render_template('EventDetailsPage.html', event=event, category_name=category_name)
+    form = ReviewForm()
+    if(form.validate_on_submit()):
+        try:
+            if(not current_user.is_authenticated):
+                flash("You must be logged in to post a review.", "warning")
+                return redirect(url_for("auth.login"))
+            
+            #Check the user has not already left a review
+            existing_review = Review.query.filter_by(user_id=current_user.id, event_id=event.id).first()
+            if(existing_review):
+                flash("You have already reviewed this event.", "warning")
+            else:
+                review = Review(
+                    user_id=current_user.id,
+                    event_id=event.id,
+                    rating=form.rating.data,
+                    comment=form.comment.data
+                )
+                db.session.add(review)
+                db.session.commit()
+                flash("Review posted successfully.", "success")
+            return redirect(url_for('main.view_event', event_id=event.id))
+        except Exception as e:
+            db.session.rollback() # Undo any partial changes to the db
+            flash("Failed to post review, error: " + str(e), "danger")
+
+    elif(form.errors):
+        flash("Failed to post the review. Please try again, Error: " + str(form.errors), "danger")
+
+    reviews = Review.query.filter_by(event_id=event.id).order_by(Review.created_at.desc()).all()
+
+    return render_template("EventDetailsPage.html", event=event, category_name=event.category_name, reviews=reviews, form=form)
+
 
 @main_bp.route('/search')
 def search():
@@ -329,3 +355,6 @@ def book_event(event_id):
         db.session.rollback()
         flash("Booking failed: "+str(e),"danger")
         return redirect(url_for('main.view_event', event_id=event_id))
+    
+
+
