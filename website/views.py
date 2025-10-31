@@ -5,7 +5,7 @@ from .forms import EventForm, ReviewForm
 from . import db
 from werkzeug.utils import secure_filename
 import os
-from sqlalchemy import select
+from sqlalchemy import select, or_
 from datetime import datetime
 
 
@@ -85,11 +85,21 @@ def view_event(event_id):
 
 @main_bp.route('/search')
 def search():
-    if request.args['search'] and request.args['search'] != "":
-        print(request.args['search'])
-        query = "%" + request.args['search'] + "%"
-        events = db.session.scalars(db.select(Event).where(Event.description.like(query)))
-        return render_template('index.html', events=events)
+    search_term = request.args.get('search','').strip()
+    if(search_term):
+        query = f"%{search_term}%"
+        events = db.session.scalars(
+            db.select(Event).where(
+                or_(
+                    Event.title.like(query),
+                    Event.description.like(query),
+                    Event.location.like(query)
+                )
+            )
+        ).all()
+        if(not events):
+            flash(f"No events found for '{search_term}'.", "info")
+        return render_template('index.html', events=events, search_query=search_term)
     else:
         return redirect(url_for('main.index'))
     
