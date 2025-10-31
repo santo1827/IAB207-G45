@@ -44,6 +44,16 @@ class Event(db.Model):
     images = db.Column(db.String(1000))
     reviews = db.relationship('Review', backref='events')
 
+    bookings = db.relationship('Booking', backref='event', lazy=True)
+
+    @property
+    def tickets_sold(self):
+        return sum(booking.ticket_qty for booking in self.bookings)
+    
+    @property
+    def tickets_remaining(self):
+        return self.number_of_tickets - self.tickets_sold
+
 	# string print method
     def __repr__(self):
         return f"Event: {self.title}"

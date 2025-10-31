@@ -213,11 +213,9 @@ def book_event(event_id):
         ticket_qty = int(request.form.get('ticket_qty', 1))
         total_cost = ticket_qty*event.ticket_price
 
-        number_tickets_remaining = 1 # Fixxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
         #Check for availablilty 
-        if(ticket_qty > number_tickets_remaining):
-            flash(f"Only {number_tickets_remaining} ticket(s) remaining, unable to purchase {ticket_qty} ticket(s).", "danger")
+        if(ticket_qty > event.tickets_remaining):
+            flash(f"Only {event.tickets_remaining} ticket(s) remaining, unable to purchase {ticket_qty} ticket(s).", "danger")
             return redirect(url_for('main.view_event', event_id=event_id))
     
         # create the booking
@@ -229,8 +227,6 @@ def book_event(event_id):
             order_total=total_cost
         )
 
-        # Update number of remaining tickets
-        #fix !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         db.session.add(booking)
         db.session.commit()
 
