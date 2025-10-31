@@ -148,19 +148,16 @@ def bookings():
     return render_template('UserBookingHistory.html')
 
 #Page that shows a given events details
-@main_bp.route('/event')
-@login_required
-def eventdetails():
-    return render_template('EventDetailsPage.html')
+#@main_bp.route('/event')
+#@login_required
+#def eventdetails():
+#    return render_template('EventDetailsPage.html')
 
 #Page that shows the events a user has created
 @main_bp.route('/myevents')
+@login_required
 def my_events():
-    query = (
-        #Select all events
-        select(Event)
-    )
-    user_events = db.session.execute(query).scalars().all()
+    user_events = Event.query.filter_by(organiser_id=current_user.id).order_by(Event.start_time.desc()).all()
     return render_template('UserCreatedEvents.html', events=user_events)
 
 # Editing user created events
