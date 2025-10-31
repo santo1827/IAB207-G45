@@ -358,7 +358,7 @@ def book_event(event_id):
         db.session.add(booking)
         db.session.commit()
 
-        flash(f"Successfully booked {ticket_qty} ticket(s) for ${total_cost}.","success")
+        flash(f"Successfully booked {ticket_qty} ticket(s) for ${total_cost}. Your order ID is #{booking.id}","success")
         return redirect(url_for('main.bookings'))
 
     except Exception as e:
