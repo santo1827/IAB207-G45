@@ -48,7 +48,6 @@ def view_event(event_id):
         return redirect(url_for('main.index'))
     
 
-
     form = ReviewForm()
     if(form.validate_on_submit()):
         try:
