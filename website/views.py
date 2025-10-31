@@ -213,7 +213,19 @@ def book_event(event_id):
         ticket_qty = int(request.form.get('ticket_qty', 1))
         total_cost = ticket_qty*event.ticket_price
 
-        #Check for availablilty 
+        #Check event is active
+        if(not event.status == "Open"):
+            if(event.status == "Inactive"):
+                flash("Unable to book tickets on an event that has already occoured.", "warning")
+            if(event.status == "Sold Out"):
+                flash("Unable to book tickets on an event that has sold out.", "warning")
+            if(event.status == "Cancelled"):
+                flash("Unable to book tickets on an event that has been cancelled.", "warning")
+            else:
+                flash(f"Unable to book tickets on an event with status: {event.status}", "warning")
+            return redirect(url_for('main.view_event', event_id=event_id))
+
+        #Check for ticket availablilty 
         if(ticket_qty > event.tickets_remaining):
             flash(f"Only {event.tickets_remaining} ticket(s) remaining, unable to purchase {ticket_qty} ticket(s).", "danger")
             return redirect(url_for('main.view_event', event_id=event_id))

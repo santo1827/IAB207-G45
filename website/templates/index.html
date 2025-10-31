@@ -110,10 +110,7 @@
 
             <div class="d-flex justify-content-between align-items-center mt-auto">
               <span id="eventPrice-{{ e.id }}" class="fw-semibold">${{ e.ticket_price }}</span>
-              <div class="btn-group">
-                <a id="detailsButton-{{ e.id }}" href="{{ url_for('main.view_event', event_id=e.id) }}" class="btn btn-outline-primary btn-sm">Details</a>
-                <a id="bookButton-{{ e.id }}" href="{{ url_for('main.view_event', event_id=e.id) }}" class="btn btn-primary btn-sm" type="button">Book</a>
-              </div>
+              <a id="bookButton-{{ e.id }}" href="{{ url_for('main.view_event', event_id=e.id) }}" class="btn btn-primary btn-sm" type="button">Details</a>
             </div>
           </div>
         </div>
