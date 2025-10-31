@@ -147,11 +147,6 @@ def bookings():
     print(user_bookings)
     return render_template('UserBookingHistory.html')
 
-#Page that shows a given events details
-#@main_bp.route('/event')
-#@login_required
-#def eventdetails():
-#    return render_template('EventDetailsPage.html')
 
 #Page that shows the events a user has created
 @main_bp.route('/myevents')
@@ -165,7 +160,7 @@ def my_events():
 @login_required
 def edit_event(event_id):
     event = db.session.get(Event, event_id)
-    if event is None or event.creator_id != current_user.id:
+    if event is None or event.organiser_id != current_user.id:
         flash('You are not authorized to edit this event.', 'danger')
         return redirect(url_for('main.my_events'))
 
