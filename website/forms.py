@@ -26,7 +26,7 @@ class RegisterForm(FlaskForm):
 
  # Event Creation Form
 class EventForm(FlaskForm):
-    event_title=StringField("Event Title *", render_kw={"placeholder" : "E.g., Morning Yoga at the Park", "class": "form-control"}, id="eventTitle", validators=[InputRequired()])
+    event_title=StringField("Event Title *", render_kw={"placeholder" : "E.g., Morning Yoga at the Park", "class": "form-control"}, id="eventTitle", validators=[InputRequired(), Length(max=80)])
     event_category = SelectField("Category *",  id='EventCategory', validators=[InputRequired()], render_kw={"class": "form-select"})
 
     event_experience_options = [('', 'Choose...'),
@@ -37,14 +37,14 @@ class EventForm(FlaskForm):
     event_experience_level = SelectField("Experience Level", choices=event_experience_options, id='ExperienceLevel', render_kw={"class": "form-select"})
 
 
-    event_description = TextAreaField("Description *", id='eventDetailsTextArea', validators=[InputRequired()], render_kw={"placeholder" : "What should participants expect? What to bring? Any notes…", "class": "form-control"})
+    event_description = TextAreaField("Description *", id='eventDetailsTextArea', validators=[InputRequired(), Length(max=1000)], render_kw={"placeholder" : "What should participants expect? What to bring? Any notes…", "class": "form-control"})
     
     event_start_datetime = DateTimeLocalField("Start *", format="%Y-%m-%dT%H:%M", id='startDate', validators=[InputRequired()], render_kw={"class": "form-control", "type": "datetime-local"})
     event_end_datetime = DateTimeLocalField("End *", format="%Y-%m-%dT%H:%M", id='endDate', validators=[InputRequired()], render_kw={"class": "form-control", "type": "datetime-local"})
-    
-    event_location = StringField("Event Address *", render_kw={"placeholder" : "Start typing address… or pick from the map", "class": "form-control"}, id="eventAddress", validators=[InputRequired()])
 
-    venue_details = TextAreaField("Venue Details", id='eventAddressDetails', render_kw={"placeholder" : "E.g. Level 2, Entrance near the Food Court", "class": "form-control"})
+    event_location = StringField("Event Address *", render_kw={"placeholder" : "Start typing address… or pick from the map", "class": "form-control"}, id="eventAddress", validators=[InputRequired(), Length(max=255)])
+
+    venue_details = TextAreaField("Venue Details", id='eventAddressDetails', validators=[InputRequired(), Length(max=500)], render_kw={"placeholder" : "E.g. Level 2, Entrance near the Food Court", "class": "form-control"})
     
     ticket_price = IntegerField("", id="TicketPrice", validators=[InputRequired(), NumberRange(min=0)],
                                 render_kw={"class": "form-control",
@@ -60,7 +60,7 @@ class EventForm(FlaskForm):
                                            "step": "1",
                                            "placeholder": "e.g., 20"})
 
-    event_image = FileField("Upload Cover Image(s) *", id='eventImages', validators=[FileAllowed(['jpeg','jpg', 'png', 'webp'], FileRequired())],
+    event_image = FileField("Upload Cover Image(s) *", id='eventImages', validators=[FileAllowed(['jpeg','jpg', 'png', 'webp'], FileRequired()), Length(max=1000)],
                             render_kw={'class': 'form-control',
                                        'multiple': True})
     
