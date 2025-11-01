@@ -19,7 +19,7 @@
     <h1 id="eventTitle" class="h3 mb-2">{{event.title}}</h1>
     <ul class="list-inline text-muted small m-0">
       <li class="list-inline-item me-3" id="eventDateTime">
-        <i class="bi bi-calendar-event me-1"></i> {{event.start_time.strftime('%d %b %Y, %I:%M %p')}} - {{event.end_time.strftime('%d %b %Y, %I:%M %p')}}
+        <i class="bi bi-calendar-event me-1"></i>{{event_time_range}}
       </li>
       <li class="list-inline-item me-3" id="eventLocationMeta">
         <i class="bi bi-geo-alt me-1"></i> {{event.location}}

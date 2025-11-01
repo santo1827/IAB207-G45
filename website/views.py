@@ -1,3 +1,4 @@
+from tracemalloc import start
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from .models import User, Event, Review, Category, Booking
@@ -79,7 +80,22 @@ def view_event(event_id):
 
     reviews = Review.query.filter_by(event_id=event.id).order_by(Review.created_at.desc()).all()
 
-    return render_template("EventDetailsPage.html", event=event, category_name=event.category_name, reviews=reviews, form=form)
+    # dynamic display string for the event time range
+    start = event.start_time
+    end = event.end_time
+
+    if start and end and start.date() == end.date():
+        event_time_range = f"{start.strftime('%d %b %Y, %I:%M %p')} – {end.strftime('%I:%M %p')}"
+    elif start and end:
+        event_time_range = f"{start.strftime('%d %b %Y, %I:%M %p')} – {end.strftime('%d %b %Y, %I:%M %p')}"
+    elif start:
+        event_time_range = start.strftime('%d %b %Y, %I:%M %p')
+    elif end:
+        event_time_range = end.strftime('%d %b %Y, %I:%M %p')
+    else:
+        event_time_range = ""
+
+    return render_template("EventDetailsPage.html", event=event, category_name=event.category_name, reviews=reviews, form=form, event_time_range=event_time_range)
 
 
 @main_bp.route('/search')
